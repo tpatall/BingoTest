@@ -176,42 +176,6 @@ public class BingoCard
     }
 
     /// <summary>
-    ///     Logic for bingo announcements (and possibly rewards?) in case of double or triple bingos.
-    /// </summary>
-    /// <param name="rowBingo">When a row has a bingo.</param>
-    /// <param name="colBingo">When a column has a bingo.</param>
-    /// <param name="diagBingo">When a diagonal has a bingo.</param>
-    private void AnnounceBingo(bool rowBingo, bool colBingo, bool diagBingo) {
-        if (rowBingo) {
-            if (colBingo) {
-                if (diagBingo) {
-                    Debug.Log("TRIPLE BINGO!");
-                } else {
-                    Debug.Log("DOUBLE BINGO!");
-                } 
-            } else {
-                if (diagBingo) {
-                    Debug.Log("DOUBLE BINGO!");
-                } else {
-                    Debug.Log("ROW BINGO!");
-                }
-            }
-        } else {
-            if (colBingo) {
-                if (diagBingo) {
-                    Debug.Log("DOUBLE BINGO!");
-                } else {
-                    Debug.Log("COLUMN BINGO!");
-                }
-            } else {
-                if (diagBingo) {
-                    Debug.Log("DIAGONAL BINGO!");
-                }
-            }
-        }
-    }
-
-    /// <summary>
     ///     Checks a single row based on its starting column value.
     /// </summary>
     /// <param name="col">The column with the marked cell.</param>
@@ -222,7 +186,6 @@ public class BingoCard
         }
 
         rowBingos[col] = true;
-        //Debug.Log("horizontal BINGO! From the number: " + cells[0, col].value);
         return true;
     }
 
@@ -236,7 +199,6 @@ public class BingoCard
         }
 
         colBingos[row] = true;
-        //Debug.Log("vertical BINGO! From the number: " + cells[row, 0].value);
         return true;
     }
 
@@ -249,7 +211,6 @@ public class BingoCard
         }
 
         diagBingos[0] = true;
-        //Debug.Log("diagonal up BINGO! From the number: " + cells[0, 0].value);
         return true;
     }
 
@@ -262,8 +223,49 @@ public class BingoCard
         }
 
         diagBingos[1] = true;
-        //Debug.Log("diagonal down BINGO! From the number: " + cells[0, 4].value);
         return true;
+    }
+
+    /// <summary>
+    ///     Logic for bingo announcements (and possibly rewards?) in case of double or triple bingos.
+    /// </summary>
+    /// <param name="rowBingo">When a row has a bingo.</param>
+    /// <param name="colBingo">When a column has a bingo.</param>
+    /// <param name="diagBingo">When a diagonal has a bingo.</param>
+    private void AnnounceBingo(bool rowBingo, bool colBingo, bool diagBingo) {
+        if (rowBingo) {
+            if (colBingo) {
+                if (diagBingo) {
+                    Debug.Log("TRIPLE BINGO!");
+                }
+                else {
+                    Debug.Log("DOUBLE BINGO!");
+                }
+            }
+            else {
+                if (diagBingo) {
+                    Debug.Log("DOUBLE BINGO!");
+                }
+                else {
+                    Debug.Log("ROW BINGO!");
+                }
+            }
+        }
+        else {
+            if (colBingo) {
+                if (diagBingo) {
+                    Debug.Log("DOUBLE BINGO!");
+                }
+                else {
+                    Debug.Log("COLUMN BINGO!");
+                }
+            }
+            else {
+                if (diagBingo) {
+                    Debug.Log("DIAGONAL BINGO!");
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -282,7 +284,7 @@ public class BingoCard
     /// </summary>
     /// <param name="parent">Parent gameObject in hierarchy for order.</param>
     /// <param name="gridCoordinates">World position of this cell.</param>
-    /// <param name="text">Cell text.</param>
+    /// <param name="value">Cell value.</param>
     /// <returns>The TextMesh of this cell.</returns>
     private TextMesh CreateWorldText(Transform parent, Vector3 gridCoordinates, int value) {
         GameObject gameObject = new GameObject("CellTextMesh", typeof(TextMesh));
