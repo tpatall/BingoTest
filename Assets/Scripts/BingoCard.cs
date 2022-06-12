@@ -5,6 +5,11 @@ using UnityEngine;
 public class BingoCard
 {
     /// <summary>
+    ///     Store references to BingoCell objects.
+    /// </summary>
+    private BingoCell[,] cells;
+
+    /// <summary>
     ///     Width of the grid.
     /// </summary>
     private int width;
@@ -33,11 +38,6 @@ public class BingoCard
     ///     Origin position of the cell.
     /// </summary>
     private Vector3 originPosition;
-
-    /// <summary>
-    ///     Store references to BingoCell objects.
-    /// </summary>
-    private BingoCell[,] cells;
 
     /// <summary>
     ///     Keep track which row has a bingo.
@@ -107,8 +107,9 @@ public class BingoCard
                 }
 
                 TextMesh textMesh = CreateWorldText(card.transform, new Vector3(x, y), value);
-                BingoCell bingoCell = new BingoCell(x, y, value, textMesh, free);
-                cells[x,y] = bingoCell;
+                // Create cell with a reference to this card, in case of multiple cards.
+                BingoCell bingoCell = new BingoCell(this, x, y, value, textMesh, free);
+                cells[x, y] = bingoCell;
             }
         }
     }
@@ -130,9 +131,10 @@ public class BingoCard
         }
     }
 
+    #region bingo-checking
     /// <summary>
-    ///     Loop over the available squares and check if a bingo has been marked.
-    ///     It only loops over the outer edges once and then iterates until a cell is not marked.
+    ///     Loop over the available squares and check if a bingo has been Marked.
+    ///     It only loops over the outer edges once and then iterates until a cell is not Marked.
     /// </summary>
     public void CheckForBingo() {
         bool rowBingo = false;
@@ -141,7 +143,7 @@ public class BingoCard
 
         // Loop down first row.
         for (int x = 0; x < width; x++) {
-            if (cells[x, 0].marked && !colBingos[x]) {
+            if (cells[x, 0].Marked && !colBingos[x]) {
                 colBingo = CheckColumn(x);
             }
 
@@ -151,7 +153,7 @@ public class BingoCard
 
         // Loop down first column.
         for (int y = 0; y < height; y++) {
-            if (cells[0, y].marked && !rowBingos[y]) {
+            if (cells[0, y].Marked && !rowBingos[y]) {
                 rowBingo = CheckRow(y);
             }
 
@@ -160,13 +162,13 @@ public class BingoCard
         }
 
         // Loop diagonally up from origin.
-        if (cells[0, 0].marked && !diagBingos[0]) {
+        if (cells[0, 0].Marked && !diagBingos[0]) {
             diagBingo = CheckDiagonalUp();
         }
         // There cant be a second diagonal bingo.
-        if (!diagBingo && 
+        if (!diagBingo &&
             // Loop diagonally down from top.
-            cells[0, height - 1].marked && !diagBingos[1]) {
+            cells[0, height - 1].Marked && !diagBingos[1]) {
             diagBingo = CheckDiagonalDown();
         }
 
@@ -178,11 +180,11 @@ public class BingoCard
     /// <summary>
     ///     Checks a single row based on its starting column value.
     /// </summary>
-    /// <param name="col">The column with the marked cell.</param>
+    /// <param name="col">The column with the Marked cell.</param>
     /// <returns>Whether there is a row bingo.</returns>
     private bool CheckRow(int col) {
         for (int x = 0; x < width; x++) {
-            if (!cells[x, col].marked) return false;
+            if (!cells[x, col].Marked) return false;
         }
 
         rowBingos[col] = true;
@@ -192,10 +194,10 @@ public class BingoCard
     /// <summary>
     ///     Checks a single column based on its starting row value.
     /// </summary>
-    /// <param name="row">The row with the marked cell.</param>
+    /// <param name="row">The row with the Marked cell.</param>
     private bool CheckColumn(int row) {
         for (int y = 0; y < height; y++) {
-            if (!cells[row, y].marked) return false;
+            if (!cells[row, y].Marked) return false;
         }
 
         colBingos[row] = true;
@@ -203,11 +205,11 @@ public class BingoCard
     }
 
     /// <summary>
-    ///     Checks the diagonal up line (from 0,0 to 4,4) until a cell is not marked.
+    ///     Checks the diagonal up line (from 0,0 to 4,4) until a cell is not Marked.
     /// </summary>
     private bool CheckDiagonalUp() {
         for (int x = 0, y = 0; x < width && y < height; x++, y++) {
-            if (!cells[x, y].marked) return false;
+            if (!cells[x, y].Marked) return false;
         }
 
         diagBingos[0] = true;
@@ -215,11 +217,11 @@ public class BingoCard
     }
 
     /// <summary>
-    ///     Checks the diagonal down line (from 0,4 to 4,0) until a cell is not marked.
+    ///     Checks the diagonal down line (from 0,4 to 4,0) until a cell is not Marked.
     /// </summary>
     private bool CheckDiagonalDown() {
         for (int x = 0, y = height - 1; x < width && y >= 0; x++, y--) {
-            if (!cells[x, y].marked) return false;
+            if (!cells[x, y].Marked) return false;
         }
 
         diagBingos[1] = true;
@@ -267,7 +269,9 @@ public class BingoCard
             }
         }
     }
+    #endregion
 
+    #region initialization
     /// <summary>
     ///     Get a random item from a list and then remove it, to prevent duplicate numbers.
     /// </summary>
@@ -301,8 +305,8 @@ public class BingoCard
         textMesh.anchor = TextAnchor.MiddleCenter;
         textMesh.fontSize = fontSize;
         textMesh.color = color;
-        //textMesh.GetComponent<MeshRenderer>().sortingOrder = 10;
 
         return textMesh;
     }
+    #endregion
 }

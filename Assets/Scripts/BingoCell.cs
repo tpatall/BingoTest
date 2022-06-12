@@ -1,56 +1,64 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BingoCell
 {
     /// <summary>
-    ///     Determines if this cell has been marked.
+    ///     TextMesh used to display the contents of this cell.
     /// </summary>
-    public bool marked;
+    private TextMesh textMesh;
+
+    /// <summary>
+    ///     Reference to the bingo card this cell belongs to.
+    /// </summary>
+    public BingoCard BingoCard { get; private set; }
 
     /// <summary>
     ///     Value that is shown in the cell on the board.
     /// </summary>
-    public int value;
+    public int Value { get; private set; }
+    
+    /// <summary>
+    ///     Determines if this cell has been marked.
+    /// </summary>
+    public bool Marked { get; private set; }
 
-    private int gridX;
-    private int gridY;
-    private TextMesh textMesh;
-
-    public BingoCell(int x, int y, int value, TextMesh textMesh, bool free) {
-        this.gridX = x;
-        this.gridY = y;
-        this.value = value;
+    public BingoCell(BingoCard bingoCard, int x, int y, int value, TextMesh textMesh, bool free) {
         this.textMesh = textMesh;
+        
+        BingoCard = bingoCard;
+        Value = value;
 
         if (free) {
-            marked = true;
+            Marked = true;
             textMesh.color = Color.green;
         } else {
-            marked = false;
+            Marked = false;
         }
     }
 
     /// <summary>
     ///     Check if this cell contains an announced number.
     /// </summary>
-    /// <param name="value"></param>
-    public void MarkCell(IList<int> values) {
+    /// <param name="values">List of announced numbers.</param>
+    /// <returns>If this cell got marked.</returns>
+    public bool MarkCell(IList<int> values) {
         // If this cell is already completed, return.
-        if (marked) {
+        if (Marked) {
             Debug.Log("This number is already marked!");
-            return;
+            return false;
         }
 
-        if (values.Contains(value)) {
-            Debug.Log(value + " is correct!");
-            marked = true;
+        if (values.Contains(Value)) {
+            Debug.Log(Value + " is correct!");
+            Marked = true;
 
-            values.Remove(value);
+            values.Remove(Value);
             textMesh.color = Color.green;
+            return true;
         } else {
             Debug.Log("This number has not been called yet!");
+            return true;
         }
     }
 }

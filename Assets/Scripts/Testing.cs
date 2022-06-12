@@ -23,10 +23,14 @@ public class Testing : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            // Check if the position that got clicked has a bingoCell.
+            // If it does, check if the cell can get marked and if it does,
+            // check the card if a new bingo is found.
             BingoCell bingoCell = card.GetCell(GetMouseWorldPosition());
-            bingoCell.MarkCell(items);
+            if (bingoCell.MarkCell(items)) {
+                bingoCell.BingoCard.CheckForBingo();
+            }
 
-            card.CheckForBingo();
         }
     }
 
@@ -38,5 +42,6 @@ public class Testing : MonoBehaviour
         //Debug.Log(pos);
         return pos;
     }
+
 
 }
