@@ -16,20 +16,14 @@ public class BallSpawner : MonoBehaviour
     public Transform ballTransform;
 
     /// <summary>
-    ///     Spawn ball.
+    ///     Spawn a new ball from either the pool or by creating a new one.
     /// </summary>
     public void SpawnBall()
     {
-        // Don't spawn a particle-system when a particle-system is still active.
-        //if (!DynamicEnvironment.DoDelay)
-        //{
-        //    var particleSystem = particleSystemObjectPool.Get();
-        //    particleSystem.transform.position = particleTransform.transform.position;
-        //    particleSystem.transform.rotation = particleTransform.transform.rotation;
-        //    particleSystem.transform.localScale = particleTransform.localScale;
-        //    particleSystem.gameObject.SetActive(true);
-        //}
-        ballObjectPooler.AddObject();
+        var ballObject = ballObjectPooler.Get();
+        ballObject.transform.position = ballTransform.transform.position;
+        ballObject.transform.localScale = ballTransform.localScale;
+        ballObject.gameObject.SetActive(true);
     }
 
     /// <summary>

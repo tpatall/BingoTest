@@ -6,16 +6,6 @@ using UnityEngine;
 public class BallPooled : MonoBehaviour, IBallPooled
 {
     /// <summary>
-    ///     The time passed since creation.
-    /// </summary>
-    private float lifeTime;
-
-    /// <summary>
-    ///     The maximum allowed time alive.
-    /// </summary>
-    private float maxLifeTime;
-
-    /// <summary>
     ///     The pool that manages these objects.
     /// </summary>
     private BallObjectPooler pool;
@@ -35,13 +25,8 @@ public class BallPooled : MonoBehaviour, IBallPooled
         }
     }
 
-    /// <summary>
-    ///     Reset the lifetime when this GameObject has been enabled.
-    /// </summary>
     private void OnEnable()
     {
-        lifeTime = 0f;
-        maxLifeTime = GetComponent<ParticleSystem>().main.startLifetime.constant;
     }
 
     /// <summary>
@@ -49,10 +34,9 @@ public class BallPooled : MonoBehaviour, IBallPooled
     /// </summary>
     private void Update()
     {
-        lifeTime += Time.deltaTime;
-        if (lifeTime > maxLifeTime)
-        {
-            pool.ReturnToPool(this.gameObject);
-        }
+        //if ()
+        //{
+        //    pool.ReturnToPool(this.gameObject);
+        //}
     }
 }

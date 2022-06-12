@@ -8,6 +8,11 @@ public class Testing : MonoBehaviour
     private BingoCard card;
     private IList<int> items;
 
+    /// <summary>
+    ///     Most recently clicked bingo cell.
+    /// </summary>
+    private BingoCell bingoCell;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,11 +31,13 @@ public class Testing : MonoBehaviour
             // Check if the position that got clicked has a bingoCell.
             // If it does, check if the cell can get marked and if it does,
             // check the card if a new bingo is found.
-            BingoCell bingoCell = card.GetCell(GetMouseWorldPosition());
-            if (bingoCell.MarkCell(items)) {
-                bingoCell.BingoCard.CheckForBingo();
-            }
+            bingoCell = card.GetCell(GetMouseWorldPosition());
 
+            if (bingoCell != null) {
+                if (bingoCell.MarkCell(items)) {
+                    bingoCell.BingoCard.CheckForBingo();
+                }
+            }
         }
     }
 
@@ -42,6 +49,4 @@ public class Testing : MonoBehaviour
         //Debug.Log(pos);
         return pos;
     }
-
-
 }
