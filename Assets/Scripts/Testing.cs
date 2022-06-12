@@ -24,7 +24,7 @@ public class Testing : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             BingoCell bingoCell = card.GetCell(GetMouseWorldPosition());
-            bingoCell.CheckCell(items);
+            bingoCell.MarkCell(items);
 
             card.CheckForBingo();
         }

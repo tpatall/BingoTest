@@ -39,6 +39,21 @@ public class BingoCard
     /// </summary>
     private BingoCell[,] cells;
 
+    /// <summary>
+    ///     Keep track which row has a bingo.
+    /// </summary>
+    private bool[] rowBingos;
+
+    /// <summary>
+    ///     Keep track which column has a bingo.
+    /// </summary>
+    private bool[] colBingos;
+
+    /// <summary>
+    ///     Keep track which diagonal has a bingo.
+    /// </summary>
+    private bool[] diagBingos;
+
     private static readonly System.Random random = new System.Random(3);
 
     public BingoCard(int width, int height, float cellSize, Color color, int fontSize, Vector3 originPosition) {
@@ -50,6 +65,12 @@ public class BingoCard
         this.originPosition = originPosition;
 
         cells = new BingoCell[width, height];
+
+        // Create array with the length of the opposite dimension.
+        rowBingos = new bool[height];
+        colBingos = new bool[width];
+        // There are only 2 possible diagonal bingos.
+        diagBingos = new bool[2];
 
         GameObject card = new GameObject("Card");
 
@@ -93,21 +114,10 @@ public class BingoCard
     }
 
     /// <summary>
-    ///     Get the TextMesh from a grid cell based on the world position.
+    ///     Get a BingoCell based on the world position.
     /// </summary>
     /// <param name="worldPosition">Position in the world.</param>
-    /// <returns>TextMesh from the cell that is located on this position in the world.</returns>
-    //public TextMesh GetValue(Vector3 worldPosition) {
-    //    int x = Mathf.FloorToInt((worldPosition - originPosition).x / cellSize);
-    //    int y = Mathf.FloorToInt((worldPosition - originPosition).y / cellSize);
-
-    //    if (x >= 0 && y >= 0 && x < width && y < height) {
-    //        return cells[x * width + y];
-    //    } else {
-    //        return null;
-    //    }
-    //}
-
+    /// <returns>BingoCell that is located on this position in the world.</returns>
     public BingoCell GetCell(Vector3 worldPosition) {
         int x = Mathf.FloorToInt((worldPosition - originPosition).x / cellSize);
         int y = Mathf.FloorToInt((worldPosition - originPosition).y / cellSize);
@@ -120,78 +130,140 @@ public class BingoCard
         }
     }
 
+    /// <summary>
+    ///     Loop over the available squares and check if a bingo has been marked.
+    ///     It only loops over the outer edges once and then iterates until a cell is not marked.
+    /// </summary>
     public void CheckForBingo() {
+        bool rowBingo = false;
+        bool colBingo = false;
+        bool diagBingo = false;
+
+        // Loop down first row.
+        for (int x = 0; x < width; x++) {
+            if (cells[x, 0].marked && !colBingos[x]) {
+                colBingo = CheckColumn(x);
+            }
+
+            // There can only be 1 column-bingo per loop.
+            if (colBingo) break;
+        }
+
+        // Loop down first column.
+        for (int y = 0; y < height; y++) {
+            if (cells[0, y].marked && !rowBingos[y]) {
+                rowBingo = CheckRow(y);
+            }
+
+            // There can only be 1 row-bingo per loop.
+            if (rowBingo) break;
+        }
+
         // Loop diagonally up from origin.
-        if (cells[0, 0].marked) {
-            CheckDiagonalUp();
+        if (cells[0, 0].marked && !diagBingos[0]) {
+            diagBingo = CheckDiagonalUp();
+        }
+        // There cant be a second diagonal bingo.
+        if (!diagBingo && 
+            // Loop diagonally down from top.
+            cells[0, height - 1].marked && !diagBingos[1]) {
+            diagBingo = CheckDiagonalDown();
         }
 
-        // Loop down first (horizontal) row.
-        for (int x = 0; x < width; x++) {
-            if (cells[x, 0].marked) {
-                CheckColumn(x);
+        if (rowBingo || colBingo || diagBingo) {
+            AnnounceBingo(rowBingo, colBingo, diagBingo);
+        }
+    }
+
+    /// <summary>
+    ///     Logic for bingo announcements (and possibly rewards?) in case of double or triple bingos.
+    /// </summary>
+    /// <param name="rowBingo">When a row has a bingo.</param>
+    /// <param name="colBingo">When a column has a bingo.</param>
+    /// <param name="diagBingo">When a diagonal has a bingo.</param>
+    private void AnnounceBingo(bool rowBingo, bool colBingo, bool diagBingo) {
+        if (rowBingo) {
+            if (colBingo) {
+                if (diagBingo) {
+                    Debug.Log("TRIPLE BINGO!");
+                } else {
+                    Debug.Log("DOUBLE BINGO!");
+                } 
+            } else {
+                if (diagBingo) {
+                    Debug.Log("DOUBLE BINGO!");
+                } else {
+                    Debug.Log("ROW BINGO!");
+                }
+            }
+        } else {
+            if (colBingo) {
+                if (diagBingo) {
+                    Debug.Log("DOUBLE BINGO!");
+                } else {
+                    Debug.Log("COLUMN BINGO!");
+                }
+            } else {
+                if (diagBingo) {
+                    Debug.Log("DIAGONAL BINGO!");
+                }
             }
         }
-
-        // Loop diagonally down from top.
-        if (cells[0, height - 1].marked) {
-            CheckDiagonalDown();
-        }
-
-        // Loop down first (vertical) column.
-        for (int y = 0; y < height; y++) {
-            if (cells[0, y].marked) {
-                CheckRow(y);
-            }
-        }
     }
 
-    private void CheckRow(int col) {
+    /// <summary>
+    ///     Checks a single row based on its starting column value.
+    /// </summary>
+    /// <param name="col">The column with the marked cell.</param>
+    /// <returns>Whether there is a row bingo.</returns>
+    private bool CheckRow(int col) {
         for (int x = 0; x < width; x++) {
-            if (!cells[x, col].marked) return;
+            if (!cells[x, col].marked) return false;
         }
-        
-        string text = "";
-        for (int x = 0; x < width; x++) {
-            text += cells[x, col].value + " ";
-        }
-        Debug.Log("horizontal BINGO! With the numbers: " + text);
+
+        rowBingos[col] = true;
+        //Debug.Log("horizontal BINGO! From the number: " + cells[0, col].value);
+        return true;
     }
 
-    private void CheckColumn(int row) {
+    /// <summary>
+    ///     Checks a single column based on its starting row value.
+    /// </summary>
+    /// <param name="row">The row with the marked cell.</param>
+    private bool CheckColumn(int row) {
         for (int y = 0; y < height; y++) {
-            if (!cells[row, y].marked) return;
+            if (!cells[row, y].marked) return false;
         }
 
-        string text = "";
-        for (int y = 0; y < height; y++) {
-            text += cells[row, y].value + " ";
-        }
-        Debug.Log("vertical BINGO! With the numbers: " + text);
+        colBingos[row] = true;
+        //Debug.Log("vertical BINGO! From the number: " + cells[row, 0].value);
+        return true;
     }
 
-    private void CheckDiagonalUp() {
+    /// <summary>
+    ///     Checks the diagonal up line (from 0,0 to 4,4) until a cell is not marked.
+    /// </summary>
+    private bool CheckDiagonalUp() {
         for (int x = 0, y = 0; x < width && y < height; x++, y++) {
-            if (!cells[x, y].marked) return;
+            if (!cells[x, y].marked) return false;
         }
 
-        string text = "";
-        for (int x = 0, y = 0; x < width && y < height; x++, y++) {
-            text += cells[x, y].value + " ";
-        }
-        Debug.Log("diagonal BINGO! With the numbers: " + text);
+        diagBingos[0] = true;
+        //Debug.Log("diagonal up BINGO! From the number: " + cells[0, 0].value);
+        return true;
     }
 
-    private void CheckDiagonalDown() {
+    /// <summary>
+    ///     Checks the diagonal down line (from 0,4 to 4,0) until a cell is not marked.
+    /// </summary>
+    private bool CheckDiagonalDown() {
         for (int x = 0, y = height - 1; x < width && y >= 0; x++, y--) {
-            if (!cells[x, y].marked) return;
+            if (!cells[x, y].marked) return false;
         }
 
-        string text = "";
-        for (int x = 0, y = height - 1; x < width && y >= 0; x++, y--) {
-            text += cells[x, y].value + " ";
-        }
-        Debug.Log("diagonal BINGO! With the numbers: " + text);
+        diagBingos[1] = true;
+        //Debug.Log("diagonal down BINGO! From the number: " + cells[0, 4].value);
+        return true;
     }
 
     /// <summary>
@@ -211,7 +283,7 @@ public class BingoCard
     /// <param name="parent">Parent gameObject in hierarchy for order.</param>
     /// <param name="gridCoordinates">World position of this cell.</param>
     /// <param name="text">Cell text.</param>
-    /// <returns></returns>
+    /// <returns>The TextMesh of this cell.</returns>
     private TextMesh CreateWorldText(Transform parent, Vector3 gridCoordinates, int value) {
         GameObject gameObject = new GameObject("CellTextMesh", typeof(TextMesh));
 

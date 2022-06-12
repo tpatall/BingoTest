@@ -4,21 +4,25 @@ using UnityEngine;
 
 public class BingoCell
 {
+    /// <summary>
+    ///     Determines if this cell has been marked.
+    /// </summary>
     public bool marked;
+
+    /// <summary>
+    ///     Value that is shown in the cell on the board.
+    /// </summary>
     public int value;
 
     private int gridX;
     private int gridY;
     private TextMesh textMesh;
 
-    private bool free;
-
     public BingoCell(int x, int y, int value, TextMesh textMesh, bool free) {
         this.gridX = x;
         this.gridY = y;
         this.value = value;
         this.textMesh = textMesh;
-        this.free = free;
 
         if (free) {
             marked = true;
@@ -32,7 +36,7 @@ public class BingoCell
     ///     Check if this cell contains an announced number.
     /// </summary>
     /// <param name="value"></param>
-    public void CheckCell(IList<int> values) {
+    public void MarkCell(IList<int> values) {
         // If this cell is already completed, return.
         if (marked) {
             Debug.Log("This number is already marked!");
