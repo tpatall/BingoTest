@@ -93,6 +93,8 @@ public class BingoGame : MonoBehaviour
         BingoCards = inputCards;
         BingosLeft = inputBingos;
 
+        player.SetUp(this);
+
         GameManager.Instance.UpdateGameState(GameState.Play);
         
         StartCoroutine(AnalyzingPhase());

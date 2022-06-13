@@ -5,7 +5,7 @@ public class Player : MonoBehaviour
     /// <summary>
     ///     Reference to the bingo game manager.
     /// </summary>
-    public BingoGame bingoGame;
+    private BingoGame bingoGame;
 
     /// <summary>
     ///     Array of cards this player is using this game.
@@ -18,6 +18,11 @@ public class Player : MonoBehaviour
     private BingoCell bingoCell;
 
     /// <summary>
+    ///     Whether the game has already begun.
+    /// </summary>
+    private bool hasGameBegun = false;
+
+    /// <summary>
     ///     Number of bingos found after a click by the player.
     /// </summary>
     private int bingosFound = 0;
@@ -25,9 +30,11 @@ public class Player : MonoBehaviour
     /// <summary>
     ///     Setup this player's cards based on input.
     /// </summary>
-    public void SetUp()
+    public void SetUp(BingoGame bingoGame)
     {
+        this.bingoGame = bingoGame;
         cards = new BingoCard[bingoGame.BingoCards];
+        hasGameBegun = true;
 
         if (bingoGame.BingoCards == 1) {
             cards[0] = new BingoCard(5, 5, 5f, Color.white, 10, new Vector3(-12.5f, -12.5f));
@@ -46,24 +53,30 @@ public class Player : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        bingosFound = 0;
+        if (hasGameBegun) {
+            bingosFound = 0;
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            // Check if the position that got clicked has a bingoCell.
-            // If it does, check if the cell can get marked and if it does,
-            // check the card if a new bingo is found.
-            for (int i = 0; i < bingoGame.BingoCards; i++) {
-                bingoCell = cards[i].GetCell(GetMouseWorldPosition());
+            if (Input.GetMouseButtonDown(0))
+            {
+                // Check if the position that got clicked has a bingoCell.
+                // If it does, check if the cell can get marked and if it does,
+                // check the card if a new bingo is found.
+                for (int i = 0; i < bingoGame.BingoCards; i++) {
+                    bingoCell = cards[i].GetCell(GetMouseWorldPosition());
 
-                if (bingoCell != null) {
-                    if (bingoCell.MarkCell(bingoGame.CalledNumbers)) {
-                        bingosFound = bingoCell.BingoCard.CheckForBingo();
+                    if (bingoCell != null) {
+                        if (bingoCell.MarkCell(bingoGame.CalledNumbers)) {
+                            bingosFound = bingoCell.BingoCard.CheckForBingo();
+                        }
+                        break;
                     }
-                    break;
                 }
+                bingoGame.SubtractFoundBingos(bingosFound);
             }
-            bingoGame.SubtractFoundBingos(bingosFound);
+
+            if (bingoGame.BingosLeft <= 0) {
+                hasGameBegun = false;
+            }
         }
     }
 
