@@ -70,13 +70,9 @@ public class BingoGame : MonoBehaviour
     /// </summary>
     /// <param name="inputCards">Card amount from player input.</param>
     /// <param name="inputBingos">Total bingos to be found, from player input.</param>
-    public void SetUp(string inputCards, string inputBingos) {
-        if (inputCards.Length != 0) {
-            BingoCards = int.Parse(inputCards);
-        }
-        if (inputBingos.Length != 0) {
-            BingosLeft = int.Parse(inputBingos);
-        }
+    public void SetUp(int inputCards, int inputBingos) {
+        BingoCards = inputCards;
+        BingosLeft = inputBingos;
 
         GameManager.Instance.UpdateGameState(GameState.Play);
     }

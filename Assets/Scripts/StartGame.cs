@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class StartGame : MonoBehaviour
 {
@@ -22,9 +23,20 @@ public class StartGame : MonoBehaviour
     ///     Send the text from the input fields to the bingo game information script.
     /// </summary>
     public void SendInput() {
-        string inputCards = cardAmount.text;
-        string inputBingos = bingoAmount.text;
+        //int inputCards, inputBingos;
+        //if (cardAmount.text.Length == 0) {
+        //    inputCards = 0;
+        //} else {
+        //    inputCards = int.Parse(cardAmount.text);
+        //}
 
-        bingoGame.SetUp(inputCards, inputBingos);
+        //if (bingoAmount.text.Length == 0) {
+        //    inputBingos = 0;
+        //} else {
+        //    inputBingos = int.Parse(bingoAmount.text);
+        //}
+
+        //bingoGame.SetUp(inputCards, inputBingos);
+        Loader.Load(Scene.GameScene);
     }
 }

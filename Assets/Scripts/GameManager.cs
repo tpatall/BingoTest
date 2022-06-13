@@ -14,17 +14,17 @@ public class GameManager : MonoBehaviour
     }
 
     private void Start() {
-        UpdateGameState(GameState.Selector);
+        UpdateGameState(GameState.Play);
     }
 
     public void UpdateGameState(GameState newstate) {
         State = newstate;
 
         switch (newstate) {
-            case GameState.Selector:
-                HandleSelector();
-                break;
             case GameState.Play:
+                HandlePlay();
+                break;
+            case GameState.Pause:
                 break;
             case GameState.End:
                 break;
@@ -35,13 +35,13 @@ public class GameManager : MonoBehaviour
         OnGameStateChanged?.Invoke(newstate);
     }
 
-    private void HandleSelector() {
+    private void HandlePlay() {
     }
 }
 
 public enum GameState
 {
-    Selector,
     Play,
+    Pause,
     End
 }

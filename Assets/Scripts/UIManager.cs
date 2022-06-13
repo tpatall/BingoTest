@@ -7,7 +7,7 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject setupPanel, gamePanel, endPanel;
+    private GameObject gamePanel, endPanel;
 
     [SerializeField]
     private TextMeshProUGUI stateText;
@@ -21,9 +21,8 @@ public class UIManager : MonoBehaviour
     }
 
     private void GameManagerOnGameStateChanged(GameState state) {
-        setupPanel.SetActive(state == GameState.Selector);
         gamePanel.SetActive(state == GameState.Play);
-        endPanel.SetActive(state == GameState.End);
+        //endPanel.SetActive(state == GameState.End);
     }
 
     // Start is called before the first frame update
