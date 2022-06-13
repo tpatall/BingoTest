@@ -47,15 +47,6 @@ public class BallPooled : MonoBehaviour, IBallPooled
     }
 
     /// <summary>
-    ///     Moves the ball based on its position in the UI pool.
-    /// </summary>
-    /// <param name="poolPosition">Position in the UI pool.</param>
-    public void ChangePosition(int poolPosition) {
-        Vector3 newPos = new Vector3(startPos.x - (8 * poolPosition), startPos.y);
-        gameObject.transform.position = newPos;
-    }
-
-    /// <summary>
     ///     Initialize the text mesh component.
     /// </summary>
     private void Awake() {
@@ -65,10 +56,18 @@ public class BallPooled : MonoBehaviour, IBallPooled
     /// <summary>
     ///     Set the color and number.
     /// </summary>
-    private void OnEnable()
-    {
+    private void OnEnable() {
         startPos = transform.position;
         textMesh.color = color;
         textMesh.text = number.ToString();
+    }
+
+    /// <summary>
+    ///     Moves the ball based on its position in the UI pool.
+    /// </summary>
+    /// <param name="poolPosition">Position in the UI pool.</param>
+    public void ChangePosition(int poolPosition) {
+        Vector3 newPos = new Vector3(startPos.x - (8 * poolPosition), startPos.y);
+        gameObject.transform.position = newPos;
     }
 }

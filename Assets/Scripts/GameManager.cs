@@ -7,11 +7,22 @@ public class GameManager : MonoBehaviour
 
     public GameState State;
 
+    public static event Action<GameState> OnGameStateChanged;
+
+    private void Awake() {
+        Instance = this;
+    }
+
+    private void Start() {
+        UpdateGameState(GameState.Selector);
+    }
+
     public void UpdateGameState(GameState newstate) {
         State = newstate;
 
         switch (newstate) {
             case GameState.Selector:
+                HandleSelector();
                 break;
             case GameState.Play:
                 break;
@@ -20,10 +31,11 @@ public class GameManager : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException(nameof(newstate), newstate, null);
         }
+
+        OnGameStateChanged?.Invoke(newstate);
     }
 
-    private void Awake() {
-        Instance = this;
+    private void HandleSelector() {
     }
 }
 

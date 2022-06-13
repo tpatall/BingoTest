@@ -5,6 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(BallSpawner))]
 public class BingoGame : MonoBehaviour
 {
+    /// <summary>
+    ///     Reference to the attached BallSpawner.
+    /// </summary>
     private BallSpawner ballSpawner;
 
     /// <summary>
@@ -35,7 +38,7 @@ public class BingoGame : MonoBehaviour
         CalledNumbers = new List<int>();
     }
 
-    private void Update() {
+    void Update() {
         if (BingosLeft <= 0) {
             Debug.Log("Game Over!");
         }
@@ -52,15 +55,6 @@ public class BingoGame : MonoBehaviour
         CalledNumbers.Add(number);
 
         ballSpawner.SpawnBall(number, color);
-    }
-
-    // TODO: What if a double or triple bingo is found when there is only 1 bingo left?
-    /// <summary>
-    ///     Remove the found bingos from the bingos-left screen.
-    /// </summary>
-    /// <param name="bingosFound"></param>
-    public void FoundBingos(int bingosFound) {
-        BingosLeft -= bingosFound;
     }
 
     /// <summary>
@@ -100,5 +94,15 @@ public class BingoGame : MonoBehaviour
         else
             colorCode = 'O';
             return Color.blue;
+    }
+
+
+    // TODO: What if a double or triple bingo is found when there is only 1 bingo left?
+    /// <summary>
+    ///     Remove the found bingos from the bingos-left screen.
+    /// </summary>
+    /// <param name="bingosFound"></param>
+    public void FoundBingos(int bingosFound) {
+        BingosLeft -= bingosFound;
     }
 }

@@ -16,6 +16,13 @@ public class BallSpawner : MonoBehaviour
     public Transform ballTransform;
 
     /// <summary>
+    ///     Create an instance of the pooler for optimization.
+    /// </summary>
+    private void Start() {
+        ballObjectPooler = BallObjectPooler.Instance;
+    }
+
+    /// <summary>
     ///     Spawn a new ball from either the pool or by creating a new one.
     /// </summary>
     public void SpawnBall(int value, Color color)
@@ -30,13 +37,5 @@ public class BallSpawner : MonoBehaviour
         ballPooled.color = color;
 
         ballObject.gameObject.SetActive(true);
-    }
-
-    /// <summary>
-    ///     Create an instance of the pooler for optimization.
-    /// </summary>
-    private void Start()
-    {
-        ballObjectPooler = BallObjectPooler.Instance;
     }
 }

@@ -131,6 +131,45 @@ public class BingoCard
         }
     }
 
+    #region initialization
+    /// <summary>
+    ///     Get a random item from a list and then remove it, to prevent duplicate numbers.
+    /// </summary>
+    /// <param name="items"></param>
+    /// <returns>The value to be displayed in the TextMesh.</returns>
+    private int GetRandomItemAndRemoveIt(IList<int> items) {
+        int randomItem = items[random.Next(items.Count)];
+        items.Remove(randomItem);
+        return randomItem;
+    }
+
+    /// <summary>
+    ///     Create a TextMesh GameObject to place the text in the world space.
+    /// </summary>
+    /// <param name="parent">Parent gameObject in hierarchy for order.</param>
+    /// <param name="gridCoordinates">World position of this cell.</param>
+    /// <param name="value">Cell value.</param>
+    /// <returns>The TextMesh of this cell.</returns>
+    private TextMesh CreateWorldText(Transform parent, Vector3 gridCoordinates, int value) {
+        GameObject gameObject = new GameObject("CellTextMesh", typeof(TextMesh));
+
+        Vector3 centralizeOffset = new Vector3(cellSize, cellSize) * 0.5f;
+        Vector3 localPosition = gridCoordinates * cellSize + originPosition + centralizeOffset;
+
+        Transform transform = gameObject.transform;
+        transform.SetParent(parent, false);
+        transform.localPosition = localPosition;
+
+        TextMesh textMesh = gameObject.GetComponent<TextMesh>();
+        textMesh.text = value.ToString();
+        textMesh.anchor = TextAnchor.MiddleCenter;
+        textMesh.fontSize = fontSize;
+        textMesh.color = color;
+
+        return textMesh;
+    }
+    #endregion
+
     #region bingo-checking
     /// <summary>
     ///     Loop over the available squares and check if a bingo has been Marked.
@@ -277,45 +316,6 @@ public class BingoCard
                     return 0;
             }
         }
-    }
-    #endregion
-
-    #region initialization
-    /// <summary>
-    ///     Get a random item from a list and then remove it, to prevent duplicate numbers.
-    /// </summary>
-    /// <param name="items"></param>
-    /// <returns>The value to be displayed in the TextMesh.</returns>
-    private int GetRandomItemAndRemoveIt(IList<int> items) {
-        int randomItem = items[random.Next(items.Count)];
-        items.Remove(randomItem);
-        return randomItem;
-    }
-
-    /// <summary>
-    ///     Create a TextMesh GameObject to place the text in the world space.
-    /// </summary>
-    /// <param name="parent">Parent gameObject in hierarchy for order.</param>
-    /// <param name="gridCoordinates">World position of this cell.</param>
-    /// <param name="value">Cell value.</param>
-    /// <returns>The TextMesh of this cell.</returns>
-    private TextMesh CreateWorldText(Transform parent, Vector3 gridCoordinates, int value) {
-        GameObject gameObject = new GameObject("CellTextMesh", typeof(TextMesh));
-
-        Vector3 centralizeOffset = new Vector3(cellSize, cellSize) * 0.5f;
-        Vector3 localPosition = gridCoordinates * cellSize + originPosition + centralizeOffset;
-
-        Transform transform = gameObject.transform;
-        transform.SetParent(parent, false);
-        transform.localPosition = localPosition;
-
-        TextMesh textMesh = gameObject.GetComponent<TextMesh>();
-        textMesh.text = value.ToString();
-        textMesh.anchor = TextAnchor.MiddleCenter;
-        textMesh.fontSize = fontSize;
-        textMesh.color = color;
-
-        return textMesh;
     }
     #endregion
 }

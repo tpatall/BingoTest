@@ -34,6 +34,16 @@ public class BallObjectPooler : MonoBehaviour
     public Queue<GameObject> Objects { get; private set; }
 
     /// <summary>
+    ///     Assign the instance and pool.
+    /// </summary>
+    private void Awake() {
+        Instance = this;
+
+        Objects = new Queue<GameObject>();
+        poolPosition = new GameObject[poolSize];
+    }
+
+    /// <summary>
     ///     Retrieve an object from the pool. If it currently does not have any, then add more to the pool.
     /// </summary>
     /// <returns>A GameObject.</returns>
@@ -43,15 +53,6 @@ public class BallObjectPooler : MonoBehaviour
         GameObject gameObject = Objects.Dequeue();
         MoveBalls(gameObject);
         return gameObject;
-    }
-
-    /// <summary>
-    ///     Put an object back into the pool.
-    /// </summary>
-    /// <param name="objectToReturn">A ball GameObject.</param>
-    public void ReturnToPool(GameObject objectToReturn) {
-        objectToReturn.SetActive(false);
-        Objects.Enqueue(objectToReturn);
     }
 
     /// <summary>
@@ -68,13 +69,12 @@ public class BallObjectPooler : MonoBehaviour
     }
 
     /// <summary>
-    ///     Assign the instance and pool.
+    ///     Put an object back into the pool.
     /// </summary>
-    private void Awake() {
-        Instance = this;
-        
-        Objects = new Queue<GameObject>();
-        poolPosition = new GameObject[poolSize];
+    /// <param name="objectToReturn">A ball GameObject.</param>
+    public void ReturnToPool(GameObject objectToReturn) {
+        objectToReturn.SetActive(false);
+        Objects.Enqueue(objectToReturn);
     }
 
     /// <summary>
