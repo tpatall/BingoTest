@@ -3,8 +3,29 @@ using UnityEngine;
 /// <summary>
 ///     This class has the functionality of a ball GameObject for after it has been spawned in.
 /// </summary>
+[RequireComponent(typeof(TextMesh))]
 public class BallPooled : MonoBehaviour, IBallPooled
 {
+    /// <summary>
+    ///     Number on the ball.
+    /// </summary>
+    public int number;
+
+    /// <summary>
+    ///     Color of the ball.
+    /// </summary>
+    public Color color;
+
+    /// <summary>
+    ///     Text object that displays the number and color.
+    /// </summary>
+    private TextMesh textMesh;
+
+    /// <summary>
+    ///     Starting position to reference when moving.
+    /// </summary>
+    private Vector3 startPos;
+
     /// <summary>
     ///     The pool that manages these objects.
     /// </summary>
@@ -25,18 +46,29 @@ public class BallPooled : MonoBehaviour, IBallPooled
         }
     }
 
-    private void OnEnable()
-    {
+    /// <summary>
+    ///     Moves the ball based on its position in the UI pool.
+    /// </summary>
+    /// <param name="poolPosition">Position in the UI pool.</param>
+    public void ChangePosition(int poolPosition) {
+        Vector3 newPos = new Vector3(startPos.x - (8 * poolPosition), startPos.y);
+        gameObject.transform.position = newPos;
     }
 
     /// <summary>
-    ///     Update the position based on the object count. If this object is the first in the pool, then remove it.
+    ///     Initialize the text mesh component.
     /// </summary>
-    private void Update()
+    private void Awake() {
+        textMesh = GetComponent<TextMesh>();
+    }
+
+    /// <summary>
+    ///     Set the color and number.
+    /// </summary>
+    private void OnEnable()
     {
-        //if ()
-        //{
-        //    pool.ReturnToPool(this.gameObject);
-        //}
+        startPos = transform.position;
+        textMesh.color = color;
+        textMesh.text = number.ToString();
     }
 }

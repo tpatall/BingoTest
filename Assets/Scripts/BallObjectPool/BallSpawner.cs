@@ -18,11 +18,17 @@ public class BallSpawner : MonoBehaviour
     /// <summary>
     ///     Spawn a new ball from either the pool or by creating a new one.
     /// </summary>
-    public void SpawnBall()
+    public void SpawnBall(int value, Color color)
     {
         var ballObject = ballObjectPooler.Get();
         ballObject.transform.position = ballTransform.transform.position;
         ballObject.transform.localScale = ballTransform.localScale;
+
+        // Set the value of the ball.
+        BallPooled ballPooled = ballObject.gameObject.GetComponent<BallPooled>();
+        ballPooled.number = value;
+        ballPooled.color = color;
+
         ballObject.gameObject.SetActive(true);
     }
 

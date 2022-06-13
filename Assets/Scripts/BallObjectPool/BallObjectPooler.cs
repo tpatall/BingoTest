@@ -7,10 +7,21 @@ using UnityEngine;
 public class BallObjectPooler : MonoBehaviour
 {
     /// <summary>
+    ///     Size of the shown pool of balls.
+    /// </summary>
+    [Tooltip("How much balls can maximally be shown in the pool.")]
+    public int poolSize;
+
+    /// <summary>
     ///     Prefab of a ball.
     /// </summary>
     [Tooltip("The ball prefab which will be instantiated.")]
     public GameObject ballPrefab;
+
+    /// <summary>
+    ///     Array for keeping track of (previously) pooled balls.
+    /// </summary>
+    private GameObject[] poolPosition;
 
     /// <summary>
     ///     Singleton instance of the pooler.
@@ -29,7 +40,9 @@ public class BallObjectPooler : MonoBehaviour
     public GameObject Get() {
         if (Objects.Count == 0)
             AddObject();
-        return Objects.Dequeue();
+        GameObject gameObject = Objects.Dequeue();
+        MoveBalls(gameObject);
+        return gameObject;
     }
 
     /// <summary>
@@ -50,8 +63,8 @@ public class BallObjectPooler : MonoBehaviour
         newObject.SetActive(false);
         Objects.Enqueue(newObject);
 
-        BallPooled particleSystemPooled = newObject.GetComponent<BallPooled>();
-        particleSystemPooled.Pool = this;
+        BallPooled ballPooled = newObject.GetComponent<BallPooled>();
+        ballPooled.Pool = this;
     }
 
     /// <summary>
@@ -61,5 +74,30 @@ public class BallObjectPooler : MonoBehaviour
         Instance = this;
         
         Objects = new Queue<GameObject>();
+        poolPosition = new GameObject[poolSize];
+    }
+
+    /// <summary>
+    ///     Move the balls in the pool based on their position in the pool.
+    /// </summary>
+    /// <param name="newBall">Newly spawned object.</param>
+    private void MoveBalls(GameObject newBall) {
+        GameObject movedBall = newBall;
+        GameObject prevBall;
+        for (int i = 0; i < poolSize; i++) {
+            prevBall = poolPosition[i];
+
+            poolPosition[i] = movedBall;
+            poolPosition[i].GetComponent<BallPooled>().ChangePosition(i);
+
+            if (prevBall == null) {
+                break;
+            } else if (i == poolSize - 1) {
+                ReturnToPool(prevBall);
+                break;
+            } else {
+                movedBall = prevBall;
+            }
+        }
     }
 }
