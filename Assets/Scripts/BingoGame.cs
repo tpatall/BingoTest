@@ -59,7 +59,7 @@ public class BingoGame : MonoBehaviour
     /// </summary>
     public List<int> CalledNumbers { get; private set; }
 
-    private static readonly System.Random random = new System.Random(3);
+    private static readonly System.Random random = new System.Random();
 
     private void Awake() {
         Instance = this;
@@ -73,6 +73,9 @@ public class BingoGame : MonoBehaviour
         CalledNumbers = new List<int>();
     }
 
+    /// <summary>
+    ///     Manage the games progress with the stopwatch.
+    /// </summary>
     void Update() {
         if (hasGameBegun) {
 
