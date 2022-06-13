@@ -631,7 +631,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &640801764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1252,7 +1252,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnSubmit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1733600832}
+        m_TargetAssemblyTypeName: BingoGame, Assembly-CSharp
+        m_MethodName: SetUpCardAmount
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1430,6 +1442,7 @@ GameObject:
   - component: {fileID: 1534273589}
   - component: {fileID: 1534273588}
   - component: {fileID: 1534273587}
+  - component: {fileID: 1534273590}
   m_Layer: 5
   m_Name: StartButton
   m_TagString: Untagged
@@ -1500,7 +1513,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1534273588}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1534273590}
+        m_TargetAssemblyTypeName: StartGame, Assembly-CSharp
+        m_MethodName: SendInput
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1534273588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1539,6 +1564,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1534273585}
   m_CullTransparentMesh: 1
+--- !u!114 &1534273590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1534273585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69cf660b95961ee49a68ece95c3c0f8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bingoGame: {fileID: 1733600832}
+  cardAmount: {fileID: 1488363534}
+  bingoAmount: {fileID: 1552074646}
 --- !u!1 &1552074644
 GameObject:
   m_ObjectHideFlags: 0

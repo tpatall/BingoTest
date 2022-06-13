@@ -11,6 +11,11 @@ public class BingoGame : MonoBehaviour
     private BallSpawner ballSpawner;
 
     /// <summary>
+    ///     Amount of cards the player will use.
+    /// </summary>
+    public int BingoCards { get; private set; }
+
+    /// <summary>
     ///     Amount of bingos left to be called.
     /// </summary>
     public int BingosLeft { get; private set; }
@@ -33,7 +38,9 @@ public class BingoGame : MonoBehaviour
     void Start() {
         ballSpawner = GetComponent<BallSpawner>();
 
-        BingosLeft = 5;
+        BingoCards = 1;
+        BingosLeft = 1;
+
         AvailableNumbers = Enumerable.Range(1, 76).ToList();
         CalledNumbers = new List<int>();
     }
@@ -41,6 +48,15 @@ public class BingoGame : MonoBehaviour
     void Update() {
         if (BingosLeft <= 0) {
             Debug.Log("Game Over!");
+        }
+    }
+
+    public void SetUp(string inputCards, string inputBingos) {
+        if (inputCards.Length != 0) {
+            BingoCards = int.Parse(inputCards);
+        }
+        if (inputBingos.Length != 0) {
+            BingosLeft = int.Parse(inputBingos);
         }
     }
 
