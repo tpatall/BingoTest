@@ -14,13 +14,15 @@ public class GameManager : MonoBehaviour
     }
 
     private void Start() {
-        UpdateGameState(GameState.Play);
+        UpdateGameState(GameState.SetUp);
     }
 
     public void UpdateGameState(GameState newstate) {
         State = newstate;
 
         switch (newstate) {
+            case GameState.SetUp:
+                break;
             case GameState.Play:
                 HandlePlay();
                 break;
@@ -41,6 +43,7 @@ public class GameManager : MonoBehaviour
 
 public enum GameState
 {
+    SetUp,
     Play,
     Pause,
     End

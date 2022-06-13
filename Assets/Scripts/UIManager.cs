@@ -7,7 +7,7 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject gamePanel, endPanel;
+    private GameObject rulesPanel, gamePanel, pausePanel, endPanel;
 
     [SerializeField]
     private TextMeshProUGUI stateText;
@@ -21,19 +21,9 @@ public class UIManager : MonoBehaviour
     }
 
     private void GameManagerOnGameStateChanged(GameState state) {
+        rulesPanel.SetActive(state == GameState.SetUp);
         gamePanel.SetActive(state == GameState.Play);
+        //pausePanel.SetActive(state == GameState.Pause);
         //endPanel.SetActive(state == GameState.End);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
