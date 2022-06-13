@@ -42,7 +42,7 @@ public class BingoCell
     /// </summary>
     /// <param name="values">List of announced numbers.</param>
     /// <returns>If this cell got marked.</returns>
-    public bool MarkCell(IList<int> values) {
+    public bool MarkCell(List<int> values) {
         // If this cell is already completed, return.
         if (Marked) {
             Debug.Log("This number is already marked!");

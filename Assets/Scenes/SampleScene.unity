@@ -542,6 +542,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0db669fb30799b04bb5750180b6ed69c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bingoGame: {fileID: 1733600832}
 --- !u!4 &640801765
 Transform:
   m_ObjectHideFlags: 0
@@ -898,7 +899,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09542441a477c7b4b909e61d1aa3ab2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballSpawner: {fileID: 1733600831}
 --- !u!1 &1804830925
 GameObject:
   m_ObjectHideFlags: 0

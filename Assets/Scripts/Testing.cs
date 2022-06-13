@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Testing : MonoBehaviour
 {
+    public BingoGame bingoGame;
+
     private BingoCard card;
     private IList<int> items;
 
@@ -21,11 +23,13 @@ public class Testing : MonoBehaviour
         //card1 = new BingoCard(5, 5, 5f, Color.white, 10, new Vector3(7.5f, -12.5f));
         //card2 = new BingoCard(5, 5, 5f, Color.yellow, 10, new Vector3(-32.5f, -12.5f));
 
-        items = Enumerable.Range(1, 76).ToList();
+        //items = Enumerable.Range(1, 76).ToList();
     }
 
     private void Update()
     {
+        int bingosFound = 0;
+
         if (Input.GetMouseButtonDown(0))
         {
             // Check if the position that got clicked has a bingoCell.
@@ -34,11 +38,13 @@ public class Testing : MonoBehaviour
             bingoCell = card.GetCell(GetMouseWorldPosition());
 
             if (bingoCell != null) {
-                if (bingoCell.MarkCell(items)) {
-                    bingoCell.BingoCard.CheckForBingo();
+                if (bingoCell.MarkCell(bingoGame.CalledNumbers)) {
+                    bingosFound = bingoCell.BingoCard.CheckForBingo();
                 }
             }
         }
+
+        bingoGame.FoundBingos(bingosFound);
     }
 
     private Vector3 GetMouseWorldPosition()

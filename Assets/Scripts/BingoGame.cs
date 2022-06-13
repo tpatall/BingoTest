@@ -35,6 +35,12 @@ public class BingoGame : MonoBehaviour
         CalledNumbers = new List<int>();
     }
 
+    private void Update() {
+        if (BingosLeft <= 0) {
+            Debug.Log("Game Over!");
+        }
+    }
+
     /// <summary>
     ///     Call a new number and remove it from the available numbers list. Then spawn a ball with that number.
     /// </summary>
@@ -46,6 +52,15 @@ public class BingoGame : MonoBehaviour
         CalledNumbers.Add(number);
 
         ballSpawner.SpawnBall(number, color);
+    }
+
+    // TODO: What if a double or triple bingo is found when there is only 1 bingo left?
+    /// <summary>
+    ///     Remove the found bingos from the bingos-left screen.
+    /// </summary>
+    /// <param name="bingosFound"></param>
+    public void FoundBingos(int bingosFound) {
+        BingosLeft -= bingosFound;
     }
 
     /// <summary>

@@ -136,7 +136,8 @@ public class BingoCard
     ///     Loop over the available squares and check if a bingo has been Marked.
     ///     It only loops over the outer edges once and then iterates until a cell is not Marked.
     /// </summary>
-    public void CheckForBingo() {
+    /// <returns>Number of bingos found.</returns>
+    public int CheckForBingo() {
         bool rowBingo = false;
         bool colBingo = false;
         bool diagBingo = false;
@@ -172,9 +173,7 @@ public class BingoCard
             diagBingo = CheckDiagonalDown();
         }
 
-        if (rowBingo || colBingo || diagBingo) {
-            AnnounceBingo(rowBingo, colBingo, diagBingo);
-        }
+        return AnnounceBingo(rowBingo, colBingo, diagBingo);
     }
 
     /// <summary>
@@ -234,22 +233,27 @@ public class BingoCard
     /// <param name="rowBingo">When a row has a bingo.</param>
     /// <param name="colBingo">When a column has a bingo.</param>
     /// <param name="diagBingo">When a diagonal has a bingo.</param>
-    private void AnnounceBingo(bool rowBingo, bool colBingo, bool diagBingo) {
+    /// <returns>Number of bingos found.</returns>
+    private int AnnounceBingo(bool rowBingo, bool colBingo, bool diagBingo) {
         if (rowBingo) {
             if (colBingo) {
                 if (diagBingo) {
                     Debug.Log("TRIPLE BINGO!");
+                    return 3;
                 }
                 else {
                     Debug.Log("DOUBLE BINGO!");
+                    return 2;
                 }
             }
             else {
                 if (diagBingo) {
                     Debug.Log("DOUBLE BINGO!");
+                    return 2;
                 }
                 else {
                     Debug.Log("ROW BINGO!");
+                    return 1;
                 }
             }
         }
@@ -257,15 +261,20 @@ public class BingoCard
             if (colBingo) {
                 if (diagBingo) {
                     Debug.Log("DOUBLE BINGO!");
+                    return 1;
                 }
                 else {
                     Debug.Log("COLUMN BINGO!");
+                    return 1;
                 }
             }
             else {
                 if (diagBingo) {
                     Debug.Log("DIAGONAL BINGO!");
+                    return 1;
                 }
+                else 
+                    return 0;
             }
         }
     }
