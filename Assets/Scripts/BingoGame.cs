@@ -41,7 +41,7 @@ public class BingoGame : MonoBehaviour
     public void CallNewNumber() {
         int number = GetRandomItemAndRemoveIt();
         Color color = GetColor(number, out char colorCode);
-        Debug.Log("Number: " + colorCode + number + ".");
+        Debug.Log("Number: " + colorCode + "-" + number + ".");
 
         CalledNumbers.Add(number);
 
