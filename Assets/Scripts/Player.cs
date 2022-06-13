@@ -36,15 +36,17 @@ public class Player : MonoBehaviour
         cards = new BingoCard[bingoGame.BingoCards];
         hasGameBegun = true;
 
+        int fontSize = 25;
+
         if (bingoGame.BingoCards == 1) {
-            cards[0] = new BingoCard(5, 5, 5f, Color.white, 10, new Vector3(-12.5f, -12.5f));
+            cards[0] = new BingoCard(5, 5, 5f, Color.white, fontSize, new Vector3(-12.5f, -12.5f));
         } else if (bingoGame.BingoCards == 2) {
-            cards[0] = new BingoCard(5, 5, 5f, Color.white, 10, new Vector3(7.5f, -12.5f));
-            cards[1] = new BingoCard(5, 5, 5f, Color.cyan, 10, new Vector3(-32.5f, -12.5f));
+            cards[0] = new BingoCard(5, 5, 5f, Color.white, fontSize, new Vector3(7.5f, -12.5f));
+            cards[1] = new BingoCard(5, 5, 5f, Color.cyan, fontSize, new Vector3(-32.5f, -12.5f));
         } else {
-            cards[0] = new BingoCard(5, 5, 5f, Color.white, 10, new Vector3(-52.5f, -12.5f));
-            cards[1] = new BingoCard(5, 5, 5f, Color.cyan, 10, new Vector3(-12.5f, -12.5f));
-            cards[2] = new BingoCard(5, 5, 5f, Color.white, 10, new Vector3(27.5f, -12.5f));
+            cards[0] = new BingoCard(5, 5, 5f, Color.white, fontSize, new Vector3(-52.5f, -12.5f));
+            cards[1] = new BingoCard(5, 5, 5f, Color.cyan, fontSize, new Vector3(-12.5f, -12.5f));
+            cards[2] = new BingoCard(5, 5, 5f, Color.white, fontSize, new Vector3(27.5f, -12.5f));
         }
     }
 

@@ -53,12 +53,11 @@ public class BingoCell
             Debug.Log(Value + " is correct!");
             Marked = true;
 
-            values.Remove(Value);
             textMesh.color = Color.green;
             return true;
         } else {
             Debug.Log("This number has not been called yet!");
-            return true;
+            return false;
         }
     }
 }

@@ -13,6 +13,9 @@ public class BingoGame : MonoBehaviour
     /// </summary>
     public Player player;
 
+    /// <summary>
+    ///     Reference to the stopwatch.
+    /// </summary>
     public Stopwatch stopwatch;
 
     /// <summary>
