@@ -1,9 +1,15 @@
 using UnityEngine;
 
-public class Testing : MonoBehaviour
+public class Player : MonoBehaviour
 {
+    /// <summary>
+    ///     Reference to the bingo game manager.
+    /// </summary>
     public BingoGame bingoGame;
 
+    /// <summary>
+    ///     Array of cards this player is using this game.
+    /// </summary>
     private BingoCard[] cards;
 
     /// <summary>
@@ -16,8 +22,10 @@ public class Testing : MonoBehaviour
     /// </summary>
     private int bingosFound = 0;
 
-    // Start is called before the first frame update
-    void Start()
+    /// <summary>
+    ///     Setup this player's cards based on input.
+    /// </summary>
+    public void SetUp()
     {
         cards = new BingoCard[bingoGame.BingoCards];
 
@@ -33,6 +41,9 @@ public class Testing : MonoBehaviour
         }
     }
 
+    /// <summary>
+    ///     Check for player clicks.
+    /// </summary>
     private void Update()
     {
         bingosFound = 0;
@@ -52,10 +63,14 @@ public class Testing : MonoBehaviour
                     break;
                 }
             }
-            bingoGame.FoundBingos(bingosFound);
+            bingoGame.SubtractFoundBingos(bingosFound);
         }
     }
 
+    /// <summary>
+    ///     Get world position from mouse position.
+    /// </summary>
+    /// <returns>World position from mouse position.</returns>
     private Vector3 GetMouseWorldPosition()
     {
         Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

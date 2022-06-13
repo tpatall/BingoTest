@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -5,6 +6,13 @@ using UnityEngine;
 [RequireComponent(typeof(BallSpawner))]
 public class BingoGame : MonoBehaviour
 {
+    public static BingoGame Instance;
+
+    /// <summary>
+    ///     Reference to all players. In this case one.
+    /// </summary>
+    public Player player;
+
     /// <summary>
     ///     Reference to the attached BallSpawner.
     /// </summary>
@@ -32,6 +40,10 @@ public class BingoGame : MonoBehaviour
 
     private static readonly System.Random random = new System.Random(3);
 
+    private void Awake() {
+        Instance = this;
+    }
+
     /// <summary>
     ///     Initialize the list of called numbers.
     /// </summary>
@@ -48,9 +60,16 @@ public class BingoGame : MonoBehaviour
     void Update() {
         if (BingosLeft <= 0) {
             Debug.Log("Game Over!");
+
+            EndGame();
         }
     }
 
+    /// <summary>
+    ///     SetUp rules from player input.
+    /// </summary>
+    /// <param name="inputCards">Card amount from player input.</param>
+    /// <param name="inputBingos">Total bingos to be found, from player input.</param>
     public void SetUp(string inputCards, string inputBingos) {
         if (inputCards.Length != 0) {
             BingoCards = int.Parse(inputCards);
@@ -58,6 +77,8 @@ public class BingoGame : MonoBehaviour
         if (inputBingos.Length != 0) {
             BingosLeft = int.Parse(inputBingos);
         }
+
+        GameManager.Instance.UpdateGameState(GameState.Play);
     }
 
     /// <summary>
@@ -118,7 +139,13 @@ public class BingoGame : MonoBehaviour
     ///     Remove the found bingos from the bingos-left screen.
     /// </summary>
     /// <param name="bingosFound"></param>
-    public void FoundBingos(int bingosFound) {
+    public void SubtractFoundBingos(int bingosFound) {
         BingosLeft -= bingosFound;
+    }
+
+    public void EndGame() {
+
+
+        GameManager.Instance.UpdateGameState(GameState.End);
     }
 }
