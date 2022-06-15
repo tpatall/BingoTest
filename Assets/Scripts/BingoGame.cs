@@ -42,6 +42,12 @@ public class BingoGame : MonoBehaviour
     private BallSpawner ballSpawner;
 
     /// <summary>
+    ///     Reference to the results screen.
+    /// </summary>
+    [SerializeField]
+    private EndScreen endScreen;
+
+    /// <summary>
     ///     Time for first ball to spawn.
     /// </summary>
     private float nextSpawnTime = 5f;
@@ -54,7 +60,12 @@ public class BingoGame : MonoBehaviour
     /// <summary>
     ///     If the game is currently paused.
     /// </summary>
-    public bool isGamePaused = false;
+    private bool isGamePaused = false;
+
+    /// <summary>
+    ///     Total bingos left to be found.
+    /// </summary>
+    private int bingosLeft;
 
     /// <summary>
     ///     Amount of cards the player will use.
@@ -64,7 +75,7 @@ public class BingoGame : MonoBehaviour
     /// <summary>
     ///     Amount of bingos left to be called.
     /// </summary>
-    public int BingosLeft { get; private set; }
+    public int BingosTotal { get; private set; }
 
     /// <summary>
     ///     List of all numbers that have not been called yet.
@@ -101,7 +112,7 @@ public class BingoGame : MonoBehaviour
                 CallNewNumber();
             }
 
-            if (BingosLeft <= 0) {
+            if (bingosLeft <= 0) {
                 EndGame();
             }
         }
@@ -114,7 +125,8 @@ public class BingoGame : MonoBehaviour
     /// <param name="inputBingos">Total bingos to be found, from player input.</param>
     public void SetUp(int inputCards, int inputBingos) {
         BingoCards = inputCards;
-        BingosLeft = inputBingos;
+        BingosTotal = inputBingos;
+        bingosLeft = BingosTotal;
 
         player.SetUp(this);
 
@@ -156,10 +168,13 @@ public class BingoGame : MonoBehaviour
     /// </summary>
     public void EndGame() {
         stopwatch.StopStopwatch();
+        Debug.Log("Game Over!");
+        
         hasGameBegun = false;
+        player.gameObject.SetActive(false);
 
         GameManager.Instance.UpdateGameState(GameState.End);
-        Debug.Log("Game Over!");
+        endScreen.CollectResults(BingoCards, BingosTotal, stopwatch.CurrentTime);
     }
 
     /// <summary>
@@ -221,6 +236,6 @@ public class BingoGame : MonoBehaviour
     /// </summary>
     /// <param name="bingosFound"></param>
     public void SubtractFoundBingos(int bingosFound) {
-        BingosLeft -= bingosFound;
+        bingosLeft -= bingosFound;
     }
 }

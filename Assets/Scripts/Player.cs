@@ -75,10 +75,6 @@ public class Player : MonoBehaviour
                 }
                 bingoGame.SubtractFoundBingos(bingosFound);
             }
-
-            if (bingoGame.BingosLeft <= 0) {
-                hasGameBegun = false;
-            }
         }
     }
 
