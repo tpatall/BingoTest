@@ -20,6 +20,9 @@ public class BingoGame : MonoBehaviour
     [Tooltip("Time between calling a new number.")]
     public float spawnInterval = 5f;
 
+    [SerializeField]
+    private GameManager gameManager;
+
     /// <summary>
     ///     Reference to all players. In this case one.
     /// </summary>
@@ -47,6 +50,11 @@ public class BingoGame : MonoBehaviour
     ///     If the game has begun yet.
     /// </summary>
     private bool hasGameBegun = false;
+
+    /// <summary>
+    ///     If the game is currently paused.
+    /// </summary>
+    public bool isGamePaused = false;
 
     /// <summary>
     ///     Amount of cards the player will use.
@@ -86,7 +94,7 @@ public class BingoGame : MonoBehaviour
     ///     Manage the games progress with the stopwatch.
     /// </summary>
     void Update() {
-        if (hasGameBegun) {
+        if (hasGameBegun && !isGamePaused) {
 
             if (stopwatch.CurrentTime > nextSpawnTime) {
                 nextSpawnTime += spawnInterval;
@@ -124,6 +132,23 @@ public class BingoGame : MonoBehaviour
 
         hasGameBegun = true;
         stopwatch.StartStopwatch();
+    }
+
+    /// <summary>
+    ///     Pause or unpause the game based on gamestate.
+    /// </summary>
+    public void PauseGame() {
+        if (gameManager.State == GameState.Pause) {
+            stopwatch.StartStopwatch();
+            gameManager.UpdateGameState(GameState.Play);
+            isGamePaused = false;
+            Debug.Log("Unpause!");
+        } else {
+            stopwatch.StopStopwatch();
+            gameManager.UpdateGameState(GameState.Pause);
+            isGamePaused = true;
+            Debug.Log("Pause!");
+        }
     }
 
     /// <summary>

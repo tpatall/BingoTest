@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
     private void GameManagerOnGameStateChanged(GameState state) {
         rulesPanel.SetActive(state == GameState.SetUp);
         gamePanel.SetActive(state == GameState.Play);
-        //pausePanel.SetActive(state == GameState.Pause);
+        pausePanel.SetActive(state == GameState.Pause);
         //endPanel.SetActive(state == GameState.End);
     }
 }
