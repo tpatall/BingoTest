@@ -60,7 +60,7 @@ public class BallObjectPooler : MonoBehaviour
     /// </summary>
     public void AddObject() {
         var newObject = Instantiate(ballPrefab);
-        newObject.transform.parent = gameObject.transform;
+        newObject.transform.SetParent(gameObject.transform);
         newObject.SetActive(false);
         Objects.Enqueue(newObject);
 

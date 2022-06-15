@@ -9,25 +9,34 @@ public class BingoGame : MonoBehaviour
     public static BingoGame Instance;
 
     /// <summary>
-    ///     Reference to all players. In this case one.
+    ///     Time before calling the first number.
     /// </summary>
-    public Player player;
-
-    /// <summary>
-    ///     Reference to the stopwatch.
-    /// </summary>
-    public Stopwatch stopwatch;
-
-    /// <summary>
-    ///     Reference to the BallSpawner.
-    /// </summary>
-    public BallSpawner ballSpawner;
+    [Tooltip("Time before calling the first number.")]
+    public float initialInterval = 5f;
 
     /// <summary>
     ///     Time between calling a new number.
     /// </summary>
     [Tooltip("Time between calling a new number.")]
     public float spawnInterval = 5f;
+
+    /// <summary>
+    ///     Reference to all players. In this case one.
+    /// </summary>
+    [SerializeField]
+    private Player player;
+
+    /// <summary>
+    ///     Reference to the stopwatch.
+    /// </summary>
+    [SerializeField]
+    private Stopwatch stopwatch;
+
+    /// <summary>
+    ///     Reference to the BallSpawner.
+    /// </summary>
+    [SerializeField]
+    private BallSpawner ballSpawner;
 
     /// <summary>
     ///     Time for first ball to spawn.
@@ -111,7 +120,7 @@ public class BingoGame : MonoBehaviour
     /// </summary>
     /// <returns></returns>
     IEnumerator AnalyzingPhase() {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(initialInterval);
 
         hasGameBegun = true;
         stopwatch.StartStopwatch();

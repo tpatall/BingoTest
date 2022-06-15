@@ -1,9 +1,10 @@
 using UnityEngine;
+using TMPro;
+using System.Collections.Generic;
 
 /// <summary>
 ///     This class has the functionality of a ball GameObject for after it has been spawned in.
 /// </summary>
-[RequireComponent(typeof(TextMesh))]
 public class BallPooled : MonoBehaviour, IBallPooled
 {
     /// <summary>
@@ -17,9 +18,21 @@ public class BallPooled : MonoBehaviour, IBallPooled
     public Color color;
 
     /// <summary>
+    ///     Bingo ball sprites to choose from.
+    /// </summary>
+    [SerializeField]
+    private List<Sprite> bingoSprites = new List<Sprite>(5);
+
+    /// <summary>
+    ///     Where the respective bingo ball will be displayed.
+    /// </summary>
+    [SerializeField]
+    private SpriteRenderer spriteRenderer;
+
+    /// <summary>
     ///     Text object that displays the number and color.
     /// </summary>
-    private TextMesh textMesh;
+    private TextMeshPro textMeshPro;
 
     /// <summary>
     ///     Starting position to reference when moving.
@@ -50,7 +63,7 @@ public class BallPooled : MonoBehaviour, IBallPooled
     ///     Initialize the text mesh component.
     /// </summary>
     private void Awake() {
-        textMesh = GetComponent<TextMesh>();
+        textMeshPro = GetComponent<TextMeshPro>();
     }
 
     /// <summary>
@@ -58,8 +71,9 @@ public class BallPooled : MonoBehaviour, IBallPooled
     /// </summary>
     private void OnEnable() {
         startPos = transform.position;
-        textMesh.color = color;
-        textMesh.text = number.ToString();
+
+        spriteRenderer.sprite = GetSprite();
+        textMeshPro.text = number.ToString();
     }
 
     /// <summary>
@@ -67,7 +81,28 @@ public class BallPooled : MonoBehaviour, IBallPooled
     /// </summary>
     /// <param name="poolPosition">Position in the UI pool.</param>
     public void ChangePosition(int poolPosition) {
-        Vector3 newPos = new Vector3(startPos.x - (8 * poolPosition), startPos.y);
+        Vector3 newPos = new Vector3(startPos.x - (10 * poolPosition), startPos.y);
         gameObject.transform.position = newPos;
+    }
+
+    /// <summary>
+    ///     Get the bingo ball sprite from the number.
+    /// </summary>
+    /// <returns>Bingoball sprite belonging to number.</returns>
+    private Sprite GetSprite() {
+        if (number <= 15) {
+            return bingoSprites[0];
+        }
+        else if (number <= 30) {
+            return bingoSprites[1];
+        }
+        else if (number <= 45) {
+            return bingoSprites[2];
+        }
+        else if (number <= 60) {
+            return bingoSprites[3];
+        }
+        else
+            return bingoSprites[4];
     }
 }
