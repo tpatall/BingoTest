@@ -12,7 +12,7 @@ public class BingoGame : MonoBehaviour
     ///     Time before calling the first number.
     /// </summary>
     [Tooltip("Time before calling the first number.")]
-    public float initialInterval = 5f;
+    public float nextSpawnTime = 5f;
 
     /// <summary>
     ///     Time between calling a new number.
@@ -36,6 +36,12 @@ public class BingoGame : MonoBehaviour
     private Stopwatch stopwatch;
 
     /// <summary>
+    ///     Reference to the gameobject holding the ball pool.
+    /// </summary>
+    [SerializeField]
+    private GameObject ballPool;
+
+    /// <summary>
     ///     Reference to the BallSpawner.
     /// </summary>
     [SerializeField]
@@ -46,11 +52,6 @@ public class BingoGame : MonoBehaviour
     /// </summary>
     [SerializeField]
     private EndScreen endScreen;
-
-    /// <summary>
-    ///     Time for first ball to spawn.
-    /// </summary>
-    private float nextSpawnTime = 5f;
 
     /// <summary>
     ///     If the game has begun yet.
@@ -107,7 +108,8 @@ public class BingoGame : MonoBehaviour
     void Update() {
         if (hasGameBegun && !isGamePaused) {
 
-            if (stopwatch.CurrentTime > nextSpawnTime) {
+            if (stopwatch.CurrentTime > nextSpawnTime &&
+                AvailableNumbers.Count > 0) {
                 nextSpawnTime += spawnInterval;
                 CallNewNumber();
             }
@@ -140,7 +142,7 @@ public class BingoGame : MonoBehaviour
     /// </summary>
     /// <returns></returns>
     IEnumerator AnalyzingPhase() {
-        yield return new WaitForSeconds(initialInterval);
+        yield return new WaitForSeconds(nextSpawnTime);
 
         hasGameBegun = true;
         stopwatch.StartStopwatch();
@@ -151,8 +153,8 @@ public class BingoGame : MonoBehaviour
     /// </summary>
     public void PauseGame() {
         if (gameManager.State == GameState.Pause) {
-            stopwatch.StartStopwatch();
             gameManager.UpdateGameState(GameState.Play);
+            stopwatch.StartStopwatch();
             isGamePaused = false;
             Debug.Log("Unpause!");
         } else {
@@ -172,6 +174,7 @@ public class BingoGame : MonoBehaviour
         
         hasGameBegun = false;
         player.gameObject.SetActive(false);
+        ballPool.gameObject.SetActive(false);
 
         GameManager.Instance.UpdateGameState(GameState.End);
         endScreen.CollectResults(BingoCards, BingosTotal, stopwatch.CurrentTime);
@@ -193,7 +196,6 @@ public class BingoGame : MonoBehaviour
     /// <summary>
     ///     Get a random item from a list and then remove it, to prevent duplicate numbers.
     /// </summary>
-    /// <param name="items"></param>
     /// <returns>The value to be displayed in the TextMesh.</returns>
     private int GetRandomItemAndRemoveIt() {
         int randomItem = AvailableNumbers[random.Next(AvailableNumbers.Count)];
