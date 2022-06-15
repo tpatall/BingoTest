@@ -7,37 +7,25 @@ public class SaveSettings : MonoBehaviour
     /// <summary>
     ///     Reference to bingo game information.
     /// </summary>
-    public BingoGame bingoGame;
+    [SerializeField]
+    private BingoGame bingoGame;
 
     /// <summary>
     ///     Input field where the player can set an amount of cards.
     /// </summary>
-    public Text cardAmount;
+    [SerializeField]
+    private Slider cardAmount;
 
     /// <summary>
     ///     Input field where the player can set the amount of bingos.
     /// </summary>
-    public Text bingoAmount;
+    [SerializeField]
+    private Slider bingoAmount;
 
     /// <summary>
-    ///     Send the text from the input fields to the bingo game information script.
+    ///     Send the values from the sliders to the bingo game information script.
     /// </summary>
     public void SendInput() {
-        int inputCards, inputBingos;
-        if (cardAmount.text.Length == 0) {
-            inputCards = 1;
-        }
-        else {
-            inputCards = int.Parse(cardAmount.text);
-        }
-
-        if (bingoAmount.text.Length == 0) {
-            inputBingos = 1;
-        }
-        else {
-            inputBingos = int.Parse(bingoAmount.text);
-        }
-
-        bingoGame.SetUp(inputCards, inputBingos);
+        bingoGame.SetUp((int)cardAmount.value, (int)bingoAmount.value);
     }
 }

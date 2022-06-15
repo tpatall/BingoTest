@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class LoopMovement : MonoBehaviour
@@ -13,6 +14,12 @@ public class LoopMovement : MonoBehaviour
     /// </summary>
     [Tooltip("If the movement direction is left-to-right, or right-to-left if false.")]
     public bool rightMovementDirection;
+
+    /// <summary>
+    ///     If the loop should start slowly.
+    /// </summary>
+    [Tooltip("If the movement loop should slowly start up.")]
+    public bool slowStart;
     
     /// <summary>
     ///     Starting variables.
@@ -23,6 +30,11 @@ public class LoopMovement : MonoBehaviour
     void Start() {
         startPosX = transform.position.x;
         lengthX = GetComponent<SpriteRenderer>().bounds.size.x;
+
+        if (slowStart) {
+            StartCoroutine(SlowStartUp(movementSpeed));
+            movementSpeed = 0f;
+        }
     }
 
     // Update is called once per frame
@@ -37,6 +49,22 @@ public class LoopMovement : MonoBehaviour
             transform.position = new Vector3(startPosX - lengthX, transform.position.y);
         } else if (transform.position.x < startPosX - lengthX) {
             transform.position = new Vector3(startPosX + lengthX, transform.position.y);
+        }
+    }
+
+    /// <summary>
+    ///     Simulate a slow start-up by increasing the speed over time.
+    /// </summary>
+    /// <param name="maxSpeed">The maximum speed this coroutine is increasing towards.</param>
+    /// <returns></returns>
+    IEnumerator SlowStartUp(float maxSpeed) {
+        yield return new WaitForSeconds(5f);
+
+        // Gradually increase speed.
+        for (float i = 0; i < maxSpeed; i += 0.01f) {
+            movementSpeed = i;
+
+            yield return new WaitForSeconds(0.5f);
         }
     }
 }

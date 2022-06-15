@@ -111,7 +111,7 @@ public class BingoGame : MonoBehaviour
     /// </summary>
     /// <returns></returns>
     IEnumerator AnalyzingPhase() {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(5f);
 
         hasGameBegun = true;
         stopwatch.StartStopwatch();
