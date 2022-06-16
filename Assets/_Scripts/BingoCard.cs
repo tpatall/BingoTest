@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BingoCard
 {
+    #region variables
     /// <summary>
     ///     Store references to BingoCell objects.
     /// </summary>
@@ -58,8 +59,9 @@ public class BingoCard
     ///     Keep track which diagonal has a bingo.
     /// </summary>
     private bool[] diagBingos;
+    #endregion
 
-    private static readonly System.Random random = new System.Random(3);
+    private static readonly System.Random random = new System.Random();
 
     public BingoCard(int width, int height, float cellSize, Color color, int fontSize, Vector3 originPosition, Sprite cellBackground) {
         this.width = width;

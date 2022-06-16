@@ -9,6 +9,7 @@ using UnityEngine;
 /// </summary>
 public class BingoManager : Singleton<BingoManager>
 {
+    #region variables
     /// <summary>
     ///     Time before calling the first number.
     /// </summary>
@@ -73,6 +74,7 @@ public class BingoManager : Singleton<BingoManager>
     ///     List of all numbers that have been called.
     /// </summary>
     public List<int> CalledNumbers { get; private set; }
+    #endregion
 
     private static readonly System.Random random = new System.Random();
 
@@ -244,8 +246,6 @@ public class BingoManager : Singleton<BingoManager>
             return Color.blue;
     }
 
-
-    // TODO: What if a double or triple bingo is found when there is only 1 bingo left?
     /// <summary>
     ///     Remove the found bingos from the bingos-left screen.
     /// </summary>
