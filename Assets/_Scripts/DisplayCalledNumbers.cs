@@ -6,16 +6,13 @@ using TMPro;
 public class DisplayCalledNumbers : MonoBehaviour
 {
     [SerializeField]
-    private BingoManager bingoGame;
-
-    [SerializeField]
     private TextMeshProUGUI text;
 
     /// <summary>
     ///     Convert the called numbers to a text and display it.
     /// </summary>
     public void GetCalledNumbers() {
-        List<int> list = bingoGame.CalledNumbers;
+        List<int> list = BingoManager.Instance.CalledNumbers;
         if (list.Count > 0) {
             string numberString = "";
             for (int i = 0; i < list.Count; i++) {

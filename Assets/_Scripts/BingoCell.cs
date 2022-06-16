@@ -9,6 +9,11 @@ public class BingoCell
     private TextMesh textMesh;
 
     /// <summary>
+    ///     Background of this cell.
+    /// </summary>
+    private SpriteRenderer spriteRenderer;
+
+    /// <summary>
     ///     Reference to the bingo card this cell belongs to.
     /// </summary>
     public BingoCard BingoCard { get; private set; }
@@ -23,8 +28,9 @@ public class BingoCell
     /// </summary>
     public bool Marked { get; private set; }
 
-    public BingoCell(BingoCard bingoCard, int x, int y, int value, TextMesh textMesh, bool free) {
+    public BingoCell(BingoCard bingoCard, int x, int y, int value, TextMesh textMesh, SpriteRenderer spriteRenderer, bool free) {
         this.textMesh = textMesh;
+        this.spriteRenderer = spriteRenderer;
         
         BingoCard = bingoCard;
         Value = value;
@@ -32,6 +38,7 @@ public class BingoCell
         if (free) {
             Marked = true;
             textMesh.color = Color.green;
+            spriteRenderer.color = Color.green;
         } else {
             Marked = false;
         }
@@ -54,6 +61,7 @@ public class BingoCell
             Marked = true;
 
             textMesh.color = Color.green;
+            spriteRenderer.color = Color.green;
             return true;
         } else {
             Debug.Log("This number has not been called yet!");

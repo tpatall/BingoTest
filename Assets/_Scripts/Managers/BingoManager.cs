@@ -22,6 +22,9 @@ public class BingoManager : Singleton<BingoManager>
     public float spawnInterval = 5f;
 
     [SerializeField]
+    private Sprite cellBackground;
+
+    [SerializeField]
     private Player player;
 
     [SerializeField]
@@ -141,7 +144,7 @@ public class BingoManager : Singleton<BingoManager>
 
         int horizontalCells = 5;
         int verticalCells = 5;
-        Color color = Color.white;
+        Color textColor = Color.black;
         float cellSize = 7f;
         int fontSize = 40;
 
@@ -150,16 +153,16 @@ public class BingoManager : Singleton<BingoManager>
         float correctOriginPositionY = - (verticalCells * cellSize / 2);
 
         if (TotalBingoCards == 1) {
-            BingoCards[0] = new BingoCard(horizontalCells, verticalCells, cellSize, color, fontSize, new Vector3(correctOriginPositionX, correctOriginPositionY));
+            BingoCards[0] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(correctOriginPositionX, correctOriginPositionY), cellBackground);
         }
         else if (TotalBingoCards == 2) {
-            BingoCards[0] = new BingoCard(horizontalCells, verticalCells, cellSize, color, fontSize, new Vector3(2.5f, correctOriginPositionY));
-            BingoCards[1] = new BingoCard(horizontalCells, verticalCells, cellSize, color, fontSize, new Vector3(-37.5f, correctOriginPositionY));
+            BingoCards[0] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(2.5f, correctOriginPositionY), cellBackground);
+            BingoCards[1] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(-37.5f, correctOriginPositionY), cellBackground);
         }
         else {
-            BingoCards[0] = new BingoCard(horizontalCells, verticalCells, cellSize, color, fontSize, new Vector3(22.5f, correctOriginPositionY));
-            BingoCards[1] = new BingoCard(horizontalCells, verticalCells, cellSize, color, fontSize, new Vector3(correctOriginPositionX, correctOriginPositionY));
-            BingoCards[2] = new BingoCard(horizontalCells, verticalCells, cellSize, color, fontSize, new Vector3(-57.5f, correctOriginPositionY));
+            BingoCards[0] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(22.5f, correctOriginPositionY), cellBackground);
+            BingoCards[1] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(correctOriginPositionX, correctOriginPositionY), cellBackground);
+            BingoCards[2] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(-57.5f, correctOriginPositionY), cellBackground);
         }
     }
 

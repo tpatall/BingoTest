@@ -40,6 +40,11 @@ public class BingoCard
     private Vector3 originPosition;
 
     /// <summary>
+    ///     Background image of the cell.
+    /// </summary>
+    private Sprite cellBackground;
+
+    /// <summary>
     ///     Keep track which row has a bingo.
     /// </summary>
     private bool[] rowBingos;
@@ -56,13 +61,14 @@ public class BingoCard
 
     private static readonly System.Random random = new System.Random(3);
 
-    public BingoCard(int width, int height, float cellSize, Color color, int fontSize, Vector3 originPosition) {
+    public BingoCard(int width, int height, float cellSize, Color color, int fontSize, Vector3 originPosition, Sprite cellBackground) {
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
         this.color = color;
         this.fontSize = fontSize;
         this.originPosition = originPosition;
+        this.cellBackground = cellBackground;
 
         cells = new BingoCell[width, height];
 
@@ -106,9 +112,12 @@ public class BingoCard
                     free = true;
                 }
 
-                TextMesh textMesh = CreateWorldText(card.transform, new Vector3(x, y), value);
+                GameObject gameObject = CreateWorldCell(card.transform, new Vector3(x, y), value);
+                TextMesh textMesh = gameObject.GetComponent<TextMesh>();
+                SpriteRenderer spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+
                 // Create cell with a reference to this card, in case of multiple cards.
-                BingoCell bingoCell = new BingoCell(this, x, y, value, textMesh, free);
+                BingoCell bingoCell = new BingoCell(this, x, y, value, textMesh, spriteRenderer, free);
                 cells[x, y] = bingoCell;
             }
         }
@@ -144,14 +153,15 @@ public class BingoCard
     }
 
     /// <summary>
-    ///     Create a TextMesh GameObject to place the text in the world space.
+    ///     Create a BingoCell GameObject to place the text in the world space.
     /// </summary>
     /// <param name="parent">Parent gameObject in hierarchy for order.</param>
     /// <param name="gridCoordinates">World position of this cell.</param>
     /// <param name="value">Cell value.</param>
     /// <returns>The TextMesh of this cell.</returns>
-    private TextMesh CreateWorldText(Transform parent, Vector3 gridCoordinates, int value) {
+    private GameObject CreateWorldCell(Transform parent, Vector3 gridCoordinates, int value) {
         GameObject gameObject = new GameObject("CellTextMesh", typeof(TextMesh));
+        GameObject gameObjectChild = new GameObject("CellBackground", typeof(SpriteRenderer));
 
         Vector3 centralizeOffset = new Vector3(cellSize, cellSize) * 0.5f;
         Vector3 localPosition = gridCoordinates * cellSize + originPosition + centralizeOffset;
@@ -159,6 +169,8 @@ public class BingoCard
         Transform transform = gameObject.transform;
         transform.SetParent(parent, false);
         transform.localPosition = localPosition;
+        gameObjectChild.transform.SetParent(transform, false);
+        gameObjectChild.transform.localScale = new Vector3(cellSize, cellSize);
 
         TextMesh textMesh = gameObject.GetComponent<TextMesh>();
         textMesh.text = value.ToString();
@@ -166,7 +178,11 @@ public class BingoCard
         textMesh.fontSize = fontSize;
         textMesh.color = color;
 
-        return textMesh;
+        SpriteRenderer spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+        spriteRenderer.sprite = cellBackground;
+        spriteRenderer.color = new Color(200f / 255f, 200f / 255f, 200f / 255f, 1f); // Light-gray.
+
+        return gameObject;
     }
     #endregion
 
