@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class BingoGame : MonoBehaviour
+/// <summary>
+///     Controls the logic during the gameplay from the Setup state until the End state.
+/// </summary>
+public class BingoManager : Singleton<BingoManager>
 {
-    public static BingoGame Instance;
-
     /// <summary>
     ///     Time before calling the first number.
     /// </summary>
@@ -21,47 +22,24 @@ public class BingoGame : MonoBehaviour
     public float spawnInterval = 5f;
 
     [SerializeField]
-    private GameManager gameManager;
-
-    /// <summary>
-    ///     Reference to all players. In this case one.
-    /// </summary>
-    [SerializeField]
     private Player player;
 
-    /// <summary>
-    ///     Reference to the stopwatch.
-    /// </summary>
     [SerializeField]
     private Stopwatch stopwatch;
 
-    /// <summary>
-    ///     Reference to the gameobject holding the ball pool.
-    /// </summary>
     [SerializeField]
     private GameObject ballPool;
 
-    /// <summary>
-    ///     Reference to the BallSpawner.
-    /// </summary>
     [SerializeField]
     private BallSpawner ballSpawner;
 
-    /// <summary>
-    ///     Reference to the results screen.
-    /// </summary>
     [SerializeField]
     private EndScreen endScreen;
 
     /// <summary>
-    ///     If the game has begun yet.
+    ///     Whether the game is currently playing. Or in GameState.Play.
     /// </summary>
-    private bool hasGameBegun = false;
-
-    /// <summary>
-    ///     If the game is currently paused.
-    /// </summary>
-    private bool isGamePaused = false;
+    private bool playing = false;
 
     /// <summary>
     ///     Total bingos left to be found.
@@ -71,12 +49,17 @@ public class BingoGame : MonoBehaviour
     /// <summary>
     ///     Amount of cards the player will use.
     /// </summary>
-    public int BingoCards { get; private set; }
+    public int TotalBingoCards { get; private set; }
 
     /// <summary>
     ///     Amount of bingos left to be called.
     /// </summary>
-    public int BingosTotal { get; private set; }
+    public int TotalBingos { get; private set; }
+
+    /// <summary>
+    ///     Array of current bingo cards.
+    /// </summary>
+    public BingoCard[] BingoCards { get; private set; }
 
     /// <summary>
     ///     List of all numbers that have not been called yet.
@@ -90,8 +73,45 @@ public class BingoGame : MonoBehaviour
 
     private static readonly System.Random random = new System.Random();
 
-    private void Awake() {
-        Instance = this;
+    protected override void Awake() {
+        base.Awake();
+
+        GameManager.OnGameStateChanged += GameManagerOnGameStateChanged;
+    }
+
+    private void OnDestroy() {
+        GameManager.OnGameStateChanged -= GameManagerOnGameStateChanged;
+    }
+
+    private void GameManagerOnGameStateChanged(GameState state) {
+        if (state == GameState.SetUp) {
+            CreateCards();
+
+            // Give players a few seconds to look into their card(s).
+            StartCoroutine(AnalyzingPhase());
+        };
+
+        if (state == GameState.Play) {
+            stopwatch.StartStopwatch();
+            player.gameObject.SetActive(true);
+            playing = true;
+        };
+        
+        if (state == GameState.Pause) {
+            stopwatch.StopStopwatch();
+            player.gameObject.SetActive(false);
+            playing = false;
+        };
+        
+        if (state == GameState.Results) {
+            stopwatch.StopStopwatch();
+            playing = false;
+
+            player.gameObject.SetActive(false);
+            ballPool.gameObject.SetActive(false);
+
+            endScreen.CollectResults(TotalBingoCards, TotalBingos, stopwatch.CurrentTime);
+        }
     }
 
     /// <summary>
@@ -103,38 +123,36 @@ public class BingoGame : MonoBehaviour
     }
 
     /// <summary>
-    ///     Manage the games progress with the stopwatch.
-    /// </summary>
-    void Update() {
-        if (hasGameBegun && !isGamePaused) {
-
-            if (stopwatch.CurrentTime > nextSpawnTime &&
-                AvailableNumbers.Count > 0) {
-                nextSpawnTime += spawnInterval;
-                CallNewNumber();
-            }
-
-            if (bingosLeft <= 0) {
-                EndGame();
-            }
-        }
-    }
-
-    /// <summary>
     ///     SetUp rules from player input.
     /// </summary>
     /// <param name="inputCards">Card amount from player input.</param>
     /// <param name="inputBingos">Total bingos to be found, from player input.</param>
     public void SetUp(int inputCards, int inputBingos) {
-        BingoCards = inputCards;
-        BingosTotal = inputBingos;
-        bingosLeft = BingosTotal;
+        TotalBingoCards = inputCards;
+        TotalBingos = inputBingos;
+        bingosLeft = TotalBingos;
+    }
 
-        player.SetUp(this);
+    /// <summary>
+    ///     Create the bingo card(s).
+    /// </summary>
+    public void CreateCards() {
+        BingoCards = new BingoCard[TotalBingoCards];
 
-        GameManager.Instance.UpdateGameState(GameState.Play);
-        
-        StartCoroutine(AnalyzingPhase());
+        int fontSize = 25;
+
+        if (TotalBingoCards == 1) {
+            BingoCards[0] = new BingoCard(5, 5, 5f, Color.white, fontSize, new Vector3(-12.5f, -12.5f));
+        }
+        else if (TotalBingoCards == 2) {
+            BingoCards[0] = new BingoCard(5, 5, 5f, Color.white, fontSize, new Vector3(7.5f, -12.5f));
+            BingoCards[1] = new BingoCard(5, 5, 5f, Color.cyan, fontSize, new Vector3(-32.5f, -12.5f));
+        }
+        else {
+            BingoCards[0] = new BingoCard(5, 5, 5f, Color.white, fontSize, new Vector3(-52.5f, -12.5f));
+            BingoCards[1] = new BingoCard(5, 5, 5f, Color.cyan, fontSize, new Vector3(-12.5f, -12.5f));
+            BingoCards[2] = new BingoCard(5, 5, 5f, Color.white, fontSize, new Vector3(27.5f, -12.5f));
+        }
     }
 
     /// <summary>
@@ -144,40 +162,24 @@ public class BingoGame : MonoBehaviour
     IEnumerator AnalyzingPhase() {
         yield return new WaitForSeconds(nextSpawnTime);
 
-        hasGameBegun = true;
-        stopwatch.StartStopwatch();
+        GameManager.Instance.UpdateGameState(GameState.Play);
     }
 
     /// <summary>
-    ///     Pause or unpause the game based on gamestate.
+    ///     Manage the games progress with the stopwatch.
     /// </summary>
-    public void PauseGame() {
-        if (gameManager.State == GameState.Pause) {
-            gameManager.UpdateGameState(GameState.Play);
-            stopwatch.StartStopwatch();
-            isGamePaused = false;
-            Debug.Log("Unpause!");
-        } else {
-            stopwatch.StopStopwatch();
-            gameManager.UpdateGameState(GameState.Pause);
-            isGamePaused = true;
-            Debug.Log("Pause!");
+    void Update() {
+        if (playing) {
+            if (stopwatch.CurrentTime > nextSpawnTime &&
+                AvailableNumbers.Count > 0) {
+                nextSpawnTime += spawnInterval;
+                CallNewNumber();
+            }
+
+            if (bingosLeft <= 0) {
+                GameManager.Instance.UpdateGameState(GameState.Results);
+            }
         }
-    }
-
-    /// <summary>
-    ///     End the game and stop the timer.
-    /// </summary>
-    public void EndGame() {
-        stopwatch.StopStopwatch();
-        Debug.Log("Game Over!");
-        
-        hasGameBegun = false;
-        player.gameObject.SetActive(false);
-        ballPool.gameObject.SetActive(false);
-
-        GameManager.Instance.UpdateGameState(GameState.End);
-        endScreen.CollectResults(BingoCards, BingosTotal, stopwatch.CurrentTime);
     }
 
     /// <summary>

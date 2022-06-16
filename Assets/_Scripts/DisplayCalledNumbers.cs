@@ -6,7 +6,7 @@ using TMPro;
 public class DisplayCalledNumbers : MonoBehaviour
 {
     [SerializeField]
-    private BingoGame bingoGame;
+    private BingoManager bingoGame;
 
     [SerializeField]
     private TextMeshProUGUI text;
