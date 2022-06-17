@@ -19,4 +19,8 @@ public class AudioSystem : Singleton<AudioSystem>
     public void PlaySound(AudioClip clip, float vol) {
         soundSource.PlayOneShot(clip, vol);
     }
+
+    public void PlaySound(AudioClip clip) {
+        soundSource.PlayOneShot(clip);
+    }
 }
