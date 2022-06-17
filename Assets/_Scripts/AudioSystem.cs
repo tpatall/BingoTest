@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 ///     Basic audio system that persists through scene changes.
 /// </summary>
-public class AudioSystem : PersistentSingleton<AudioSystem>
+public class AudioSystem : Singleton<AudioSystem>
 {
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource soundSource;
