@@ -26,6 +26,8 @@ A UIManager is subscribed to the state changes to enable/disable state-respectiv
 
 The BingoManager manages the game logic and is also subscribed to the state changes, handling both the SetUp of the game as the GamePlay and the Pause functionality. This also sends the results through to the 'Results' window. This logic relies on the Stopwatch for spawning new called numbers.
 
+The called numbers will be spawned from, and put into, an object pool. This prevents an abundance of unused objects and also means after the first 4 objects there is no need to instantiate more.
+
 Depending on player choice, the BingoManager will make 1-3 BingoCard objects, which create new gameobjects for every cell of the bingo card. The specific cell information is contained within a separate BingoCell class, which keeps track of the state of the cell (if its marked or not, and following that, what color the cell should be).
 
 In the BingoCard-class there is also the bingo-checking logic, which, if a new cell has been marked, will loop through all available cells in an efficient manner, to check if a new bingo was found. This already also has a system for checking if a double- or triple-bingo was found, but these are currently only displayed in Debug.Log messages. If a new bingo was found, the number of bingos is subtracted from the total bingos remaining to be found. At 0 the game ends, and the results are shown.
