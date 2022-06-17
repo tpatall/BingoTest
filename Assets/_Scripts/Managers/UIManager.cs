@@ -44,7 +44,11 @@ public class UIManager : Singleton<UIManager>
         GameManager.Instance.UpdateGameState(GameState.Play);
     }
 
-    public void EndPressed() {
-        GameManager.Instance.UpdateGameState(GameState.End);
+    public void RestartPressed() {
+        Loader.Load(Scene.GameScene);
+    }
+
+    public void QuitPressed() {
+        Loader.Load(Scene.MainMenu);
     }
 }

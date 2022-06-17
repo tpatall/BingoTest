@@ -40,9 +40,6 @@ public class GameManager : Singleton<GameManager>
             case GameState.Results:
                 //HandleResults();
                 break;
-            case GameState.End:
-                HandleEnd();
-                break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newstate), newstate, null);
         }
@@ -59,10 +56,6 @@ public class GameManager : Singleton<GameManager>
     //private void HandlePause() { }
 
     //private void HandleResults() { }
-
-    private void HandleEnd() {
-        Loader.Load(Scene.MainMenu);
-    }
 }
 
 public enum GameState
@@ -71,6 +64,5 @@ public enum GameState
     SetUp,
     Play,
     Pause,
-    Results,
-    End
+    Results
 }
