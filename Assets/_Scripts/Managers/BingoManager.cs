@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System.Threading.Tasks;
 
 /// <summary>
 ///     Controls the logic during the gameplay from the Setup state until the End state.
@@ -89,21 +90,11 @@ public class BingoManager : Singleton<BingoManager>
     }
 
     private void GameManagerOnGameStateChanged(GameState state) {
-        if (state == GameState.SetUp) {
+        if (state == GameState.Play) {
             CreateCards();
 
-            // Give players a few seconds to look into their card(s).
-            StartCoroutine(AnalyzingPhase());
-
-            IEnumerator AnalyzingPhase() {
-                yield return new WaitForSeconds(nextSpawnTime);
-
-                GameManager.Instance.UpdateGameState(GameState.Play);
-            }
-        };
-
-        if (state == GameState.Play) {
             stopwatch.StartStopwatch();
+
             player.gameObject.SetActive(true);
             playing = true;
         };
@@ -149,7 +140,7 @@ public class BingoManager : Singleton<BingoManager>
     /// <summary>
     ///     Create the bingo card(s).
     /// </summary>
-    public void CreateCards() {
+    public async void CreateCards() {
         BingoCards = new BingoCard[TotalBingoCards];
 
         int horizontalCells = 5;
@@ -162,18 +153,30 @@ public class BingoManager : Singleton<BingoManager>
         float correctOriginPositionX = - (horizontalCells * cellSize / 2);
         float correctOriginPositionY = - (verticalCells * cellSize / 2) - 2.5f;
 
-        if (TotalBingoCards == 1) {
-            BingoCards[0] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(correctOriginPositionX, correctOriginPositionY), cellBackground);
+        var tasks = new Task[TotalBingoCards];
+        for (int i = 0; i < TotalBingoCards; i++) {
+            tasks[i] = CreateCard(i, horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector2(correctOriginPositionX, correctOriginPositionY), cellBackground);
         }
-        else if (TotalBingoCards == 2) {
-            BingoCards[0] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(2.5f, correctOriginPositionY), cellBackground);
-            BingoCards[1] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(-37.5f, correctOriginPositionY), cellBackground);
-        }
-        else {
-            BingoCards[0] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(22.5f, correctOriginPositionY), cellBackground);
-            BingoCards[1] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(correctOriginPositionX, correctOriginPositionY), cellBackground);
-            BingoCards[2] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(-57.5f, correctOriginPositionY), cellBackground);
-        }
+
+        //if (TotalBingoCards == 1) {
+        //    BingoCards[0] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(correctOriginPositionX, correctOriginPositionY), cellBackground);
+        //}
+        //else if (TotalBingoCards == 2) {
+        //    BingoCards[0] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(2.5f, correctOriginPositionY), cellBackground);
+        //    BingoCards[1] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(-37.5f, correctOriginPositionY), cellBackground);
+        //}
+        //else {
+        //    BingoCards[0] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(22.5f, correctOriginPositionY), cellBackground);
+        //    BingoCards[1] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(correctOriginPositionX, correctOriginPositionY), cellBackground);
+        //    BingoCards[2] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(-57.5f, correctOriginPositionY), cellBackground);
+        //}
+
+        await Task.WhenAll(tasks);
+    }
+
+    private async Task CreateCard(int index, int x, int y, float cellSize, Color color, int fontSize, Vector3 origin, Sprite sprite) {
+        BingoCards[index] = new BingoCard(x, y, cellSize, color, fontSize, new Vector3(origin.x + 20f * index, origin.y), sprite);
+        await Task.Yield();
     }
 
     /// <summary>

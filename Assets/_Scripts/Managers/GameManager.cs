@@ -28,9 +28,6 @@ public class GameManager : Singleton<GameManager>
             case GameState.Rules:
                 //HandleRules();
                 break;
-            case GameState.SetUp:
-                //HandleSetup();
-                break;
             case GameState.Play:
                 //HandlePlay();
                 break;
@@ -52,8 +49,6 @@ public class GameManager : Singleton<GameManager>
 
     //private void HandleRules() { }
 
-    //private void HandleSetup() { }
-
     //private void HandlePlay() { }
 
     //private void HandlePause() { }
@@ -68,7 +63,6 @@ public class GameManager : Singleton<GameManager>
 public enum GameState
 {
     Rules,
-    SetUp,
     Play,
     Pause,
     Results,

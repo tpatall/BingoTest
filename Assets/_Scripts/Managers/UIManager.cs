@@ -26,7 +26,7 @@ public class UIManager : Singleton<UIManager>
     }
 
     public void BeginPressed() {
-        GameManager.Instance.UpdateGameState(GameState.SetUp);
+        GameManager.Instance.UpdateGameState(GameState.Play);
     }
 
     public void PausePressed() {
