@@ -171,6 +171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 0.06
   rightMovementDirection: 1
+  timedStart: 1
   slowStart: 1
 --- !u!212 &20877492
 SpriteRenderer:
@@ -2389,6 +2390,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 0.07
   rightMovementDirection: 1
+  timedStart: 1
   slowStart: 1
 --- !u!212 &727894344
 SpriteRenderer:
@@ -3887,6 +3889,12 @@ MonoBehaviour:
   gamePanel: {fileID: 188452503}
   pausePanel: {fileID: 899681405}
   resultsPanel: {fileID: 419741555}
+  loopMovement:
+  - {fileID: 20877491}
+  - {fileID: 1753195137}
+  - {fileID: 727894343}
+  - {fileID: 1631370845}
+  - {fileID: 1696211995}
 --- !u!4 &950644971
 Transform:
   m_ObjectHideFlags: 0
@@ -6502,6 +6510,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 0.05
   rightMovementDirection: 0
+  timedStart: 1
   slowStart: 1
 --- !u!212 &1631370846
 SpriteRenderer:
@@ -6640,6 +6649,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 0.04
   rightMovementDirection: 1
+  timedStart: 1
   slowStart: 1
 --- !u!212 &1696211996
 SpriteRenderer:
@@ -6736,7 +6746,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09542441a477c7b4b909e61d1aa3ab2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSpawnTime: 5
   spawnInterval: 5
   cellBackground: {fileID: 21300000, guid: 54b5f1a57a77de14fb39991faf8fbaf2, type: 3}
   player: {fileID: 640801764}
@@ -6792,6 +6801,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 0.04
   rightMovementDirection: 0
+  timedStart: 1
   slowStart: 1
 --- !u!212 &1753195138
 SpriteRenderer:

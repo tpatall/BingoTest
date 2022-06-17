@@ -16,10 +16,21 @@ public class LoopMovement : MonoBehaviour
     public bool rightMovementDirection;
 
     /// <summary>
+    ///     If the loop animation should start from a delay or instantly.
+    /// </summary>
+    [Tooltip("If the animation should start when called, or instantly.")]
+    public bool timedStart = false;
+
+    /// <summary>
     ///     If the loop should start slowly.
     /// </summary>
     [Tooltip("If the movement loop should slowly start up.")]
-    public bool slowStart;
+    public bool slowStart = false;
+
+    /// <summary>
+    ///     If the animation is currently looping or not.
+    /// </summary>
+    private bool isActive = false;
     
     /// <summary>
     ///     Starting variables.
@@ -31,6 +42,12 @@ public class LoopMovement : MonoBehaviour
         startPosX = transform.position.x;
         lengthX = GetComponent<SpriteRenderer>().bounds.size.x;
 
+        if (!timedStart) isActive = true;
+    }
+
+    public void StartAnimation() {
+        isActive = true;
+
         if (slowStart) {
             StartCoroutine(SlowStartUp(movementSpeed));
             movementSpeed = 0f;
@@ -39,16 +56,18 @@ public class LoopMovement : MonoBehaviour
 
     // Update is called once per frame
     void FixedUpdate() {
-        float speed = rightMovementDirection ? movementSpeed : -movementSpeed;
+        if (isActive) {
+            float speed = rightMovementDirection ? movementSpeed : -movementSpeed;
 
-        // Move the background.
-        transform.position = new Vector3(transform.position.x + speed, transform.position.y);
+            // Move the background.
+            transform.position = new Vector3(transform.position.x + speed, transform.position.y);
         
-        // If the background moved too far beyond the screen, reset it.
-        if (transform.position.x > startPosX + lengthX) {
-            transform.position = new Vector3(startPosX - lengthX, transform.position.y);
-        } else if (transform.position.x < startPosX - lengthX) {
-            transform.position = new Vector3(startPosX + lengthX, transform.position.y);
+            // If the background moved too far beyond the screen, reset it.
+            if (transform.position.x > startPosX + lengthX) {
+                transform.position = new Vector3(startPosX - lengthX, transform.position.y);
+            } else if (transform.position.x < startPosX - lengthX) {
+                transform.position = new Vector3(startPosX + lengthX, transform.position.y);
+            }
         }
     }
 
@@ -56,10 +75,7 @@ public class LoopMovement : MonoBehaviour
     ///     Simulate a slow start-up by increasing the speed over time.
     /// </summary>
     /// <param name="maxSpeed">The maximum speed this coroutine is increasing towards.</param>
-    /// <returns></returns>
     IEnumerator SlowStartUp(float maxSpeed) {
-        yield return new WaitForSeconds(5f);
-
         // Gradually increase speed.
         for (float i = 0; i < maxSpeed; i += 0.01f) {
             movementSpeed = i;

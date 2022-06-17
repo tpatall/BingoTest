@@ -8,6 +8,9 @@ public class UIManager : Singleton<UIManager>
     [SerializeField]
     private GameObject rulesPanel, gamePanel, pausePanel, resultsPanel;
 
+    [SerializeField]
+    private LoopMovement[] loopMovement;
+
     protected override void Awake() {
         base.Awake();
 
@@ -27,6 +30,10 @@ public class UIManager : Singleton<UIManager>
 
     public void BeginPressed() {
         GameManager.Instance.UpdateGameState(GameState.SetUp);
+
+        for (int i = 0; i < loopMovement.Length; i++) {
+            loopMovement[i].StartAnimation();
+        }
     }
 
     public void PausePressed() {
