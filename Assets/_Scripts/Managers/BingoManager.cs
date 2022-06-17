@@ -12,12 +12,6 @@ public class BingoManager : Singleton<BingoManager>
 {
     #region variables
     /// <summary>
-    ///     Time before calling the first number.
-    /// </summary>
-    [Tooltip("Time before calling the first number.")]
-    public float nextSpawnTime = 5f;
-
-    /// <summary>
     ///     Time between calling a new number.
     /// </summary>
     [Tooltip("Time between calling a new number.")]
@@ -40,6 +34,11 @@ public class BingoManager : Singleton<BingoManager>
 
     [SerializeField]
     private EndScreen endScreen;
+
+    /// <summary>
+    ///     Time for calling the next number.
+    /// </summary>
+    private float nextSpawnTime = 0f;
 
     /// <summary>
     ///     Whether the game is currently playing. Or in GameState.Play.
@@ -158,27 +157,23 @@ public class BingoManager : Singleton<BingoManager>
 
         var tasks = new Task[TotalBingoCards];
         for (int i = 0; i < TotalBingoCards; i++) {
-            tasks[i] = CreateCard(i, horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector2(correctOriginPositionX, correctOriginPositionY), cellBackground);
-        }
+            Vector2 origin;
+            if (TotalBingoCards == 1) {
+                origin = new Vector2(correctOriginPositionX, correctOriginPositionY);
+            } else if (TotalBingoCards == 2) {
+                origin = new Vector2(correctOriginPositionX - 20f, correctOriginPositionY);
+            } else {
+                origin = new Vector2(correctOriginPositionX - 40f, correctOriginPositionY);
+            }
 
-        //if (TotalBingoCards == 1) {
-        //    BingoCards[0] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(correctOriginPositionX, correctOriginPositionY), cellBackground);
-        //}
-        //else if (TotalBingoCards == 2) {
-        //    BingoCards[0] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(2.5f, correctOriginPositionY), cellBackground);
-        //    BingoCards[1] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(-37.5f, correctOriginPositionY), cellBackground);
-        //}
-        //else {
-        //    BingoCards[0] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(22.5f, correctOriginPositionY), cellBackground);
-        //    BingoCards[1] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(correctOriginPositionX, correctOriginPositionY), cellBackground);
-        //    BingoCards[2] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(-57.5f, correctOriginPositionY), cellBackground);
-        //}
+            tasks[i] = CreateCard(i, horizontalCells, verticalCells, cellSize, textColor, fontSize, origin, cellBackground);
+        }
 
         await Task.WhenAll(tasks);
     }
 
     private async Task CreateCard(int index, int x, int y, float cellSize, Color color, int fontSize, Vector3 origin, Sprite sprite) {
-        BingoCards[index] = new BingoCard(x, y, cellSize, color, fontSize, new Vector3(origin.x + 20f * index, origin.y), sprite);
+        BingoCards[index] = new BingoCard(x, y, cellSize, color, fontSize, new Vector3(origin.x + 40f * index, origin.y), sprite);
         await Task.Yield();
     }
 
