@@ -90,9 +90,12 @@ public class BingoManager : Singleton<BingoManager>
     }
 
     private void GameManagerOnGameStateChanged(GameState state) {
-        if (state == GameState.Play) {
+        if (state == GameState.SetUp) {
             CreateCards();
 
+            GameManager.Instance.UpdateGameState(GameState.Play);
+        }
+        if (state == GameState.Play) {
             stopwatch.StartStopwatch();
 
             player.gameObject.SetActive(true);
