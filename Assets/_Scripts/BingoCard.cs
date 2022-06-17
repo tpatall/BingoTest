@@ -80,7 +80,8 @@ public class BingoCard
         // There are only 2 possible diagonal bingos.
         diagBingos = new bool[2];
 
-        GameObject card = new GameObject("Card");
+        // Parent to put all bingo card objects under in hierarchy.
+        Transform parent = BingoManager.Instance.gameObject.transform;
 
         // Available numbers for the bingo card.
         var BValues = Enumerable.Range(1, 15).ToList();
@@ -114,7 +115,7 @@ public class BingoCard
                     free = true;
                 }
 
-                GameObject gameObject = CreateWorldCell(card.transform, new Vector3(x, y), value);
+                GameObject gameObject = CreateWorldCell(parent, new Vector3(x, y), value);
                 TextMesh textMesh = gameObject.GetComponent<TextMesh>();
                 SpriteRenderer spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
 
@@ -122,6 +123,10 @@ public class BingoCard
                 BingoCell bingoCell = new BingoCell(this, x, y, value, textMesh, spriteRenderer, free);
                 cells[x, y] = bingoCell;
             }
+
+            string letter;
+            Color letterColor = GetColor(x, out letter);
+            CreateWorldCell(parent, new Vector3(x, height), letter, letterColor);
         }
     }
 
@@ -155,12 +160,41 @@ public class BingoCard
     }
 
     /// <summary>
+    ///     Get the color and color code (respective BINGO-letter) from the number.
+    /// </summary>
+    /// <param name="x">Given row.</param>
+    /// <param name="letter">Letter belonging to row.</param>
+    /// <returns>Color belonging to number.</returns>
+    private Color GetColor(int x, out string letter) {
+        if (x == 0) {
+            letter = "B";
+            return Color.red;
+        }
+        else if (x == 1) {
+            letter = "I";
+            return Color.yellow;
+        }
+        else if (x == 2) {
+            letter = "N";
+            return Color.magenta;
+        }
+        else if (x == 3) {
+            letter = "G";
+            return Color.green;
+        }
+        else {
+            letter = "O";
+            return Color.blue;
+        }
+    }
+
+    /// <summary>
     ///     Create a BingoCell GameObject to place the text in the world space.
     /// </summary>
     /// <param name="parent">Parent gameObject in hierarchy for order.</param>
     /// <param name="gridCoordinates">World position of this cell.</param>
     /// <param name="value">Cell value.</param>
-    /// <returns>The TextMesh of this cell.</returns>
+    /// <returns>The GameObject of this cell.</returns>
     private GameObject CreateWorldCell(Transform parent, Vector3 gridCoordinates, int value) {
         GameObject gameObject = new GameObject("CellTextMesh", typeof(TextMesh));
         GameObject gameObjectChild = new GameObject("CellBackground", typeof(SpriteRenderer));
@@ -180,11 +214,40 @@ public class BingoCard
         textMesh.fontSize = fontSize;
         textMesh.color = color;
 
-        SpriteRenderer spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+        SpriteRenderer spriteRenderer = gameObjectChild.GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = cellBackground;
         spriteRenderer.color = new Color(200f / 255f, 200f / 255f, 200f / 255f, 1f); // Light-gray.
 
         return gameObject;
+    }
+
+    /// <summary>
+    ///     Create a TextMesh GameObject to place the title text in the world space.
+    /// </summary>
+    /// <param name="parent">Parent gameObject in hierarchy for order.</param>
+    /// <param name="gridCoordinates">World position of this cell.</param>
+    private void CreateWorldCell(Transform parent, Vector3 gridCoordinates, string letter, Color letterColor) {
+        GameObject gameObject = new GameObject("CellTextMesh", typeof(TextMesh));
+        //GameObject gameObjectChild = new GameObject("CellBackground", typeof(SpriteRenderer));
+
+        Vector3 centralizeOffset = new Vector3(cellSize, cellSize) * 0.5f;
+        Vector3 localPosition = gridCoordinates * cellSize + originPosition + centralizeOffset;
+
+        Transform transform = gameObject.transform;
+        transform.SetParent(parent, false);
+        transform.localPosition = localPosition;
+        //gameObjectChild.transform.SetParent(transform, false);
+        //gameObjectChild.transform.localScale = new Vector3(cellSize, cellSize);
+
+        TextMesh textMesh = gameObject.GetComponent<TextMesh>();
+        textMesh.anchor = TextAnchor.MiddleCenter;
+        textMesh.fontSize = fontSize;
+        textMesh.text = letter.ToString();
+        textMesh.color = letterColor;
+
+        //SpriteRenderer spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+        //spriteRenderer.sprite = cellBackground;
+        //spriteRenderer.color = new Color(200f / 255f, 200f / 255f, 200f / 255f, 1f); // Light-gray.
     }
     #endregion
 

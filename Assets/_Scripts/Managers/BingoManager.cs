@@ -115,6 +115,8 @@ public class BingoManager : Singleton<BingoManager>
             player.gameObject.SetActive(false);
             ballPool.gameObject.SetActive(false);
 
+            gameObject.SetActive(false);
+
             endScreen.CollectResults(TotalBingoCards, TotalBingos, stopwatch.CurrentTime);
         }
     }
@@ -152,7 +154,7 @@ public class BingoManager : Singleton<BingoManager>
 
         // With 5x5 with size 7f, these result in -17.5
         float correctOriginPositionX = - (horizontalCells * cellSize / 2);
-        float correctOriginPositionY = - (verticalCells * cellSize / 2);
+        float correctOriginPositionY = - (verticalCells * cellSize / 2) - 2.5f;
 
         if (TotalBingoCards == 1) {
             BingoCards[0] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(correctOriginPositionX, correctOriginPositionY), cellBackground);
@@ -241,9 +243,10 @@ public class BingoManager : Singleton<BingoManager>
             colorCode = 'G';
             return Color.green;
         }
-        else
+        else {
             colorCode = 'O';
             return Color.blue;
+        }
     }
 
     /// <summary>
