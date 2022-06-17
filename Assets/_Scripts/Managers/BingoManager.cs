@@ -94,6 +94,12 @@ public class BingoManager : Singleton<BingoManager>
 
             // Give players a few seconds to look into their card(s).
             StartCoroutine(AnalyzingPhase());
+
+            IEnumerator AnalyzingPhase() {
+                yield return new WaitForSeconds(nextSpawnTime);
+
+                GameManager.Instance.UpdateGameState(GameState.Play);
+            }
         };
 
         if (state == GameState.Play) {
@@ -168,16 +174,6 @@ public class BingoManager : Singleton<BingoManager>
             BingoCards[1] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(correctOriginPositionX, correctOriginPositionY), cellBackground);
             BingoCards[2] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(-57.5f, correctOriginPositionY), cellBackground);
         }
-    }
-
-    /// <summary>
-    ///     Give the player some time to look into their bingo card.
-    /// </summary>
-    /// <returns></returns>
-    IEnumerator AnalyzingPhase() {
-        yield return new WaitForSeconds(nextSpawnTime);
-
-        GameManager.Instance.UpdateGameState(GameState.Play);
     }
 
     /// <summary>
