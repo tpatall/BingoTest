@@ -7592,6 +7592,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec5e7a361261874282ea79ce9257560, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startTime: -8
   currentTimeText: {fileID: 1921289266}
 --- !u!4 &2025078122
 Transform:
