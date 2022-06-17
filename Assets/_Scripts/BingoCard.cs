@@ -222,13 +222,12 @@ public class BingoCard
     }
 
     /// <summary>
-    ///     Create a TextMesh GameObject to place the title text in the world space.
+    ///     Create a TextMesh GameObject to place the title letters in the world space.
     /// </summary>
     /// <param name="parent">Parent gameObject in hierarchy for order.</param>
     /// <param name="gridCoordinates">World position of this cell.</param>
     private void CreateWorldCell(Transform parent, Vector3 gridCoordinates, string letter, Color letterColor) {
         GameObject gameObject = new GameObject("CellTextMesh", typeof(TextMesh));
-        //GameObject gameObjectChild = new GameObject("CellBackground", typeof(SpriteRenderer));
 
         Vector3 centralizeOffset = new Vector3(cellSize, cellSize) * 0.5f;
         Vector3 localPosition = gridCoordinates * cellSize + originPosition + centralizeOffset;
@@ -236,18 +235,12 @@ public class BingoCard
         Transform transform = gameObject.transform;
         transform.SetParent(parent, false);
         transform.localPosition = localPosition;
-        //gameObjectChild.transform.SetParent(transform, false);
-        //gameObjectChild.transform.localScale = new Vector3(cellSize, cellSize);
 
         TextMesh textMesh = gameObject.GetComponent<TextMesh>();
         textMesh.anchor = TextAnchor.MiddleCenter;
         textMesh.fontSize = fontSize;
         textMesh.text = letter.ToString();
         textMesh.color = letterColor;
-
-        //SpriteRenderer spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
-        //spriteRenderer.sprite = cellBackground;
-        //spriteRenderer.color = new Color(200f / 255f, 200f / 255f, 200f / 255f, 1f); // Light-gray.
     }
     #endregion
 
