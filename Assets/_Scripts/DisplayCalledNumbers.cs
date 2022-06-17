@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Text;
 
 public class DisplayCalledNumbers : MonoBehaviour
 {
@@ -9,21 +10,23 @@ public class DisplayCalledNumbers : MonoBehaviour
     private TextMeshProUGUI text;
 
     /// <summary>
-    ///     Convert the called numbers to a text and display it.
+    ///     Convert the called numbers list to a text and display it.
     /// </summary>
     public void GetCalledNumbers() {
         List<int> list = BingoManager.Instance.CalledNumbers;
+
         if (list.Count > 0) {
-            string numberString = "";
+            StringBuilder builder = new StringBuilder();
             for (int i = 0; i < list.Count; i++) {
                 if (i < list.Count - 1) {
-                    numberString += list[i] + " | ";
-                } else {
-                    numberString += list[i];
+                    builder.Append(list[i] + " | ");
                 }
-            }
+                else {
+                    builder.Append(list[i]);
+                }
 
-            text.text = numberString;
+                text.text = builder.ToString();
+            }
         } else {
             text.text = "No numbers were called yet.";
         }
