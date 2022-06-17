@@ -171,6 +171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 0.04
   rightMovementDirection: 1
+  timedStart: 0
   slowStart: 0
 --- !u!212 &86081074
 SpriteRenderer:
@@ -710,6 +711,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 0.03
   rightMovementDirection: 0
+  timedStart: 0
   slowStart: 0
 --- !u!1 &470591797
 GameObject:
@@ -811,6 +813,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 0.02
   rightMovementDirection: 0
+  timedStart: 0
   slowStart: 0
 --- !u!1 &683395810
 GameObject:
@@ -1524,6 +1527,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 0.02
   rightMovementDirection: 1
+  timedStart: 0
   slowStart: 0
 --- !u!1 &1372268291
 GameObject:
@@ -1708,6 +1712,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 0.05
   rightMovementDirection: 1
+  timedStart: 0
   slowStart: 0
 --- !u!1 &1846831221
 GameObject:
