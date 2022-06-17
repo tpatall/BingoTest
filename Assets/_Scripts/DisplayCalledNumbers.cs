@@ -24,9 +24,9 @@ public class DisplayCalledNumbers : MonoBehaviour
                 else {
                     builder.Append(list[i]);
                 }
-
-                text.text = builder.ToString();
             }
+
+            text.text = builder.ToString();
         } else {
             text.text = "No numbers were called yet.";
         }
