@@ -21,7 +21,7 @@ public class BingoCard
     private int height;
 
     /// <summary>
-    ///     Size of the cell.
+    ///     Size of a cell.
     /// </summary>
     private float cellSize;
 
@@ -36,12 +36,12 @@ public class BingoCard
     private int fontSize;
 
     /// <summary>
-    ///     Origin position of the cell.
+    ///     Origin position of the grid.
     /// </summary>
     private Vector3 originPosition;
 
     /// <summary>
-    ///     Background image of the cell.
+    ///     Background image of a cell.
     /// </summary>
     private Sprite cellBackground;
 
@@ -61,8 +61,6 @@ public class BingoCard
     private bool[] diagBingos;
     #endregion
 
-    private static readonly System.Random random = new System.Random();
-
     public BingoCard(int width, int height, float cellSize, Color color, int fontSize, Vector3 originPosition, Sprite cellBackground) {
         this.width = width;
         this.height = height;
@@ -79,7 +77,12 @@ public class BingoCard
         colBingos = new bool[width];
         // There are only 2 possible diagonal bingos.
         diagBingos = new bool[2];
+    }
 
+    /// <summary>
+    ///     Create and populate grid with BingoCell's.
+    /// </summary>
+    public void Setup() {
         // Parent to put all bingo card objects under in hierarchy.
         Transform parent = BingoManager.Instance.gameObject.transform;
 
@@ -94,19 +97,19 @@ public class BingoCard
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 if (x == 0) {
-                    value = GetRandomItemAndRemoveIt(BValues);
+                    value = BingoUtils.GetRandomItemAndRemoveIt(BValues);
                 }
                 else if (x == 1) {
-                    value = GetRandomItemAndRemoveIt(IValues);
+                    value = BingoUtils.GetRandomItemAndRemoveIt(IValues);
                 }
                 else if (x == 2) {
-                    value = GetRandomItemAndRemoveIt(NValues);
+                    value = BingoUtils.GetRandomItemAndRemoveIt(NValues);
                 }
                 else if (x == 3) {
-                    value = GetRandomItemAndRemoveIt(GValues);
+                    value = BingoUtils.GetRandomItemAndRemoveIt(GValues);
                 }
                 else {
-                    value = GetRandomItemAndRemoveIt(OValues);
+                    value = BingoUtils.GetRandomItemAndRemoveIt(OValues);
                 }
 
                 // The center cell is always free.
@@ -125,7 +128,7 @@ public class BingoCard
             }
 
             string letter;
-            Color letterColor = GetColor(x, out letter);
+            Color letterColor = BingoUtils.GetBingoColor((x + 1) * 15, out letter);
             CreateWorldCell(parent, new Vector3(x, height), letter, letterColor);
         }
     }
@@ -148,46 +151,6 @@ public class BingoCard
     }
 
     #region initialization
-    /// <summary>
-    ///     Get a random item from a list and then remove it, to prevent duplicate numbers.
-    /// </summary>
-    /// <param name="items"></param>
-    /// <returns>The value to be displayed in the TextMesh.</returns>
-    private int GetRandomItemAndRemoveIt(IList<int> items) {
-        int randomItem = items[random.Next(items.Count)];
-        items.Remove(randomItem);
-        return randomItem;
-    }
-
-    /// <summary>
-    ///     Get the color and color code (respective BINGO-letter) from the number.
-    /// </summary>
-    /// <param name="x">Given row.</param>
-    /// <param name="letter">Letter belonging to row.</param>
-    /// <returns>Color belonging to number.</returns>
-    private Color GetColor(int x, out string letter) {
-        if (x == 0) {
-            letter = "B";
-            return Color.red;
-        }
-        else if (x == 1) {
-            letter = "I";
-            return Color.yellow;
-        }
-        else if (x == 2) {
-            letter = "N";
-            return Color.magenta;
-        }
-        else if (x == 3) {
-            letter = "G";
-            return Color.green;
-        }
-        else {
-            letter = "O";
-            return Color.blue;
-        }
-    }
-
     /// <summary>
     ///     Create a BingoCell GameObject to place the text in the world space.
     /// </summary>
