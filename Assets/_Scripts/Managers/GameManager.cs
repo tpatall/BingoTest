@@ -13,9 +13,11 @@ public class GameManager : Singleton<GameManager>
     /// <summary>
     ///     Time between calling a new number.
     /// </summary>
-    [Tooltip("Time between calling a new number.")]
+    [Tooltip("Time between calling a new number. Choose a number from 0.1s to 10s.")]
+    [Range(0.1f, 10f)]
     public float spawnInterval = 5f;
 
+    [SerializeField] private GameObject cardsObject;
     [SerializeField] private Sprite cellBackground;
     [SerializeField] private Player player;
     [SerializeField] private Stopwatch stopwatch;
@@ -114,7 +116,8 @@ public class GameManager : Singleton<GameManager>
 
     private void HandleSetUp() {
         BingoCards = new BingoCard[TotalBingoCards];
-        CreateCards();
+        GameObject[] bingoCardObjects = new GameObject[TotalBingoCards];
+        CreateCards(bingoCardObjects);
 
         StartCoroutine(WaitJustOneMoment());
 
@@ -128,7 +131,7 @@ public class GameManager : Singleton<GameManager>
     /// <summary>
     ///     Create the bingo card(s).
     /// </summary>
-    private void CreateCards() {
+    private void CreateCards(GameObject[] bingoCardObjects) {
         int horizontalCells = 5;
         int verticalCells = 5;
         Color textColor = Color.black;
@@ -151,8 +154,12 @@ public class GameManager : Singleton<GameManager>
                 origin = new Vector2(correctOriginPositionX - 40f, correctOriginPositionY);
             }
 
+            // Create a card object to collect the relevant cells under, for hierarchy cleanliness.
+            bingoCardObjects[i] = new GameObject("Card");
+            bingoCardObjects[i].transform.SetParent(cardsObject.transform);
+
             BingoCards[i] = new BingoCard(horizontalCells, verticalCells, cellSize, new Vector3(origin.x + 40f * i, origin.y));
-            BingoCards[i].Setup(gameObject, textColor, fontSize, cellBackground);
+            BingoCards[i].Setup(bingoCardObjects[i].transform, textColor, fontSize, cellBackground);
         }
     }
 
@@ -212,7 +219,7 @@ public class GameManager : Singleton<GameManager>
         player.gameObject.SetActive(false);
         ballSpawner.gameObject.SetActive(false);
 
-        // TODO: Disable BingoCard gameObjects for a clean Results screen
+        cardsObject.SetActive(false);
 
         endScreen.CollectResults(TotalBingoCards, TotalBingos, stopwatch.CurrentTime);
     }

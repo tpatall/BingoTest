@@ -43,10 +43,7 @@ public class BingoCard
     /// <summary>
     ///     Create and populate grid with BingoCell's.
     /// </summary>
-    public void Setup(GameObject parentObject, Color color, int fontSize, Sprite cellBackground) {
-        // Parent to put all bingo card objects under in hierarchy.
-        Transform parent = parentObject.transform;
-
+    public void Setup(Transform parentTransform, Color color, int fontSize, Sprite cellBackground) {
         // Available numbers for the bingo card.
         var BValues = Enumerable.Range(1, 15).ToList();
         var IValues = Enumerable.Range(16, 15).ToList();
@@ -82,7 +79,7 @@ public class BingoCard
                     free = true;
                 }
 
-                GameObject newObject = CreateWorldCell(parent, new Vector3(x, y), value, fontSize, color, cellBackground);
+                GameObject newObject = CreateWorldCell(parentTransform, new Vector3(x, y), value, fontSize, color, cellBackground);
                 TextMesh textMesh = newObject.GetComponent<TextMesh>();
                 SpriteRenderer spriteRenderer = newObject.GetComponentInChildren<SpriteRenderer>();
 
@@ -94,7 +91,7 @@ public class BingoCard
 
             string letter;
             Color letterColor = BingoUtils.GetBingoColor((x + 1) * 15, out letter);
-            CreateWorldCell(parent, new Vector3(x, height), letter, fontSize, letterColor);
+            CreateWorldCell(parentTransform, new Vector3(x, height), letter, fontSize, letterColor);
         }
     }
 
