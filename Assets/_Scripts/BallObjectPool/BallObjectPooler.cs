@@ -4,17 +4,19 @@ using UnityEngine;
 /// <summary>
 ///     This class maintains the object pool of balls (the called bingo numbers).
 /// </summary>
-public class BallObjectPooler : MonoBehaviour
+public class BallObjectPooler : Singleton<BallObjectPooler>
 {
     /// <summary>
     ///     Size of the shown pool of balls.
     /// </summary>
+    [SerializeField]
     [Tooltip("How much balls can maximally be shown in the pool.")]
-    public int poolSize;
+    private int poolSize;
 
     /// <summary>
     ///     Prefab of a ball.
     /// </summary>
+    [SerializeField]
     [Tooltip("The ball prefab which will be instantiated.")]
     public GameObject ballPrefab;
 
@@ -24,11 +26,6 @@ public class BallObjectPooler : MonoBehaviour
     private GameObject[] poolPosition;
 
     /// <summary>
-    ///     Singleton instance of the pooler.
-    /// </summary>
-    public static BallObjectPooler Instance;
-
-    /// <summary>
     ///     Queue that manages the enabling/disabling of objects in the pool.
     /// </summary>
     public Queue<GameObject> Objects { get; private set; }
@@ -36,9 +33,7 @@ public class BallObjectPooler : MonoBehaviour
     /// <summary>
     ///     Assign the instance and pool.
     /// </summary>
-    private void Awake() {
-        Instance = this;
-
+    private void Start() {
         Objects = new Queue<GameObject>();
         poolPosition = new GameObject[poolSize];
     }

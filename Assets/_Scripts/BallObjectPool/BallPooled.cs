@@ -8,16 +8,6 @@ using System.Collections.Generic;
 public class BallPooled : MonoBehaviour, IBallPooled
 {
     /// <summary>
-    ///     Number on the ball.
-    /// </summary>
-    public int number;
-
-    /// <summary>
-    ///     Color of the ball.
-    /// </summary>
-    public Color color;
-
-    /// <summary>
     ///     Bingo ball sprites to choose from.
     /// </summary>
     [SerializeField]
@@ -30,9 +20,9 @@ public class BallPooled : MonoBehaviour, IBallPooled
     private SpriteRenderer spriteRenderer;
 
     /// <summary>
-    ///     Text object that displays the number and color.
+    ///     Number on the ball.
     /// </summary>
-    private TextMeshPro textMeshPro;
+    private int number;
 
     /// <summary>
     ///     Starting position to reference when moving.
@@ -60,10 +50,11 @@ public class BallPooled : MonoBehaviour, IBallPooled
     }
 
     /// <summary>
-    ///     Initialize the text mesh component.
+    ///     Setup the ball.
     /// </summary>
-    private void Awake() {
-        textMeshPro = GetComponent<TextMeshPro>();
+    /// <param name="number">Number to be shown on the ball.</param>
+    public void Setup(int number) {
+        this.number = number;
     }
 
     /// <summary>
@@ -73,7 +64,7 @@ public class BallPooled : MonoBehaviour, IBallPooled
         startPos = transform.position;
 
         spriteRenderer.sprite = GetSprite();
-        textMeshPro.text = number.ToString();
+        GetComponent<TextMeshPro>().text = number.ToString();
     }
 
     /// <summary>

@@ -42,8 +42,7 @@ public class BallSpawner : MonoBehaviour
 
         // Set the value of the ball.
         BallPooled ballPooled = ballObject.gameObject.GetComponent<BallPooled>();
-        ballPooled.number = value;
-        ballPooled.color = color;
+        ballPooled.Setup(value);
 
         AudioSystem.Instance.PlaySound(soundEffect, soundEffectVolume);
 
