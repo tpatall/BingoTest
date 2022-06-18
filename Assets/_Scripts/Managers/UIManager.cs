@@ -1,15 +1,12 @@
 using UnityEngine;
 
 /// <summary>
-///     Controls UI-related functionality that affects game-states.
+///     Controls UI-related functionality that affects or is affected by game-states.
 /// </summary>
 public class UIManager : Singleton<UIManager>
 {
     [SerializeField]
-    private GameObject rulesPanel, gamePanel, pausePanel, resultsPanel;
-
-    [SerializeField]
-    private LoopMovement[] loopMovement;
+    private GameObject rulesPanel, gamePanel, pausePanel, resultsPanel, background;
 
     protected override void Awake() {
         base.Awake();
@@ -31,8 +28,9 @@ public class UIManager : Singleton<UIManager>
     public void BeginPressed() {
         GameManager.Instance.UpdateGameState(GameState.SetUp);
 
-        for (int i = 0; i < loopMovement.Length; i++) {
-            loopMovement[i].StartAnimation();
+        LoopMovement[] rows = background.GetComponentsInChildren<LoopMovement>();
+        for (int i = 0; i < rows.Length; i++) {
+            rows[i].StartAnimation();
         }
     }
 
