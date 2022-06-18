@@ -38,7 +38,7 @@ public class BingoCell
     /// </summary>
     public bool Marked { get; private set; }
 
-    public BingoCell(BingoCard bingoCard, int x, int y, int value, TextMesh textMesh, SpriteRenderer spriteRenderer, bool free) {
+    public BingoCell(BingoCard bingoCard, int x, int y, int value, TextMesh textMesh, SpriteRenderer spriteRenderer) {
         this.textMesh = textMesh;
         this.spriteRenderer = spriteRenderer;
         
@@ -46,12 +46,19 @@ public class BingoCell
         X = x;
         Y = y;
         Value = value;
+    }
 
+    /// <summary>
+    ///     Setup colors based on status.
+    /// </summary>
+    /// <param name="free">If this is the free center cell.</param>
+    public void Setup(bool free) {
         if (free) {
             Marked = true;
             textMesh.color = Color.green;
             spriteRenderer.color = Color.green;
-        } else {
+        }
+        else {
             Marked = false;
         }
     }

@@ -54,6 +54,9 @@ public class BingoCard
         var GValues = Enumerable.Range(46, 15).ToList();
         var OValues = Enumerable.Range(61, 15).ToList();
 
+        int freeX = (int)Mathf.Floor(width / 2);
+        int freeY = (int)Mathf.Floor(height / 2);
+
         int value;
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -75,7 +78,7 @@ public class BingoCard
 
                 // The center cell is always free.
                 bool free = false;
-                if (x == 2 && y == 2) {
+                if (x == freeX && y == freeY) {
                     free = true;
                 }
 
@@ -84,7 +87,8 @@ public class BingoCard
                 SpriteRenderer spriteRenderer = newObject.GetComponentInChildren<SpriteRenderer>();
 
                 // Create cell with a reference to this card, in case of multiple cards.
-                BingoCell bingoCell = new BingoCell(this, x, y, value, textMesh, spriteRenderer, free);
+                BingoCell bingoCell = new BingoCell(this, x, y, value, textMesh, spriteRenderer);
+                bingoCell.Setup(free);
                 Cells[x, y] = bingoCell;
             }
 
