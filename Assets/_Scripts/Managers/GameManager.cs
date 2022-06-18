@@ -71,7 +71,6 @@ public class GameManager : Singleton<GameManager>
 
     /// <summary>
     ///     Updates the game state to newstate.
-    ///     Does not use any logic currently, so merge with BingoManager?
     /// </summary>
     /// <param name="newstate">Next state.</param>
     public void UpdateGameState(GameState newstate) {
