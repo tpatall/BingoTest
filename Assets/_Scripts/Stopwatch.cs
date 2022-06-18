@@ -8,6 +8,7 @@ public class Stopwatch : MonoBehaviour
     ///     Start time in seconds.
     /// </summary>
     [SerializeField]
+    [Tooltip("Start time in seconds. Put a negative number for an additional countdown.")]
     private float startTime;
 
     /// <summary>
