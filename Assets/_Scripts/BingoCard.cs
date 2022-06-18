@@ -21,39 +21,21 @@ public class BingoCard
     private float cellSize;
 
     /// <summary>
-    ///     Color of the cell text.
-    /// </summary>
-    private Color color;
-
-    /// <summary>
-    ///     Size of the font of the cell text.
-    /// </summary>
-    private int fontSize;
-
-    /// <summary>
     ///     Origin position of the grid.
     /// </summary>
     private Vector3 originPosition;
 
     /// <summary>
-    ///     Background image of a cell.
-    /// </summary>
-    private Sprite cellBackground;
-
-    /// <summary>
-    ///     Store references to BingoCell objects.
+    ///     Grid array of BingoCell objects.
     /// </summary>
     public BingoCell[,] Cells { get; private set; }
     #endregion
 
-    public BingoCard(int width, int height, float cellSize, Color color, int fontSize, Vector3 originPosition, Sprite cellBackground) {
+    public BingoCard(int width, int height, float cellSize, Vector3 originPosition) {
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
-        this.color = color;
-        this.fontSize = fontSize;
         this.originPosition = originPosition;
-        this.cellBackground = cellBackground;
 
         Cells = new BingoCell[width, height];
     }
@@ -61,7 +43,7 @@ public class BingoCard
     /// <summary>
     ///     Create and populate grid with BingoCell's.
     /// </summary>
-    public void Setup(GameObject parentObject) {
+    public void Setup(GameObject parentObject, Color color, int fontSize, Sprite cellBackground) {
         // Parent to put all bingo card objects under in hierarchy.
         Transform parent = parentObject.transform;
 
@@ -97,7 +79,7 @@ public class BingoCard
                     free = true;
                 }
 
-                GameObject newObject = CreateWorldCell(parent, new Vector3(x, y), value);
+                GameObject newObject = CreateWorldCell(parent, new Vector3(x, y), value, fontSize, color, cellBackground);
                 TextMesh textMesh = newObject.GetComponent<TextMesh>();
                 SpriteRenderer spriteRenderer = newObject.GetComponentInChildren<SpriteRenderer>();
 
@@ -108,7 +90,7 @@ public class BingoCard
 
             string letter;
             Color letterColor = BingoUtils.GetBingoColor((x + 1) * 15, out letter);
-            CreateWorldCell(parent, new Vector3(x, height), letter, letterColor);
+            CreateWorldCell(parent, new Vector3(x, height), letter, fontSize, letterColor);
         }
     }
 
@@ -137,7 +119,7 @@ public class BingoCard
     /// <param name="gridCoordinates">World position of this cell.</param>
     /// <param name="value">Cell value.</param>
     /// <returns>The GameObject of this cell.</returns>
-    private GameObject CreateWorldCell(Transform parent, Vector3 gridCoordinates, int value) {
+    private GameObject CreateWorldCell(Transform parent, Vector3 gridCoordinates, int value, int fontSize, Color color, Sprite cellBackground) {
         GameObject gameObject = new GameObject("CellTextMesh", typeof(TextMesh));
         GameObject gameObjectChild = new GameObject("CellBackground", typeof(SpriteRenderer));
 
@@ -151,8 +133,8 @@ public class BingoCard
         gameObjectChild.transform.localScale = new Vector3(cellSize, cellSize);
 
         TextMesh textMesh = gameObject.GetComponent<TextMesh>();
-        textMesh.text = value.ToString();
         textMesh.anchor = TextAnchor.MiddleCenter;
+        textMesh.text = value.ToString();
         textMesh.fontSize = fontSize;
         textMesh.color = color;
 
@@ -168,7 +150,7 @@ public class BingoCard
     /// </summary>
     /// <param name="parent">Parent gameObject in hierarchy for order.</param>
     /// <param name="gridCoordinates">World position of this cell.</param>
-    private void CreateWorldCell(Transform parent, Vector3 gridCoordinates, string letter, Color letterColor) {
+    private void CreateWorldCell(Transform parent, Vector3 gridCoordinates, string letter, int fontSize, Color letterColor) {
         GameObject gameObject = new GameObject("CellTextMesh", typeof(TextMesh));
 
         Vector3 centralizeOffset = new Vector3(cellSize, cellSize) * 0.5f;
@@ -180,8 +162,8 @@ public class BingoCard
 
         TextMesh textMesh = gameObject.GetComponent<TextMesh>();
         textMesh.anchor = TextAnchor.MiddleCenter;
-        textMesh.fontSize = fontSize;
         textMesh.text = letter.ToString();
+        textMesh.fontSize = fontSize;
         textMesh.color = letterColor;
     }
     #endregion

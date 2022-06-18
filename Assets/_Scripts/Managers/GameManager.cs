@@ -111,8 +111,6 @@ public class GameManager : Singleton<GameManager>
         TotalBingoCards = inputCards;
         TotalBingos = inputBingos;
         bingosLeft = TotalBingos;
-
-        Debug.Log("first");
     }
 
     private void HandleSetUp() {
@@ -154,8 +152,8 @@ public class GameManager : Singleton<GameManager>
                 origin = new Vector2(correctOriginPositionX - 40f, correctOriginPositionY);
             }
 
-            BingoCards[i] = new BingoCard(horizontalCells, verticalCells, cellSize, textColor, fontSize, new Vector3(origin.x + 40f * i, origin.y), cellBackground);
-            BingoCards[i].Setup(gameObject);
+            BingoCards[i] = new BingoCard(horizontalCells, verticalCells, cellSize, new Vector3(origin.x + 40f * i, origin.y));
+            BingoCards[i].Setup(gameObject, textColor, fontSize, cellBackground);
         }
     }
 
@@ -215,7 +213,7 @@ public class GameManager : Singleton<GameManager>
         player.gameObject.SetActive(false);
         ballSpawner.gameObject.SetActive(false);
 
-        gameObject.SetActive(false);
+        // TODO: Disable BingoCard gameObjects for a clean Results screen
 
         endScreen.CollectResults(TotalBingoCards, TotalBingos, stopwatch.CurrentTime);
     }
