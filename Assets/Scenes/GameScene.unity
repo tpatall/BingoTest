@@ -3900,12 +3900,7 @@ MonoBehaviour:
   gamePanel: {fileID: 188452503}
   pausePanel: {fileID: 899681405}
   resultsPanel: {fileID: 419741555}
-  loopMovement:
-  - {fileID: 20877491}
-  - {fileID: 1753195137}
-  - {fileID: 727894343}
-  - {fileID: 1631370845}
-  - {fileID: 1696211995}
+  background: {fileID: 1930453750}
 --- !u!4 &950644971
 Transform:
   m_ObjectHideFlags: 0
