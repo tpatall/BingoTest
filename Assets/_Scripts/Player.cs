@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private AudioClip markedCell;
+    [SerializeField] private AudioClip foundBingo;
+    [SerializeField] private AudioClip gameOver;
+
     /// <summary>
     ///     Number of bingos found after a click by the player.
     /// </summary>
@@ -33,11 +37,35 @@ public class Player : MonoBehaviour
                         // If it does, check the card if a new bingo is found.
                         BingoCard bingoCard = bingoCell.BingoCard;
                         bingosFound = CheckForBingo(bingoCard.Cells, bingoCell.X, bingoCell.Y, bingoCard.Cells.GetLength(0), bingoCard.Cells.GetLength(1));
+
+                        PlaySound(gameManager.BingosLeft, bingosFound);
                     }
                     break;
                 }
             }
             gameManager.SubtractFoundBingos(bingosFound);
+        }
+    }
+
+    /// <summary>
+    ///     Play appropriate sound effect. This also prevents overlapping sounds.
+    /// </summary>
+    /// <param name="bingosLeft">Bingos left to be found.</param>
+    /// <param name="bingosFound">Bingos found.</param>
+    private void PlaySound(int bingosLeft, int bingosFound) {
+        AudioSystem audioSystem = AudioSystem.Instance;
+        // Dont overlap sounds.
+        if (bingosFound > 0) {
+            // If game-over.
+            if (bingosLeft - bingosFound <= 0) {
+                audioSystem.PlaySound(gameOver, 0.5f);
+            }
+            else {
+                audioSystem.PlaySound(foundBingo, 0.3f);
+            }
+        }
+        else {
+            audioSystem.PlaySound(markedCell, 0.1f);
         }
     }
 

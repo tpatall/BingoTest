@@ -30,7 +30,7 @@ public class GameManager : Singleton<GameManager>
     /// <summary>
     ///     Total bingos left to be found.
     /// </summary>
-    private int bingosLeft;
+    public int BingosLeft { get; private set; }
 
     /// <summary>
     ///     Amount of cards the player will use.
@@ -109,7 +109,7 @@ public class GameManager : Singleton<GameManager>
     public void SetUp(int inputCards, int inputBingos) {
         TotalBingoCards = inputCards;
         TotalBingos = inputBingos;
-        bingosLeft = TotalBingos;
+        BingosLeft = TotalBingos;
     }
 
     private void HandleSetUp() {
@@ -173,7 +173,7 @@ public class GameManager : Singleton<GameManager>
                 CallNewNumber();
             }
 
-            if (bingosLeft <= 0) {
+            if (BingosLeft <= 0) {
                 UpdateGameState(GameState.Results);
             }
         }
@@ -197,7 +197,7 @@ public class GameManager : Singleton<GameManager>
     /// </summary>
     /// <param name="bingosFound"></param>
     public void SubtractFoundBingos(int bingosFound) {
-        bingosLeft -= bingosFound;
+        BingosLeft -= bingosFound;
     }
 
     private void HandlePause() {

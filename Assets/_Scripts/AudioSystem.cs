@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -16,10 +13,19 @@ public class AudioSystem : Singleton<AudioSystem>
         musicSource.Play();
     }
 
+    /// <summary>
+    ///     Play sound from clip and choose specific volume.
+    /// </summary>
+    /// <param name="clip">SFX</param>
+    /// <param name="vol">Volume</param>
     public void PlaySound(AudioClip clip, float vol) {
         soundSource.PlayOneShot(clip, vol);
     }
 
+    /// <summary>
+    ///     Play sound from clip with standard settings from soundSource.
+    /// </summary>
+    /// <param name="clip">SFX</param>
     public void PlaySound(AudioClip clip) {
         soundSource.PlayOneShot(clip);
     }
