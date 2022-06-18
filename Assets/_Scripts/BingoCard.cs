@@ -82,9 +82,9 @@ public class BingoCard
     /// <summary>
     ///     Create and populate grid with BingoCell's.
     /// </summary>
-    public void Setup() {
+    public void Setup(GameObject parentObject) {
         // Parent to put all bingo card objects under in hierarchy.
-        Transform parent = BingoManager.Instance.gameObject.transform;
+        Transform parent = parentObject.transform;
 
         // Available numbers for the bingo card.
         var BValues = Enumerable.Range(1, 15).ToList();
@@ -118,9 +118,9 @@ public class BingoCard
                     free = true;
                 }
 
-                GameObject gameObject = CreateWorldCell(parent, new Vector3(x, y), value);
-                TextMesh textMesh = gameObject.GetComponent<TextMesh>();
-                SpriteRenderer spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+                GameObject newObject = CreateWorldCell(parent, new Vector3(x, y), value);
+                TextMesh textMesh = newObject.GetComponent<TextMesh>();
+                SpriteRenderer spriteRenderer = newObject.GetComponentInChildren<SpriteRenderer>();
 
                 // Create cell with a reference to this card, in case of multiple cards.
                 BingoCell bingoCell = new BingoCell(this, x, y, value, textMesh, spriteRenderer, free);

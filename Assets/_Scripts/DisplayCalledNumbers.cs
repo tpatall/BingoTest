@@ -13,7 +13,7 @@ public class DisplayCalledNumbers : MonoBehaviour
     ///     Convert the called numbers list to a text and display it.
     /// </summary>
     public void GetCalledNumbers() {
-        List<int> list = BingoManager.Instance.CalledNumbers;
+        List<int> list = GameManager.Instance.CalledNumbers;
 
         if (list.Count > 0) {
             StringBuilder builder = new StringBuilder();

@@ -254,6 +254,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd3e89dd4abc9f34599e6f6611ae647d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnInterval: 5
+  cellBackground: {fileID: 21300000, guid: 54b5f1a57a77de14fb39991faf8fbaf2, type: 3}
+  player: {fileID: 640801764}
+  stopwatch: {fileID: 2025078121}
+  ballSpawner: {fileID: 2037565831}
+  endScreen: {fileID: 1513615299}
 --- !u!4 &55566320
 Transform:
   m_ObjectHideFlags: 0
@@ -3321,7 +3327,6 @@ Transform:
   m_Children:
   - {fileID: 55566320}
   - {fileID: 950644971}
-  - {fileID: 1733600830}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3908,8 +3913,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 950644969}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 939.25323, y: 864.04803, z: -3380.241}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 877585563}
@@ -6825,56 +6830,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1733600829
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1733600830}
-  - component: {fileID: 1733600832}
-  m_Layer: 0
-  m_Name: BingoManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1733600830
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1733600829}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 877585563}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1733600832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1733600829}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09542441a477c7b4b909e61d1aa3ab2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnInterval: 5
-  cellBackground: {fileID: 21300000, guid: 54b5f1a57a77de14fb39991faf8fbaf2, type: 3}
-  player: {fileID: 640801764}
-  stopwatch: {fileID: 2025078121}
-  ballPool: {fileID: 2037565830}
-  ballSpawner: {fileID: 2037565831}
-  endScreen: {fileID: 1513615299}
 --- !u!1 &1753195135
 GameObject:
   m_ObjectHideFlags: 0
@@ -7959,6 +7914,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6f2516f08d3744448a5a32fff0b368a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundEffect: {fileID: 8300000, guid: 29bde6326b4c34ad8a12da475f79b50a, type: 3}
+  soundEffectVolume: 0.05
   ballTransform: {fileID: 676351196}
 --- !u!4 &2037565832
 Transform:
@@ -8500,6 +8457,10 @@ PrefabInstance:
       propertyPath: m_Volume
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1944216811971000324, guid: 0c1f0bdbd17c88e4db6651354c58f847, type: 3}
+      propertyPath: MarkCell
+      value: 
+      objectReference: {fileID: 8300000, guid: d29ee629e104c9c48a6342b146355b20, type: 3}
     - target: {fileID: 1944216812868184182, guid: 0c1f0bdbd17c88e4db6651354c58f847, type: 3}
       propertyPath: Loop
       value: 1

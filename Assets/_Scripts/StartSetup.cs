@@ -19,7 +19,7 @@ public class StartSetup : MonoBehaviour
     ///     Send the values from the sliders to the bingo game information script.
     /// </summary>
     public void SendInput() {
-        BingoManager.Instance.SetUp(
+        GameManager.Instance.SetUp(
             (int)cardAmount.value, 
             (int)bingoAmount.value);
     }

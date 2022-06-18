@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     private int totalBingoCards;
 
     private void Start() {
-        totalBingoCards = BingoManager.Instance.TotalBingoCards;
+        totalBingoCards = GameManager.Instance.TotalBingoCards;
     }
 
     /// <summary>
@@ -20,22 +20,22 @@ public class Player : MonoBehaviour
         {
             BingoCell bingoCell;
             int bingosFound = 0;
-            BingoManager bingoManager = BingoManager.Instance;
+            GameManager gameManager = GameManager.Instance;
 
             // Check if the position that got clicked has a bingoCell.
             for (int i = 0; i < totalBingoCards; i++) {
-                bingoCell = bingoManager.BingoCards[i].GetCell(GetMouseWorldPosition());
+                bingoCell = gameManager.BingoCards[i].GetCell(GetMouseWorldPosition());
 
                 if (bingoCell != null) {
                     // If it does, check if the cell can get marked.
-                    if (bingoCell.MarkCell(bingoManager.CalledNumbers)) {
+                    if (bingoCell.MarkCell(gameManager.CalledNumbers)) {
                         // If it does, check the card if a new bingo is found.
                         bingosFound = bingoCell.BingoCard.CheckForBingo();
                     }
                     break;
                 }
             }
-            bingoManager.SubtractFoundBingos(bingosFound);
+            gameManager.SubtractFoundBingos(bingosFound);
         }
     }
 
