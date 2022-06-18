@@ -14,9 +14,19 @@ public class BingoCell
     private SpriteRenderer spriteRenderer;
 
     /// <summary>
-    ///     Reference to the bingo card this cell belongs to.
+    ///     Reference to the bingocard this cell belongs to.
     /// </summary>
     public BingoCard BingoCard { get; private set; }
+
+    /// <summary>
+    ///     The x-coordinate of this cell on its respective bingocard.
+    /// </summary>
+    public int X { get; private set; }
+
+    /// <summary>
+    ///     The y-coordinate of this cell on its respective bingocard.
+    /// </summary>
+    public int Y { get; private set; }
 
     /// <summary>
     ///     Value that is shown in the cell on the board.
@@ -33,6 +43,8 @@ public class BingoCell
         this.spriteRenderer = spriteRenderer;
         
         BingoCard = bingoCard;
+        X = x;
+        Y = y;
         Value = value;
 
         if (free) {
