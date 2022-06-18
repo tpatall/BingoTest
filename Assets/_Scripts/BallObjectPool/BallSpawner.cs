@@ -6,14 +6,23 @@ using UnityEngine;
 public class BallSpawner : MonoBehaviour
 {
     /// <summary>
-    ///     The pool that contains the objects.
+    ///     Sound effect to play when a ball is spawned.
     /// </summary>
-    BallObjectPooler ballObjectPooler;
+    [Tooltip("Sound effect to play when a ball is spawned.")]
+    public AudioClip soundEffect;
+
+    [Range(0.0f, 1.0f)]
+    public float soundEffectVolume = 0.5f;
 
     /// <summary>
     ///     The specific position, rotation and scale for this ball.
     /// </summary>
     public Transform ballTransform;
+
+    /// <summary>
+    ///     The pool that contains the objects.
+    /// </summary>
+    BallObjectPooler ballObjectPooler;
 
     /// <summary>
     ///     Create an instance of the pooler for optimization.
@@ -35,6 +44,8 @@ public class BallSpawner : MonoBehaviour
         BallPooled ballPooled = ballObject.gameObject.GetComponent<BallPooled>();
         ballPooled.number = value;
         ballPooled.color = color;
+
+        AudioSystem.Instance.PlaySound(soundEffect, soundEffectVolume);
 
         ballObject.gameObject.SetActive(true);
     }
