@@ -1331,7 +1331,7 @@ MonoBehaviour:
 
     This also affects
     the Total Bingos you can play for.'
-  text: {fileID: 0}
+  textField: {fileID: 0}
 --- !u!114 &435840768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2112,7 +2112,7 @@ MonoBehaviour:
 
     This also affects
     the Total Bingos you can play for.'
-  text: {fileID: 0}
+  textField: {fileID: 0}
 --- !u!114 &560909859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3002,7 +3002,7 @@ MonoBehaviour:
     is over.\n\nYou can choose a number from 1 until 12 (per bingo card). \n\nWith
     only 1 bingo card you can only get 12 bingos maximally. With 2 cards you can
     get 24 and with 3 you can get the maximum amount of 36."
-  text: {fileID: 787851540}
+  textField: {fileID: 787851540}
 --- !u!1 &772157920
 GameObject:
   m_ObjectHideFlags: 0
@@ -3462,7 +3462,7 @@ MonoBehaviour:
 
     This also affects
     the Total Bingos you can play for.'
-  text: {fileID: 0}
+  textField: {fileID: 0}
 --- !u!114 &880010707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4272,7 +4272,7 @@ MonoBehaviour:
 
     This also affects
     the Total Bingos you can play for.'
-  text: {fileID: 0}
+  textField: {fileID: 0}
 --- !u!114 &1027796482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5413,7 +5413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 310746768}
-  text: {fileID: 1240683693}
+  textField: {fileID: 1240683693}
 --- !u!1 &1360173058
 GameObject:
   m_ObjectHideFlags: 0
@@ -6076,7 +6076,7 @@ MonoBehaviour:
 
     This also affects
     the Total Bingos you can play for.'
-  text: {fileID: 0}
+  textField: {fileID: 0}
 --- !u!114 &1510890071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7349,7 +7349,7 @@ MonoBehaviour:
 
     This also affects
     the Total Bingos you can play for.'
-  text: {fileID: 787851540}
+  textField: {fileID: 787851540}
 --- !u!1 &1866287940
 GameObject:
   m_ObjectHideFlags: 0
@@ -8185,7 +8185,7 @@ MonoBehaviour:
 
     This also affects
     the Total Bingos you can play for.'
-  text: {fileID: 0}
+  textField: {fileID: 0}
 --- !u!114 &2058558028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8373,7 +8373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 896822600}
-  text: {fileID: 745241793}
+  textField: {fileID: 745241793}
 --- !u!1 &2071567523
 GameObject:
   m_ObjectHideFlags: 0
