@@ -2,6 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+///     A stopwatch times how long a game is taking. Also has a startup countdown.
+/// </summary>
 public class Stopwatch : MonoBehaviour
 {
     /// <summary>

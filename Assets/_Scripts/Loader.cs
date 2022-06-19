@@ -1,7 +1,14 @@
+/*
+ * From the Code Monkey Scene Manager youtube video: https://youtu.be/3I5d2rUJ0pE
+*/ 
+
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+///     Scenemanager that automatically puts a loading scene inbetween.
+/// </summary>
 public class Loader : MonoBehaviour
 {
     private static Action onLoaderCallback;

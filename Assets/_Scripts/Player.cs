@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+///     Functionality related to player-input.
+/// </summary>
 public class Player : MonoBehaviour
 {
     [SerializeField] private AudioClip markedCell;

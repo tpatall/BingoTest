@@ -13,9 +13,10 @@ public class GameManager : Singleton<GameManager>
     /// <summary>
     ///     Time between calling a new number.
     /// </summary>
+    [SerializeField]
     [Tooltip("Time between calling a new number. Choose a number from 0.1s to 10s.")]
     [Range(0.1f, 10f)]
-    public float spawnInterval = 5f;
+    private float spawnInterval;
 
     [SerializeField] private GameObject cardsObject;
     [SerializeField] private Sprite cellBackground;
@@ -52,12 +53,12 @@ public class GameManager : Singleton<GameManager>
     /// <summary>
     ///     List of all numbers that have not been called yet.
     /// </summary>
-    public List<int> AvailableNumbers { get; private set; }
+    public List<int> AvailableNumbers { get; private set; } = Enumerable.Range(1, 75).ToList();
 
     /// <summary>
     ///     List of all numbers that have been called.
     /// </summary>
-    public List<int> CalledNumbers { get; private set; }
+    public List<int> CalledNumbers { get; private set; } = new List<int>();
     #endregion
 
     public static event Action<GameState> OnGameStateChanged;
@@ -65,9 +66,6 @@ public class GameManager : Singleton<GameManager>
     public GameState State { get; private set; }
 
     private void Start() {
-        AvailableNumbers = Enumerable.Range(1, 75).ToList();
-        CalledNumbers = new List<int>();
-
         UpdateGameState(GameState.Rules);
     }
 

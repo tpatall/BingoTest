@@ -18,7 +18,7 @@ public class BallObjectPooler : Singleton<BallObjectPooler>
     /// </summary>
     [SerializeField]
     [Tooltip("The ball prefab which will be instantiated.")]
-    public GameObject ballPrefab;
+    private GameObject ballPrefab;
 
     /// <summary>
     ///     Array for keeping track of (previously) pooled balls.

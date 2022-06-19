@@ -8,18 +8,15 @@ public class DisplayExplanation : MonoBehaviour
     /// </summary>
     [SerializeField]
     [TextArea]
+    [Tooltip("Set an explanation for the related object.")]
     private string explanation;
 
-    /// <summary>
-    ///     Explanation text field.
-    /// </summary>
-    [SerializeField]
-    private TextMeshProUGUI text;
+    [SerializeField] private TextMeshProUGUI textField;
 
     /// <summary>
     ///     Set new explanation text.
     /// </summary>
     public void SetExplanationText() {
-        text.text = explanation;
+        textField.text = explanation;
     }
 }

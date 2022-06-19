@@ -1,7 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+///     Shared functions or variables.
+/// </summary>
 public static class BingoUtils
 {
     private static readonly System.Random random = new System.Random();

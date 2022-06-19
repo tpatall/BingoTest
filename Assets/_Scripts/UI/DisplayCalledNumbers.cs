@@ -6,8 +6,7 @@ using System.Text;
 
 public class DisplayCalledNumbers : MonoBehaviour
 {
-    [SerializeField]
-    private TextMeshProUGUI text;
+    [SerializeField] private TextMeshProUGUI text;
 
     /// <summary>
     ///     Convert the called numbers list to a text and display it.

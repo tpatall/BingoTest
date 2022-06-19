@@ -8,16 +8,22 @@ public class BallSpawner : MonoBehaviour
     /// <summary>
     ///     Sound effect to play when a ball is spawned.
     /// </summary>
+    [SerializeField]
     [Tooltip("Sound effect to play when a ball is spawned.")]
-    public AudioClip soundEffect;
-
-    [Range(0.0f, 1.0f)]
-    public float soundEffectVolume = 0.5f;
+    private AudioClip soundEffect;
 
     /// <summary>
-    ///     The specific position, rotation and scale for this ball.
+    ///     Volume of the sound effect.
     /// </summary>
-    public Transform ballTransform;
+    [SerializeField]
+    [Range(0.0f, 1.0f)]
+    private float soundEffectVolume = 0.5f;
+
+    /// <summary>
+    ///     The specific position, rotation and scale to spawn this ball at.
+    /// </summary>
+    [SerializeField]
+    private Transform ballTransform;
 
     /// <summary>
     ///     The pool that contains the objects.

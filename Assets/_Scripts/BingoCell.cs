@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+///     This class holds the information and state of a single cell on a bingo card.
+/// </summary>
 public class BingoCell
 {
     /// <summary>

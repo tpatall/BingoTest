@@ -1,7 +1,9 @@
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+///     This class contains the information of a single bingo card with references to all its cells.
+/// </summary>
 public class BingoCard
 {
     #region variables

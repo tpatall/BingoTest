@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+/// <summary>
+///     Persistent singleton prefab to hold all persistent systems (such as audiosystem).
+/// </summary>
 public class Systems : PersistentSingleton<Systems>
 {
 

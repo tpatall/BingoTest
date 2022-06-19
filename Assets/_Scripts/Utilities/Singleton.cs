@@ -1,5 +1,5 @@
 /*
-    From the Tarodev Unity Architecture youtube video: https://youtu.be/tE1qH8OxO2Y
+ * From the Tarodev Unity Architecture youtube video: https://youtu.be/tE1qH8OxO2Y with minor edits
 */
 
 using UnityEngine;

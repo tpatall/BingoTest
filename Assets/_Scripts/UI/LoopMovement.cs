@@ -1,31 +1,39 @@
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+///     Creates a looping 'infinitely moving' animation for backgrounds.
+/// </summary>
 public class LoopMovement : MonoBehaviour
 {
     /// <summary>
     ///     Scrolling speed of the image.
     /// </summary>
+    [SerializeField]
     [Tooltip("Speed at which the parallax effect moves.")]
-    public float movementSpeed;
+    [Range(0.01f, 1f)]
+    private float movementSpeed;
 
     /// <summary>
     ///     If the movement direction is left-to-right.
     /// </summary>
+    [SerializeField]
     [Tooltip("If the movement direction is left-to-right, or right-to-left if false.")]
-    public bool rightMovementDirection;
+    private bool rightMovementDirection;
 
     /// <summary>
     ///     If the loop animation should start from a delay or instantly.
     /// </summary>
+    [SerializeField]
     [Tooltip("If the animation should start when called, or instantly.")]
-    public bool timedStart = false;
+    private bool timedStart = false;
 
     /// <summary>
     ///     If the loop should start slowly.
     /// </summary>
+    [SerializeField]
     [Tooltip("If the movement loop should slowly start up.")]
-    public bool slowStart = false;
+    private bool slowStart = false;
 
     /// <summary>
     ///     If the animation is currently looping or not.
