@@ -5,15 +5,9 @@ using UnityEngine.UI;
 
 public class AudioButton : MonoBehaviour
 {
-    [SerializeField] private GameObject sliderObject;
+    [SerializeField] private Slider slider;
     [SerializeField] private Image imageField;
     [SerializeField] private Sprite onSprite, offSprite;
-
-    private Slider slider;
-
-    private void Start() {
-        slider = sliderObject.GetComponent<Slider>();
-    }
 
     public void UpdateButtonIcon() {
         if (slider.value == 0) {
@@ -21,9 +15,5 @@ public class AudioButton : MonoBehaviour
         } else {
             imageField.sprite = onSprite;
         }
-    }
-
-    public void ToggleSlider() {
-        sliderObject.SetActive(!sliderObject.activeSelf);
     }
 }

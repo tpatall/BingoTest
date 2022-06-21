@@ -7,10 +7,14 @@ using TMPro;
 public class GameMenu : MonoBehaviour
 {
     [SerializeField] private Button musicButton, soundButton, quitButton;
+    [SerializeField] private Slider musicSlider, soundSlider;
     [SerializeField] private TextMeshProUGUI scoreText;
 
+    private bool musicSliderVisible = false;
+    private bool soundSliderVisible = false;
+
     public void OnPlay() {
-        StartCoroutine(AnimateMenu(140f, 0.4f, 100f, 0.2f));
+        StartCoroutine(AnimateMenu(100f, 0.6f));
         InteractableButtons(true);
     }
 
@@ -18,9 +22,59 @@ public class GameMenu : MonoBehaviour
         scoreText.text = found.ToString() + "/" + total.ToString();
     }
 
+    public void HandleMusicSlider() {
+        musicButton.interactable = false;
+        soundButton.interactable = false;
+        
+        if (!musicSliderVisible) {
+            if (soundSliderVisible) {
+                HandleSoundSlider();
+            }
+
+            musicButton.gameObject.LeanMoveLocalX(-830f, 0.3f).setEaseInBack();
+            musicSlider.gameObject.LeanScale(new Vector3(2f, 2f, 1f), 0.3f);
+            musicSliderVisible = true;
+
+        } else {
+            musicSlider.gameObject.LeanScale(new Vector3(0f, 0f, 1f), 0.3f);
+            musicButton.gameObject.LeanMoveLocalX(-390f, 0.3f).setEaseInBack();
+            musicSliderVisible = false;
+        }
+        
+        musicButton.interactable = true;
+        soundButton.interactable = true;
+    }
+
+    public void HandleSoundSlider() {
+        musicButton.interactable = false;
+        soundButton.interactable = false;
+
+
+        if (!soundSliderVisible) {
+            if (musicSliderVisible) {
+                HandleMusicSlider();
+            }
+
+            musicButton.gameObject.LeanMoveLocalX(-830f, 0.3f).setEaseInBack();
+            soundButton.gameObject.LeanMoveLocalX(-670f, 0.3f).setEaseInBack();
+            soundSlider.gameObject.LeanScale(new Vector3(2f, 2f, 1f), 0.3f);
+            soundSliderVisible = true;
+
+        }
+        else {
+            soundSlider.gameObject.LeanScale(new Vector3(0f, 0f, 1f), 0.3f);
+            soundButton.gameObject.LeanMoveLocalX(-230f, 0.3f).setEaseInBack();
+            musicButton.gameObject.LeanMoveLocalX(-390f, 0.3f).setEaseInBack();
+            soundSliderVisible = false;
+        }
+
+        musicButton.interactable = true;
+        soundButton.interactable = true;
+    }
+
     public void OnEnd() {
         InteractableButtons(false);
-        StartCoroutine(AnimateMenu(140f, 0.2f, -100f, 0.4f));
+        StartCoroutine(AnimateMenu(-100f, 0.6f));
     }
 
     /// <summary>
@@ -28,32 +82,13 @@ public class GameMenu : MonoBehaviour
     /// </summary>
     /// <param name="via">Point midway through the animation.</param>
     /// <param name="viaTime">Time until via is reached.</param>
-    /// <param name="end">End point of animation.</param>
-    /// <param name="endTime">Time between via and end.</param>
-    /// <returns></returns>
-    IEnumerator AnimateMenu(float via, float viaTime, float end, float endTime) {
-        Move(scoreText.gameObject, via, viaTime, end, endTime);
+    IEnumerator AnimateMenu(float via, float viaTime) {
+        scoreText.gameObject.LeanMoveY(via, viaTime).setEaseInBack();
         yield return new WaitForSeconds(0.05f);
-        Move(soundButton.gameObject, via, viaTime, end, endTime);
-        Move(quitButton.gameObject, via, viaTime, end, endTime);
+        soundButton.gameObject.LeanMoveY(via, viaTime).setEaseInBack();
+        quitButton.gameObject.LeanMoveY(via, viaTime).setEaseInBack();
         yield return new WaitForSeconds(0.05f);
-        Move(musicButton.gameObject, via, viaTime, end, endTime);
-    }
-
-    /// <summary>
-    ///     Moves an object through a point to an end location.
-    /// </summary>
-    /// <param name="obj">The affected object.</param>
-    /// <param name="via">Point midway through the animation.</param>
-    /// <param name="viaTime">Time until via is reached.</param>
-    /// <param name="end">End point of animation.</param>
-    /// <param name="endTime">Time between via and end.</param>
-    private void Move(GameObject obj, float via, float viaTime, float end, float endTime) {
-        obj.LeanMoveY(via, viaTime).setEaseInBack().setOnComplete(delegate () { MoveVia(); });
-
-        void MoveVia() {
-            obj.LeanMoveY(end, endTime).setEaseInBack();
-        }
+        musicButton.gameObject.LeanMoveY(via, viaTime).setEaseInBack();
     }
 
     /// <summary>
