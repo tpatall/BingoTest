@@ -6,7 +6,7 @@ using UnityEngine;
 public class UIManager : Singleton<UIManager>
 {
     [SerializeField]
-    private GameObject rulesPanel, gamePanel, pausePanel, resultsPanel, background;
+    private GameObject rulesPanel, gamePanel, pausePanel, resultsPanel;
 
     protected override void Awake() {
         base.Awake();
@@ -28,11 +28,6 @@ public class UIManager : Singleton<UIManager>
 
     public void BeginPressed() {
         GameManager.Instance.UpdateGameState(GameState.SetUp);
-
-        LoopMovement[] rows = background.GetComponentsInChildren<LoopMovement>();
-        for (int i = 0; i < rows.Length; i++) {
-            rows[i].StartAnimation();
-        }
     }
 
     public void PausePressed() {

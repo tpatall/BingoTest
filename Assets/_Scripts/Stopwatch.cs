@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 /// <summary>
 ///     A stopwatch times how long a game is taking. Also has a startup countdown.
@@ -18,7 +19,7 @@ public class Stopwatch : MonoBehaviour
     ///     Reference to the Text field where the stopwatch is shown.
     /// </summary>
     [SerializeField]
-    private Text currentTimeText;
+    private TextMeshProUGUI currentTimeText;
 
     /// <summary>
     ///     Whether the stopwatch is active.
@@ -52,12 +53,12 @@ public class Stopwatch : MonoBehaviour
                 currentTimeText.color = new Color(1f, 0f, 0f, 1 - progress);
 
                 TimeSpan time = TimeSpan.FromSeconds(CurrentTime);
-                currentTimeText.text = time.ToString(@"mm\:ss\:fff");
+                currentTimeText.text = time.ToString(@"mm\:ss\:ff");
             } else {
                 currentTimeText.color = Color.white;
 
                 TimeSpan time = TimeSpan.FromSeconds(CurrentTime);
-                currentTimeText.text = time.ToString(@"mm\:ss\:fff");
+                currentTimeText.text = time.ToString(@"mm\:ss\:ff");
             }
         }
     }
