@@ -23,6 +23,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private Player player;
     [SerializeField] private Stopwatch stopwatch;
     [SerializeField] private BallSpawner ballSpawner;
+    [SerializeField] private GameMenu gameMenu;
     [SerializeField] private EndScreen endScreen;
 
     /// <summary>
@@ -110,6 +111,8 @@ public class GameManager : Singleton<GameManager>
         TotalBingoCards = inputCards;
         TotalBingos = inputBingos;
         BingosLeft = TotalBingos;
+
+        gameMenu.UpdateScoreText(0, TotalBingos);
     }
 
     private void HandleSetUp() {
@@ -162,6 +165,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     private void HandlePlay() {
+        gameMenu.OnPlay();
         stopwatch.StartStopwatch();
 
         player.gameObject.SetActive(true);
@@ -203,6 +207,7 @@ public class GameManager : Singleton<GameManager>
     /// <param name="bingosFound"></param>
     public void SubtractFoundBingos(int bingosFound) {
         BingosLeft -= bingosFound;
+        gameMenu.UpdateScoreText(TotalBingos - BingosLeft, TotalBingos);
     }
 
     private void HandlePause() {
@@ -213,6 +218,7 @@ public class GameManager : Singleton<GameManager>
 
     private void HandleResults() {
         stopwatch.StopStopwatch();
+        gameMenu.OnEnd();
 
         player.gameObject.SetActive(false);
         ballSpawner.gameObject.SetActive(false);

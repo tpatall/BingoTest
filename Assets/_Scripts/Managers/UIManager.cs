@@ -21,7 +21,7 @@ public class UIManager : Singleton<UIManager>
     private void GameManagerOnGameStateChanged(GameState state) {
         rulesPanel.SetActive(state == GameState.Rules);
         // Keep the game panel active in the background when paused.
-        gamePanel.SetActive(state == GameState.Play || state == GameState.Pause);
+        //gamePanel.SetActive(state == GameState.Play || state == GameState.Pause);
         pausePanel.SetActive(state == GameState.Pause);
         resultsPanel.SetActive(state == GameState.Results);
     }
