@@ -47,7 +47,7 @@ public class BallSpawner : MonoBehaviour
         ballObject.transform.localScale = ballTransform.localScale;
 
         // Set the value of the ball.
-        BallPooled ballPooled = ballObject.gameObject.GetComponent<BallPooled>();
+        Ball ballPooled = ballObject.gameObject.GetComponent<Ball>();
         ballPooled.Setup(value);
 
         AudioSystem.Instance.PlaySound(soundEffect, soundEffectVolume);

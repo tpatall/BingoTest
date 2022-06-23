@@ -5,7 +5,7 @@ using System.Collections.Generic;
 /// <summary>
 ///     This class has the functionality of a ball GameObject for after it has been spawned in.
 /// </summary>
-public class BallPooled : MonoBehaviour, IBallPooled
+public class Ball : MonoBehaviour, IBall
 {
     /// <summary>
     ///     Bingo ball sprites to choose from.
@@ -81,19 +81,11 @@ public class BallPooled : MonoBehaviour, IBallPooled
     /// </summary>
     /// <returns>Bingoball sprite belonging to number.</returns>
     private Sprite GetSprite() {
-        if (number <= 15) {
-            return bingoSprites[0];
+        if (number > 0 && number <= 75) {
+            return bingoSprites[number / 15];
         }
-        else if (number <= 30) {
-            return bingoSprites[1];
+        else {
+            throw new System.IndexOutOfRangeException("The number exceeds the maximum allowed number.");
         }
-        else if (number <= 45) {
-            return bingoSprites[2];
-        }
-        else if (number <= 60) {
-            return bingoSprites[3];
-        }
-        else
-            return bingoSprites[4];
     }
 }

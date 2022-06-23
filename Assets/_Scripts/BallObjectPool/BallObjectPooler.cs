@@ -59,7 +59,7 @@ public class BallObjectPooler : Singleton<BallObjectPooler>
         newObject.SetActive(false);
         Objects.Enqueue(newObject);
 
-        BallPooled ballPooled = newObject.GetComponent<BallPooled>();
+        Ball ballPooled = newObject.GetComponent<Ball>();
         ballPooled.Pool = this;
     }
 
@@ -83,7 +83,7 @@ public class BallObjectPooler : Singleton<BallObjectPooler>
             prevBall = poolPosition[i];
 
             poolPosition[i] = movedBall;
-            poolPosition[i].GetComponent<BallPooled>().ChangePosition(i);
+            poolPosition[i].GetComponent<Ball>().ChangePosition(i);
 
             if (prevBall == null) {
                 break;

@@ -1,7 +1,7 @@
 /// <summary>
 ///     Interface for managing pooled bingo balls.
 /// </summary>
-public interface IBallPooled
+public interface IBall
 {
     BallObjectPooler Pool { get; set; }
 }
