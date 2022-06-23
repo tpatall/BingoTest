@@ -5,12 +5,14 @@ using UnityEngine;
 /// </summary>
 public class AudioSystem : Singleton<AudioSystem>
 {
-    [SerializeField] private AudioSource musicSource;
-    [SerializeField] private AudioSource soundSource;
+    [field: SerializeField] 
+    public AudioSource MusicSource { get; private set; }
+    [field: SerializeField] 
+    public AudioSource SoundSource { get; private set; }
 
     public void PlayMusic(AudioClip clip) {
-        musicSource.clip = clip;
-        musicSource.Play();
+        MusicSource.clip = clip;
+        MusicSource.Play();
     }
 
     /// <summary>
@@ -19,7 +21,7 @@ public class AudioSystem : Singleton<AudioSystem>
     /// <param name="clip">SFX</param>
     /// <param name="vol">Volume</param>
     public void PlaySound(AudioClip clip, float vol) {
-        soundSource.PlayOneShot(clip, vol);
+        SoundSource.PlayOneShot(clip, vol);
     }
 
     /// <summary>
@@ -27,6 +29,6 @@ public class AudioSystem : Singleton<AudioSystem>
     /// </summary>
     /// <param name="clip">SFX</param>
     public void PlaySound(AudioClip clip) {
-        soundSource.PlayOneShot(clip);
+        SoundSource.PlayOneShot(clip);
     }
 }

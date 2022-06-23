@@ -13,6 +13,19 @@ public class GameMenu : MonoBehaviour
     private bool musicSliderVisible = false;
     private bool soundSliderVisible = false;
 
+    private void Start() {
+        AudioSystem audioSystem = AudioSystem.Instance;
+
+        musicSlider.value = audioSystem.MusicSource.volume * 100f;
+        soundSlider.value = audioSystem.SoundSource.volume * 100f;
+
+        musicSlider.onValueChanged.AddListener(value =>
+        audioSystem.MusicSource.volume = value / 100f);
+
+        soundSlider.onValueChanged.AddListener(value =>
+        audioSystem.SoundSource.volume = value / 100f);
+    }
+
     public void OnPlay() {
         StartCoroutine(AnimateMenu(100f, 0.6f));
         InteractableButtons(true);

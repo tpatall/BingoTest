@@ -9,7 +9,21 @@ using UnityEngine.UI;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private GameObject optionsPanel, creditsPanel;
-    [SerializeField] private Button[] buttons = new Button[4]; 
+    [SerializeField] private Slider musicSlider, soundSlider;
+    [SerializeField] private Button[] buttons = new Button[4];
+    
+    private void Start() {
+        AudioSystem audioSystem = AudioSystem.Instance;
+
+        musicSlider.value = audioSystem.MusicSource.volume * 100f;
+        soundSlider.value = audioSystem.SoundSource.volume * 100f;
+
+        musicSlider.onValueChanged.AddListener(value =>
+        audioSystem.MusicSource.volume = value / 100f);
+
+        soundSlider.onValueChanged.AddListener(value =>
+        audioSystem.SoundSource.volume = value / 100f);
+    }
 
     public void Play() {
         Loader.Load(Scene.GameScene);

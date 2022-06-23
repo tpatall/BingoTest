@@ -61,14 +61,14 @@ public class Player : MonoBehaviour
         if (bingosFound > 0) {
             // If game-over.
             if (bingosLeft - bingosFound <= 0) {
-                audioSystem.PlaySound(gameOver, 0.5f);
+                audioSystem.PlaySound(gameOver);
             }
             else {
-                audioSystem.PlaySound(foundBingo, 0.3f);
+                audioSystem.PlaySound(foundBingo);
             }
         }
         else {
-            audioSystem.PlaySound(markedCell, 0.1f);
+            audioSystem.PlaySound(markedCell);
         }
     }
 

@@ -5574,6 +5574,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   optionsPanel: {fileID: 1731795279}
   creditsPanel: {fileID: 2066981821}
+  musicSlider: {fileID: 1098806241}
+  soundSlider: {fileID: 172188896}
   buttons:
   - {fileID: 1705078548}
   - {fileID: 224281271}
