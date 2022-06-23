@@ -38,12 +38,11 @@ public static class BingoUtils
     /// <returns>Color belonging to number.</returns>
     public static Color GetBingoColor(int number, out string letter) {
         if (number > 0 && number <= 75) {
-            object[] arr = columnInfo[number / 15];
+            object[] arr = columnInfo[(number - 1) / 15];
             letter = (string)arr[0];
             return (Color)arr[1];
         }
-        else {
-            throw new IndexOutOfRangeException("The number exceeds the maximum allowed number.");
-        }
+        else 
+            throw new IndexOutOfRangeException();
     }
 }

@@ -55,15 +55,15 @@ public class Ball : MonoBehaviour, IBall
     /// <param name="number">Number to be shown on the ball.</param>
     public void Setup(int number) {
         this.number = number;
+
+        startPos = transform.position;
+        spriteRenderer.sprite = GetSprite();
     }
 
     /// <summary>
     ///     Set the color and number.
     /// </summary>
     private void OnEnable() {
-        startPos = transform.position;
-
-        spriteRenderer.sprite = GetSprite();
         GetComponent<TextMeshPro>().text = number.ToString();
     }
 
@@ -82,10 +82,10 @@ public class Ball : MonoBehaviour, IBall
     /// <returns>Bingoball sprite belonging to number.</returns>
     private Sprite GetSprite() {
         if (number > 0 && number <= 75) {
-            return bingoSprites[number / 15];
+            return bingoSprites[(number - 1)/ 15];
         }
         else {
-            throw new System.IndexOutOfRangeException("The number exceeds the maximum allowed number.");
+            throw new System.IndexOutOfRangeException("The number has to be above 0 and below 76.");
         }
     }
 }
