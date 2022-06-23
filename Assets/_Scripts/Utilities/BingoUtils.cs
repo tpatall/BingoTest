@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,17 @@ using UnityEngine;
 public static class BingoUtils
 {
     private static readonly System.Random random = new System.Random();
+
+    /// <summary>
+    ///     Multi-dimensional array of objects representing column info.
+    /// </summary>
+    private static object[][] columnInfo = new object[5][] {
+        new object[2] { "B", Color.red },
+        new object[2] { "I", Color.yellow },
+        new object[2] { "N", Color.magenta },
+        new object[2] { "G", Color.green },
+        new object[2] { "O", Color.blue }
+    };
 
     /// <summary>
     ///     Get a random item from a list of integers and then remove it, to prevent duplicate numbers.
@@ -25,25 +37,13 @@ public static class BingoUtils
     /// <param name="colorCode">Respective color code belonging to number.</param>
     /// <returns>Color belonging to number.</returns>
     public static Color GetBingoColor(int number, out string letter) {
-        if (number <= 15) {
-            letter = "B";
-            return Color.red;
-        }
-        else if (number <= 30) {
-            letter = "I";
-            return Color.yellow;
-        }
-        else if (number <= 45) {
-            letter = "N";
-            return Color.magenta;
-        }
-        else if (number <= 60) {
-            letter = "G";
-            return Color.green;
+        if (number > 0 && number <= 75) {
+            object[] arr = columnInfo[number / 15];
+            letter = (string)arr[0];
+            return (Color)arr[1];
         }
         else {
-            letter = "O";
-            return Color.blue;
+            throw new IndexOutOfRangeException("The number exceeds the maximum allowed number.");
         }
     }
 }
