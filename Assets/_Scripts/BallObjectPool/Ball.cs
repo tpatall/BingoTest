@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using System.Collections;
 
 /// <summary>
 ///     This class has the functionality of a ball GameObject for after it has been spawned in.
@@ -68,12 +69,51 @@ public class Ball : MonoBehaviour, IBall
     }
 
     /// <summary>
+    ///     These balls will have to roll farther to get to their intended position.
+    /// </summary>
+    /// <param name="reversePoolPosition">Reverse position in the UI pool for moving distances.</param>
+    public void Spawn(int reversePoolPosition) {
+        gameObject.LeanMoveY(28f, 0.5f).setOnComplete(delegate () { Roll(); });
+
+        void Roll() {
+            float centerOffset = 90f * reversePoolPosition;
+            float randomRotation = Random.Range(
+                centerOffset - 45f,
+                centerOffset + 45f);
+
+            gameObject.LeanMoveX(startPos.x - (10 * reversePoolPosition),
+                0.5f * reversePoolPosition);
+            gameObject.LeanRotateAround(Vector3.forward,
+                randomRotation,
+                0.5f * reversePoolPosition);
+        }
+    }
+
+    /// <summary>
     ///     Moves the ball based on its position in the UI pool.
     /// </summary>
-    /// <param name="poolPosition">Position in the UI pool.</param>
-    public void ChangePosition(int poolPosition) {
-        Vector3 newPos = new Vector3(startPos.x - (10 * poolPosition), startPos.y);
-        gameObject.transform.position = newPos;
+    /// <param name="reversePoolPosition">Reverse position in the UI pool for moving distances.</param>
+    /// <param name="isAdded">True when this ball is newly added to the pool.</param>
+    public void ChangePosition(int reversePoolPosition, bool isAdded) {
+        if (isAdded) {
+            gameObject.LeanMoveY(28f, 0.5f);
+        } else {
+            gameObject.LeanMoveX(startPos.x - (10 * reversePoolPosition), 0.5f);
+            gameObject.LeanRotateAround(Vector3.forward, Random.Range(80f, 100f), 0.5f);
+        }
+    }
+
+    /// <summary>
+    ///     Moves ball out-of-view and returns it to the pool.
+    /// </summary>
+    /// <param name="reversePoolPosition">Reverse position in the UI pool for moving distances.</param>
+    public void RemoveBall(int reversePoolPosition) {
+        gameObject.LeanMoveX(startPos.x - (10 * reversePoolPosition), 0.5f).setOnComplete(delegate () { Return(); });
+        gameObject.LeanRotateAround(Vector3.forward, Random.Range(80f, 100f), 0.5f);
+
+        void Return() {
+            pool.ReturnToPool(gameObject);
+        }
     }
 
     /// <summary>

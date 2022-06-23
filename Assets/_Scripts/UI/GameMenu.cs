@@ -8,7 +8,7 @@ public class GameMenu : MonoBehaviour
 {
     [SerializeField] private Button musicButton, soundButton, quitButton;
     [SerializeField] private Slider musicSlider, soundSlider;
-    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI scoreText, stopwatch;
 
     private bool musicSliderVisible = false;
     private bool soundSliderVisible = false;
@@ -31,13 +31,13 @@ public class GameMenu : MonoBehaviour
                 HandleSoundSlider();
             }
 
-            musicButton.gameObject.LeanMoveLocalX(-830f, 0.3f).setEaseInBack();
+            musicButton.gameObject.LeanMoveLocalX(-830f, 0.3f);
             musicSlider.gameObject.LeanScale(new Vector3(2f, 2f, 1f), 0.3f);
             musicSliderVisible = true;
 
         } else {
             musicSlider.gameObject.LeanScale(new Vector3(0f, 0f, 1f), 0.3f);
-            musicButton.gameObject.LeanMoveLocalX(-390f, 0.3f).setEaseInBack();
+            musicButton.gameObject.LeanMoveLocalX(-390f, 0.3f);
             musicSliderVisible = false;
         }
         
@@ -55,16 +55,16 @@ public class GameMenu : MonoBehaviour
                 HandleMusicSlider();
             }
 
-            musicButton.gameObject.LeanMoveLocalX(-830f, 0.3f).setEaseInBack();
-            soundButton.gameObject.LeanMoveLocalX(-670f, 0.3f).setEaseInBack();
+            musicButton.gameObject.LeanMoveLocalX(-830f, 0.3f);
+            soundButton.gameObject.LeanMoveLocalX(-670f, 0.3f);
             soundSlider.gameObject.LeanScale(new Vector3(2f, 2f, 1f), 0.3f);
             soundSliderVisible = true;
 
         }
         else {
             soundSlider.gameObject.LeanScale(new Vector3(0f, 0f, 1f), 0.3f);
-            soundButton.gameObject.LeanMoveLocalX(-230f, 0.3f).setEaseInBack();
-            musicButton.gameObject.LeanMoveLocalX(-390f, 0.3f).setEaseInBack();
+            soundButton.gameObject.LeanMoveLocalX(-230f, 0.3f);
+            musicButton.gameObject.LeanMoveLocalX(-390f, 0.3f);
             soundSliderVisible = false;
         }
 
@@ -72,9 +72,10 @@ public class GameMenu : MonoBehaviour
         soundButton.interactable = true;
     }
 
-    public void OnEnd() {
+    public void OnTearDown() {
         InteractableButtons(false);
         StartCoroutine(AnimateMenu(-100f, 0.6f));
+        stopwatch.gameObject.LeanMoveLocalY(595f, 0.3f).setEaseInBack();
     }
 
     /// <summary>

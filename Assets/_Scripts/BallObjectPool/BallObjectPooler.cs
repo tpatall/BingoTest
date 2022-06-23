@@ -25,6 +25,8 @@ public class BallObjectPooler : Singleton<BallObjectPooler>
     /// </summary>
     private GameObject[] poolPosition;
 
+    private int currentPoolCount;
+
     /// <summary>
     ///     Queue that manages the enabling/disabling of objects in the pool.
     /// </summary>
@@ -43,8 +45,11 @@ public class BallObjectPooler : Singleton<BallObjectPooler>
     /// </summary>
     /// <returns>A GameObject.</returns>
     public GameObject Get() {
-        if (Objects.Count == 0)
+        if (Objects.Count == 0) {
             AddObject();
+            // Increment until pool is full.
+            if (currentPoolCount <= poolSize) currentPoolCount++;
+        }
         GameObject gameObject = Objects.Dequeue();
         MoveBalls(gameObject);
         return gameObject;
@@ -68,6 +73,8 @@ public class BallObjectPooler : Singleton<BallObjectPooler>
     /// </summary>
     /// <param name="objectToReturn">A ball GameObject.</param>
     public void ReturnToPool(GameObject objectToReturn) {
+        // Reset rotation before disabling.
+        objectToReturn.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);
         objectToReturn.SetActive(false);
         Objects.Enqueue(objectToReturn);
     }
@@ -77,22 +84,46 @@ public class BallObjectPooler : Singleton<BallObjectPooler>
     /// </summary>
     /// <param name="newBall">Newly spawned object.</param>
     private void MoveBalls(GameObject newBall) {
-        GameObject movedBall = newBall;
-        GameObject prevBall;
-        for (int i = 0; i < poolSize; i++) {
-            prevBall = poolPosition[i];
+        // If the pool is not yet full, put the ball on the last position.
+        if (currentPoolCount <= poolSize) {
+            int pos = currentPoolCount - 1;
+            poolPosition[pos] = newBall;
 
-            poolPosition[i] = movedBall;
-            poolPosition[i].GetComponent<Ball>().ChangePosition(i);
-
-            if (prevBall == null) {
-                break;
-            } else if (i == poolSize - 1) {
-                ReturnToPool(prevBall);
-                break;
+            if (currentPoolCount == poolSize) {
+                poolPosition[pos].GetComponent<Ball>().ChangePosition(poolSize - currentPoolCount, true);
             } else {
-                movedBall = prevBall;
+                poolPosition[pos].GetComponent<Ball>().Spawn(poolSize - currentPoolCount);
             }
+            return;
+        }
+
+        // Otherwise move every ball down the array.
+        for (int i = 0; i < poolSize; i++) {
+            // Return bottom ball back to pool.
+            if (i == 0) {
+                poolPosition[i].GetComponent<Ball>().RemoveBall(poolSize - i);
+
+                poolPosition[i] = poolPosition[i + 1];
+            }
+            // Set ball in next position to this position.
+            else if (i < poolSize - 1) {
+                poolPosition[i].GetComponent<Ball>().ChangePosition(poolSize - i, false);
+                
+                poolPosition[i] = poolPosition[i + 1];
+            // Set new ball to last position.
+            } else {
+                poolPosition[i].GetComponent<Ball>().ChangePosition(poolSize - i, false);
+                
+                poolPosition[i] = newBall;
+                poolPosition[i].GetComponent<Ball>().ChangePosition(0, true);
+            }
+        }
+    }
+
+    public void DestroyPool() {
+        for (int i = poolPosition.Length - 1; i >= 0; i--) {
+            poolPosition[i].LeanMoveX(-75f - 10 * i, 1f);
+            poolPosition[i].LeanRotateZ(-180f, 1f);
         }
     }
 }

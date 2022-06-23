@@ -92,6 +92,9 @@ public class GameManager : Singleton<GameManager>
             case GameState.Pause:
                 HandlePause();
                 break;
+            case GameState.TearDown:
+                HandleTearDown();
+                break;
             case GameState.Results:
                 HandleResults();
                 break;
@@ -183,7 +186,7 @@ public class GameManager : Singleton<GameManager>
             }
 
             if (BingosLeft <= 0) {
-                UpdateGameState(GameState.Results);
+                UpdateGameState(GameState.TearDown);
             }
         }
     }
@@ -216,12 +219,27 @@ public class GameManager : Singleton<GameManager>
         player.gameObject.SetActive(false);
     }
 
-    private void HandleResults() {
-        stopwatch.StopStopwatch();
-        gameMenu.OnEnd();
+    private void HandleTearDown() {
+        StartCoroutine(TearDown());
+    }
 
+    /// <summary>
+    ///     Tear down the ball-spawner, cards and UI to make room for results.
+    /// </summary>
+    IEnumerator TearDown() {
+        stopwatch.StopStopwatch();
         player.gameObject.SetActive(false);
-        ballSpawner.gameObject.SetActive(false);
+        gameMenu.OnTearDown();
+        ballSpawner.DestroyPool();
+
+        yield return new WaitForSeconds(4f);
+
+        UpdateGameState(GameState.Results);
+
+    }
+
+    private void HandleResults() {
+        //ballSpawner.gameObject.SetActive(false);
 
         cardsObject.SetActive(false);
 
@@ -235,5 +253,6 @@ public enum GameState
     SetUp,
     Play,
     Pause,
+    TearDown,
     Results
 }

@@ -54,4 +54,6 @@ public class BallSpawner : MonoBehaviour
 
         ballObject.gameObject.SetActive(true);
     }
+
+    public void DestroyPool() => ballObjectPooler.DestroyPool();
 }
