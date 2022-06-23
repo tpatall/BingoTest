@@ -230,20 +230,26 @@ public class GameManager : Singleton<GameManager>
         stopwatch.StopStopwatch();
         player.gameObject.SetActive(false);
         gameMenu.OnTearDown();
+        cardsObject.LeanScale(new Vector3(0f, 0f), 0.5f);
         ballSpawner.DestroyPool();
 
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(1f);
 
         UpdateGameState(GameState.Results);
-
     }
 
     private void HandleResults() {
-        //ballSpawner.gameObject.SetActive(false);
-
+        ballSpawner.gameObject.SetActive(false);
         cardsObject.SetActive(false);
 
-        endScreen.CollectResults(TotalBingoCards, TotalBingos, stopwatch.CurrentTime);
+        float time = stopwatch.CurrentTime;
+        // Cap the maximum possible time based on spawn interval.
+        if (stopwatch.CurrentTime >= (75 + 1) * spawnInterval) {
+            time = (75 + 1) * spawnInterval;
+        }
+
+        endScreen.CollectResults(TotalBingoCards, TotalBingos, time);
+        UIManager.Instance.ShowResults();
     }
 }
 

@@ -87,7 +87,11 @@ public class GameMenu : MonoBehaviour
 
     public void OnTearDown() {
         InteractableButtons(false);
+        if (musicSliderVisible) HandleMusicSlider();
+        if (soundSliderVisible) HandleSoundSlider();
+
         StartCoroutine(AnimateMenu(-100f, 0.6f));
+
         stopwatch.gameObject.LeanMoveLocalY(595f, 0.3f).setEaseInBack();
     }
 

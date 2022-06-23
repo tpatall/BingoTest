@@ -6,7 +6,7 @@ using UnityEngine;
 public class UIManager : Singleton<UIManager>
 {
     [SerializeField]
-    private GameObject rulesPanel, gamePanel, pausePanel, resultsPanel;
+    private GameObject rulesPanel, pausePanel, resultsPanel;
 
     protected override void Awake() {
         base.Awake();
@@ -20,14 +20,15 @@ public class UIManager : Singleton<UIManager>
 
     private void GameManagerOnGameStateChanged(GameState state) {
         rulesPanel.SetActive(state == GameState.Rules);
-        // Keep the game panel active in the background when paused.
-        //gamePanel.SetActive(state == GameState.Play || state == GameState.Pause);
         pausePanel.SetActive(state == GameState.Pause);
         resultsPanel.SetActive(state == GameState.Results);
     }
 
     public void BeginPressed() {
-        GameManager.Instance.UpdateGameState(GameState.SetUp);
+        rulesPanel.LeanMoveX(-1920f, 1f).setEaseInBack().setOnComplete(
+            delegate () {
+                GameManager.Instance.UpdateGameState(GameState.SetUp);
+            });
     }
 
     public void PausePressed() {
@@ -36,6 +37,10 @@ public class UIManager : Singleton<UIManager>
 
     public void UnpausePressed() {
         GameManager.Instance.UpdateGameState(GameState.Play);
+    }
+
+    public void ShowResults() {
+        resultsPanel.LeanMoveX(960f, 1f).setEaseInBack();
     }
 
     public void RestartPressed() {

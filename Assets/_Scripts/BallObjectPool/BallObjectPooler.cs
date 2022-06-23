@@ -121,8 +121,8 @@ public class BallObjectPooler : Singleton<BallObjectPooler>
     }
 
     public void DestroyPool() {
-        for (int i = poolPosition.Length - 1; i >= 0; i--) {
-            poolPosition[i].LeanMoveX(-75f - 10 * i, 1f);
+        for (int i = 0; i < poolSize; i++) {
+            poolPosition[i].LeanMoveX(-75f - 10 * (poolSize - i), 1f);
             poolPosition[i].LeanRotateZ(-180f, 1f);
         }
     }
