@@ -1624,7 +1624,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 1052.7, y: 152}
+  m_AnchoredPosition: {x: 578.24, y: 152}
   m_SizeDelta: {x: 474.467, y: 82.0673}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &541062231
@@ -2781,8 +2781,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 578.23, y: 69.933}
-  m_SizeDelta: {x: 474.47, y: 181.5753}
+  m_AnchoredPosition: {x: 1052.7, y: 69.934}
+  m_SizeDelta: {x: 474.47, y: 211.2814}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &849140207
 MonoBehaviour:
@@ -2809,14 +2809,16 @@ MonoBehaviour:
     Benjamin Tissot - Ukulele
 
 
-    CASUAL GAME SFX FREE
-    - unity asset store
+    CASUAL GAME SFX FREE:
+    SFX
+
+    unity asset store
 
 
     dustyroom.com
 
-    Casual Game Sounds - unity asset
-    store'
+    Casual Game Sounds: SFX -
+    unity asset store'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a72ac6c8417ed924faefe392ec0d7b48, type: 2}
   m_sharedMaterial: {fileID: -1858610801395298281, guid: a72ac6c8417ed924faefe392ec0d7b48, type: 2}
@@ -4010,7 +4012,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 578.23, y: 152.00002}
+  m_AnchoredPosition: {x: 1052.7, y: 152}
   m_SizeDelta: {x: 474.467, y: 82.0673}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1382839987
@@ -4144,8 +4146,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 1052.7, y: 69.933}
-  m_SizeDelta: {x: 474.47, y: 181.5753}
+  m_AnchoredPosition: {x: 578.23, y: 69.933}
+  m_SizeDelta: {x: 474.47, y: 211.28}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1430843480
 MonoBehaviour:
@@ -4170,7 +4172,15 @@ MonoBehaviour:
   m_text: 'Code Cartel
 
 
-    BayatGames - unity asset store'
+    BayatGames: background art
+
+    unity asset store
+
+
+    RPG&Fantasy
+    Mobile GUI: icons
+
+    unity asset store'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a72ac6c8417ed924faefe392ec0d7b48, type: 2}
   m_sharedMaterial: {fileID: -1858610801395298281, guid: a72ac6c8417ed924faefe392ec0d7b48, type: 2}
