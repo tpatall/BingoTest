@@ -196,12 +196,12 @@ public class GameManager : Singleton<GameManager>
     /// </summary>
     private void CallNewNumber() {
         int number = BingoUtils.GetRandomItemAndRemoveIt(AvailableNumbers);
-        Color color = BingoUtils.GetBingoColor(number, out string letter);
+        BingoUtils.GetBingoColor(number, out string letter);
         Debug.Log("Number: " + letter + "-" + number);
 
         CalledNumbers.Add(number);
 
-        ballSpawner.SpawnBall(number, color);
+        ballSpawner.SpawnBall(number);
     }
 
     /// <summary>
@@ -233,7 +233,7 @@ public class GameManager : Singleton<GameManager>
         cardsObject.LeanScale(new Vector3(0f, 0f), 0.5f);
         ballSpawner.DestroyPool();
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.8f);
 
         UpdateGameState(GameState.Results);
     }

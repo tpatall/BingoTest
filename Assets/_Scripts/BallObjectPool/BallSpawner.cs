@@ -40,7 +40,7 @@ public class BallSpawner : MonoBehaviour
     /// <summary>
     ///     Spawn a new ball from either the pool or by creating a new one.
     /// </summary>
-    public void SpawnBall(int value, Color color)
+    public void SpawnBall(int value)
     {
         var ballObject = ballObjectPooler.Get();
         ballObject.transform.position = ballTransform.transform.position;
