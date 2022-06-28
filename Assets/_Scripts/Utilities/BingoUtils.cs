@@ -7,8 +7,6 @@ using UnityEngine;
 /// </summary>
 public static class BingoUtils
 {
-    private static readonly System.Random random = new System.Random();
-
     /// <summary>
     ///     Multi-dimensional array of objects representing column info.
     /// </summary>
@@ -25,7 +23,7 @@ public static class BingoUtils
     /// </summary>
     /// <returns>An integer.</returns>
     public static int GetRandomItemAndRemoveIt(List<int> list) {
-        int randomItem = list[random.Next(list.Count)];
+        int randomItem = list[UnityEngine.Random.Range(0, list.Count)];
         list.Remove(randomItem);
         return randomItem;
     }
