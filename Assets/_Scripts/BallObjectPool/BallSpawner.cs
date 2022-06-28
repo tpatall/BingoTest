@@ -13,13 +13,6 @@ public class BallSpawner : MonoBehaviour
     private AudioClip soundEffect;
 
     /// <summary>
-    ///     Volume of the sound effect.
-    /// </summary>
-    [SerializeField]
-    [Range(0.0f, 1.0f)]
-    private float soundEffectVolume = 0.5f;
-
-    /// <summary>
     ///     The specific position, rotation and scale to spawn this ball at.
     /// </summary>
     [SerializeField]
@@ -50,7 +43,7 @@ public class BallSpawner : MonoBehaviour
         Ball ballPooled = ballObject.gameObject.GetComponent<Ball>();
         ballPooled.Setup(value);
 
-        AudioSystem.Instance.PlaySound(soundEffect, soundEffectVolume);
+        AudioSystem.Instance.PlaySound(soundEffect, 0.5f);
 
         ballObject.gameObject.SetActive(true);
     }

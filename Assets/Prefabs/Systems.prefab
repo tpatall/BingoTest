@@ -43,7 +43,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.7
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -174,6 +174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <MusicSource>k__BackingField: {fileID: 1944216812868184182}
   <SoundSource>k__BackingField: {fileID: 1944216810966966328}
+  buttonClick: {fileID: 8300000, guid: 32d4b1811dda14a6cb9e059ee8ad17d2, type: 3}
 --- !u!1 &1944216812868184180
 GameObject:
   m_ObjectHideFlags: 0

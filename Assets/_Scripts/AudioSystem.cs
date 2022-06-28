@@ -10,6 +10,8 @@ public class AudioSystem : Singleton<AudioSystem>
     [field: SerializeField] 
     public AudioSource SoundSource { get; private set; }
 
+    public AudioClip buttonClick;
+
     public void PlayMusic(AudioClip clip) {
         MusicSource.clip = clip;
         MusicSource.Play();
@@ -19,9 +21,10 @@ public class AudioSystem : Singleton<AudioSystem>
     ///     Play sound from clip and choose specific volume.
     /// </summary>
     /// <param name="clip">SFX</param>
-    /// <param name="vol">Volume</param>
-    public void PlaySound(AudioClip clip, float vol) {
-        SoundSource.PlayOneShot(clip, vol);
+    /// <param name="reduction">By how much this sound should be reduced in relation to the setting.</param>
+    public void PlaySound(AudioClip clip, float reduction) {
+        float volume = SoundSource.volume * reduction;
+        SoundSource.PlayOneShot(clip, volume);
     }
 
     /// <summary>
