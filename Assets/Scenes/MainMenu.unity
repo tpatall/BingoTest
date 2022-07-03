@@ -180,7 +180,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Teis
+  m_text: tpAtAll
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a72ac6c8417ed924faefe392ec0d7b48, type: 2}
   m_sharedMaterial: {fileID: -1858610801395298281, guid: a72ac6c8417ed924faefe392ec0d7b48, type: 2}

@@ -33,7 +33,7 @@ public class GameMenu : MonoBehaviour
     }
 
     public void OnPlay() {
-        StartCoroutine(AnimateMenu(100f, 0.6f));
+        StartCoroutine(AnimateMenu(musicSlider.gameObject.transform.position.y, 0.6f));
         InteractableButtons(true);
     }
 
