@@ -115,6 +115,13 @@ public class GameManager : Singleton<GameManager>
         TotalBingos = inputBingos;
         BingosLeft = TotalBingos;
 
+        // Increase the time between spawning balls based on number of cards.
+        if (inputCards == 2) {
+            spawnInterval *= 1.5f;
+        } else if (inputCards == 3) {
+            spawnInterval *= 2f;
+        }
+
         gameMenu.UpdateScoreText(0, TotalBingos);
     }
 
@@ -229,6 +236,10 @@ public class GameManager : Singleton<GameManager>
     IEnumerator TearDown() {
         stopwatch.StopStopwatch();
         player.gameObject.SetActive(false);
+
+        // Give a moment before tearing down game scene.
+        yield return new WaitForSeconds(2f);
+        
         gameMenu.OnTearDown();
         cardsObject.LeanScale(new Vector3(0f, 0f), 0.5f);
         ballSpawner.DestroyPool();
