@@ -24,6 +24,12 @@ public class GameMenu : MonoBehaviour
 
         soundSlider.onValueChanged.AddListener(value =>
         audioSystem.SoundSource.volume = value / 100f);
+
+        // Position the button off-screen.
+        musicButton.gameObject.transform.position = new Vector2(musicButton.gameObject.transform.position.x, -100f);
+        soundButton.gameObject.transform.position = new Vector2(soundButton.gameObject.transform.position.x, -100f);
+        quitButton.gameObject.transform.position = new Vector2(quitButton.gameObject.transform.position.x, -100f);
+        scoreText.gameObject.transform.position = new Vector2(scoreText.gameObject.transform.position.x, -100f);
     }
 
     public void OnPlay() {

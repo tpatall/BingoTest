@@ -40,7 +40,7 @@ public class UIManager : Singleton<UIManager>
     }
 
     public void ShowResults() {
-        resultsPanel.LeanMoveX(960f, 1f).setEaseInBack();
+        resultsPanel.LeanMoveLocalX(0f, 1f).setEaseInBack();
     }
 
     public void RestartPressed() {
