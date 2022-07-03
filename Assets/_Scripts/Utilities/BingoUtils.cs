@@ -14,7 +14,7 @@ public static class BingoUtils
         new object[2] { "B", Color.red },
         new object[2] { "I", Color.yellow },
         new object[2] { "N", Color.magenta },
-        new object[2] { "G", Color.green },
+        new object[2] { "G", new Color(0f, 0.5f, 0f, 1f) }, // dark green
         new object[2] { "O", Color.blue }
     };
 
